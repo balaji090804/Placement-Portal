@@ -1,0 +1,182 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #2d3748;
+  --dark-blue: #001f5b;
+  --dark-blue-hover: #000d3b;
+  --background-color: #f8f9fa;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --font-family: 'Poppins', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
+
+/* Main container offset for fixed sidebar */
+.practice-page {
+  margin-left: 220px;
+  padding: 2rem;
+  max-width: calc(100% - 220px);
+}
+
+/* Dark Blue Heading */
+.practice-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  background: var(--dark-blue);
+  padding: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Practice Tests Section */
+.practice-tests h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.practice-test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Practice Cards with Uniform Height */
+.practice-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 180px; /* Ensure uniform height */
+}
+
+.practice-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.practice-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--dark-blue);
+  text-align: center;
+}
+
+.practice-card p {
+  font-size: 0.9rem;
+  text-align: center;
+  flex-grow: 1; /* Makes sure description does not push the button out */
+}
+
+/* Dark Blue Buttons */
+.practice-btn {
+  display: block;
+  width: 100%;
+  background-color: var(--dark-blue);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: auto; /* Forces button to align at bottom */
+}
+
+.practice-btn:hover {
+  background-color: var(--dark-blue-hover);
+  transform: scale(1.02);
+}
+
+/* Leaderboard Section */
+.leaderboard {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.leaderboard h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.leaderboard ul {
+  list-style: none;
+  padding: 0;
+}
+
+.leaderboard li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+
+.leaderboard li:last-child {
+  border-bottom: none;
+}
+
+.rank {
+  font-weight: 700;
+  color: var(--dark-blue);
+}
+
+.score {
+  font-weight: 600;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .practice-page {
+    margin-left: 0;
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .practice-header {
+    font-size: 1.8rem;
+  }
+
+  .practice-tests h2,
+  .leaderboard h2 {
+    font-size: 1.5rem;
+  }
+
+  .practice-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .practice-card {
+    min-height: auto; /* Adjusts for smaller screens */
+  }
+}

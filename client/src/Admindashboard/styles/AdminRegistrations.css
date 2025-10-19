@@ -1,0 +1,70 @@
+/* AdminRegistrations.css */
+
+.admin-registrations {
+    margin-left: 220px; /* Offset for fixed sidebar */
+    padding: 2rem;
+    max-width: calc(100% - 220px);
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .admin-registrations h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #2d3748;
+    font-weight: 600;
+  }
+  
+  .company-section {
+    margin-bottom: 2rem;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .company-section h2 {
+    margin-bottom: 1rem;
+    color: #3182ce;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+  }
+  
+  .company-section table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .company-section table th,
+  .company-section table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+  }
+  
+  .company-section table th {
+    background-color: #f7fafc;
+    color: #2d3748;
+    font-weight: 600;
+  }
+  
+  .company-section table tbody tr:nth-child(even) {
+    background-color: #f7fafc;
+  }
+  
+  @media (max-width: 768px) {
+    .admin-registrations {
+      margin-left: 0; /* On small screens, remove offset */
+      padding: 1rem;
+      max-width: 100%;
+    }
+    .company-section table th,
+    .company-section table td {
+      padding: 0.5rem;
+    }
+  }
+  

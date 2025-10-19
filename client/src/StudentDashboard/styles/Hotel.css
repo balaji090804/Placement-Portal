@@ -1,0 +1,24 @@
+.Hotels{
+    background-color: rgb(227, 236, 236);
+    padding-right: 20px;
+    width: 120%;
+    position: relative;
+    right: 30px;
+
+}
+.hotelh1{
+    color: aliceblue;
+    background-color: black;
+    font-size: 40px;
+    padding: 20px;
+}
+.search{
+    
+    position: relative;
+    top: 50px;
+    padding: 20px;
+}
+.resulthotel{
+    padding: 20px;
+    padding-top: 70px;
+}

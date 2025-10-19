@@ -1,0 +1,102 @@
+/* Navbar Styles */
+.navbar {
+  width: 100%;
+  height: 50px; /* Reduced Height */
+  background-color: #e0f7f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar Container */
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1300px;
+}
+
+/* Left Section (Notifications) */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-icon {
+  font-size: 18px;
+  color: #1c3faa;
+  cursor: pointer;
+}
+
+.nav-icon:hover {
+  color: #0073e6;
+}
+
+/* Right Section (Profile, Login, Dark Mode) */
+.nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #1c3faa;
+}
+
+.dark-mode-toggle:hover {
+  color: #0073e6;
+}
+
+/* Login Button */
+.login-btn {
+  background-color: #0073e6;
+  color: white;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.login-btn:hover {
+  background: #005bb5;
+}
+
+/* Profile Button */
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #1c3faa;
+  text-decoration: none;
+}
+
+.profile-btn img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .nav-btns {
+    gap: 10px;
+  }
+
+  .login-btn {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+
+  .dark-mode-toggle {
+    font-size: 16px;
+  }
+}

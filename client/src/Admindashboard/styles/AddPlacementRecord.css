@@ -1,0 +1,163 @@
+:root {
+  --sidebar-width: 220px;
+  --primary-color: #2d3748;
+  --dark-blue: #001f5b;
+  --dark-blue-hover: #000d3b;
+  --background-color: #f4f7fa;
+  --card-bg: #ffffff;
+  --border-color: #d1d5db;
+  --font-family: 'Poppins', sans-serif;
+}
+
+/* 📌 Main Admin Placement Records Container */
+.admin-placement-records {
+  margin-left: var(--sidebar-width);
+  padding: 2rem;
+  max-width: calc(100% - var(--sidebar-width));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 📌 Page Header */
+.admin-placement-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.admin-placement-header h1 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 📌 Layout */
+.admin-placement-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+  max-width: 1300px;
+}
+
+/* 📌 Placement Form */
+.add-placement-record-form {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 55%;
+}
+
+.add-placement-record-form h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--dark-blue);
+  margin-bottom: 15px;
+}
+
+/* 📌 Input Fields */
+.add-placement-record-form input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.add-placement-record-form button {
+  width: 100%;
+  padding: 14px;
+  background: var(--dark-blue);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.add-placement-record-form button:hover {
+  background: var(--dark-blue-hover);
+  transform: scale(1.02);
+}
+
+/* 📌 CSV Upload Section */
+.csv-upload-section {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  text-align: center;
+}
+
+.csv-upload-section h2 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--dark-blue);
+  margin-bottom: 15px;
+}
+
+/* 📌 File Input Styling */
+.csv-upload-section input {
+  display: none;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: var(--dark-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.custom-file-upload:hover {
+  background-color: var(--dark-blue-hover);
+  transform: scale(1.05);
+}
+
+.selected-file {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: var(--primary-color);
+}
+
+/* 📌 Upload Button */
+.csv-upload-section button {
+  width: 100%;
+  padding: 14px;
+  background: #28a745;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.csv-upload-section button:hover {
+  background: #218838;
+  transform: scale(1.02);
+}
+
+/* 📌 Responsive Design */
+@media (max-width: 1024px) {
+  .admin-placement-content {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .add-placement-record-form,
+  .csv-upload-section {
+      width: 100%;
+  }
+}

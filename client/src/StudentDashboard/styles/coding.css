@@ -1,0 +1,101 @@
+
+.templateContainer{
+    margin: 5% 0;
+    padding-left: 500px;
+}
+.templateContainer > .searchInput_Container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1 auto;
+    border-radius: 20px;
+}
+.templateContainer > .searchInput_Container input{
+    width: 50%;
+    padding: 20px;
+    outline: none;
+    border-radius: 20px;
+}
+.templateContainer .template_Container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    border-radius: 20px;
+    font-size: 18px;
+}
+.eventname{
+    color:purple;
+}
+.templateContainer .template_Container .template{
+    background-color: white;
+    margin: 30px;
+    padding: 0px 20px;
+    height: 550px;
+    width: 420px;
+    border-radius: 20px;
+}
+.templateContainer .template_Container .template img{
+    height: 250px;
+    width: 380px;
+    padding: 10px;
+}
+.templateContainer .template_Container .template h3,h4,p{
+    padding: 10px;
+}
+.styled-btn{
+    background:blue;
+    color:white;
+    font-size:16px;
+    padding :10px 20px;
+    border-radius:10px;
+    position:relative;
+    left:130px;
+}
+.pop{
+    font-size: large;
+  }
+.leftvideo{
+   
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+        padding:2rem;
+        background:rgb(197, 227, 235);
+        color:white;
+        position:fixed; 
+        width:35%;
+        height:100%;
+        padding:2rem;
+        position:absolute;
+        top:180px;
+        left: 1%;
+        right:10px;
+        box-shadow:rgba(100,100,111,0.2) 0px 7px 29px 0px;
+        overflow-y:scroll;
+        border-radius:20px;
+        margin-top: -3.5%;
+        color: black;
+    }
+
+  
+  .searchBtn{
+    width: 100px;
+    left: 50px;
+    background-color: aqua;
+    border-radius: 20px;
+    height: 30px;
+
+  }
+  .search1{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    border:none;
+    background-color:none;
+    border-radius:20px;
+    padding:0.5rem 1rem;
+    position:relative;
+    background-color:white;
+  }

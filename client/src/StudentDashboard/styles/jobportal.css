@@ -1,0 +1,127 @@
+.job-portal {
+  margin-left: 250px;
+  padding: 40px;
+  background: #f8faff;
+  min-height: 100vh;
+}
+
+/* 🚀 Page Header */
+.job-header {
+  text-align: center;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.job-header h1 {
+  font-size: 22px;
+  color: #1c3faa;
+}
+
+.job-header p {
+  font-size: 14px;
+  color: #444;
+}
+
+.dark-mode-toggle {
+  margin-top: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  background: #1c3faa;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dark-mode-toggle:hover {
+  background: white;
+  color: #1c3faa;
+}
+
+/* 🔎 Search & Filter */
+.job-filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-bar,
+.filter-dropdown {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input,
+.filter-dropdown select {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  padding: 5px;
+  margin-left: 8px;
+}
+
+/* 📌 Job Listings */
+.job-listings h2 {
+  font-size: 20px;
+  color: #1c3faa;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  justify-content: center;
+}
+
+/* 🎯 Job Cards */
+.job-card {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease-in-out;
+}
+
+.job-card:hover {
+  transform: scale(1.03);
+  background: #1c3faa;
+  color: white;
+}
+
+/* Dark Mode */
+.dark-mode {
+  background: #1a1a2e;
+  color: white;
+}
+
+.dark-mode .job-header {
+  background: #16213e;
+  color: white;
+}
+
+.dark-mode .job-card {
+  background: #0f3460;
+  color: white;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 900px) {
+  .job-portal {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .job-grid {
+    grid-template-columns: 1fr;
+  }
+}

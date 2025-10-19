@@ -1,0 +1,68 @@
+/* FacultyAddAptitude.css */
+
+.faculty-add-aptitude {
+    margin-left: 220px; /* account for fixed sidebar */
+    padding: 2rem;
+    max-width: calc(100% - 220px);
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .faculty-add-aptitude h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2d3748;
+  }
+  
+  .faculty-add-aptitude form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .faculty-add-aptitude label {
+    font-weight: 600;
+    color: #2d3748;
+  }
+  
+  .faculty-add-aptitude textarea,
+  .faculty-add-aptitude input {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .faculty-add-aptitude .options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .faculty-add-aptitude .option-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .submit-btn {
+    background-color: darkblue;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #00008b;
+  }
+  
+  .message {
+    text-align: center;
+    font-weight: 600;
+    color: green;
+  }
+  

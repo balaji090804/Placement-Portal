@@ -1,0 +1,102 @@
+/* Ensuring Sidebar & Content Alignment */
+.compete-page {
+  display: flex;
+}
+
+/* Main Content Layout */
+.fullcompete {
+  flex-grow: 1;
+  padding: 50px;
+  background-color: rgb(233, 243, 243);
+  min-height: 100vh;
+  margin-left: 250px; /* Prevents Sidebar Overlap */
+  text-align: center;
+}
+
+/* Cards Layout */
+.jobportal-cardss {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 50px;
+}
+
+/* Individual Event Cards */
+.jobportal-cardss a {
+  padding: 20px;
+  height: 250px;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Effect */
+.jobportal-cardss a:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* Background Images */
+.jobportal-cardss a:nth-child(1) {
+  background-image: url(https://sloanreview.mit.edu/wp-content/uploads/2021/03/GEN-Hughes-internal-competition-1290x860-1.jpg);
+}
+.jobportal-cardss a:nth-child(2) {
+  background-image: url(https://www.volusion.com/blog/content/images/2020/02/Search-Engine-Competition.png);
+}
+.jobportal-cardss a:nth-child(3) {
+  background-image: url(https://cms-assets.tutsplus.com/cdn-cgi/image/width=360/uploads/users/23/posts/27224/image/competitor-analysis-for-small-buiness-competitors.jpg);
+}
+.jobportal-cardss a:nth-child(4) {
+  background-image: url(https://wedevs.com/_ipx/https://cdn.wedevs.com/uploads/2020/07/10-Secrets-To-Staying-Ahead-In-Ecommerce-Games-With-Competitor-Analysis.png?f=webp&q=90);
+}
+.jobportal-cardss a:nth-child(5) {
+  background-image: url(https://clickup.com/blog/wp-content/uploads/2023/06/ai-coding-blog-feature.png);
+}
+.jobportal-cardss a:nth-child(6) {
+  background-image: url(https://proedcomblog.com/wp-content/uploads/2016/06/5-steps-symposium-blog-graphic-v1.png);
+}
+.jobportal-cardss a:nth-child(7) {
+  background-image: url(https://www.itprotoday.com/sites/itprotoday.com/files/styles/article_featured_retina/public/programming%20evolution.jpg?itok=WTj9-yNz);
+}
+.jobportal-cardss a:nth-child(8) {
+  background-image: url(https://contentstatic.techgig.com/photo/86001236/coding-for-students-learn-with-these-7-apps.jpg?10556);
+}
+
+/* Text Styling */
+.jobportal-cardss a strong {
+  font-weight: 600;
+  font-size: 18px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .fullcompete {
+    margin-left: 0;
+    padding: 30px;
+  }
+
+  .jobportal-cardss {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .jobportal-cardss a {
+    height: 200px;
+    font-size: 16px;
+  }
+}

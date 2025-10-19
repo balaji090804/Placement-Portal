@@ -1,0 +1,50 @@
+/* Faculty Interviews */
+.faculty-interviews {
+    margin-left: 220px;
+    padding: 2rem;
+    max-width: calc(100% - 220px);
+  }
+  
+  .faculty-interviews h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    background: var(--dark-blue);
+    padding: 1.2rem;
+    border-radius: 8px;
+  }
+  
+  .schedule-interview {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  
+  .schedule-interview input,
+  .schedule-interview select {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .schedule-interview button {
+    background: var(--dark-blue);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .interview-list li {
+    background: var(--card-bg);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+  }
+  

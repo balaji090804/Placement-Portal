@@ -1,0 +1,210 @@
+/* 🌟 General Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* 🌟 Sidebar Consideration */
+  .faculty-job-monitoring {
+    margin-left: 220px; /* Matches sidebar width */
+    padding: 20px;
+    background-color: #ffffff;
+    min-height: 100vh;
+  }
+  
+  /* 🌟 Heading */
+  h1 {
+    color: #1a237e;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  /* 🌟 Job Table Styling */
+  .job-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .job-table th {
+    background-color: #1a237e;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .job-table td {
+    padding: 10px;
+    text-align: center;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .job-table tr:nth-child(even) {
+    background-color: #f4f6f9;
+  }
+  
+  /* 🌟 View Students Button */
+  .view-students-btn {
+    background: #1a237e;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .view-students-btn:hover {
+    background: #0d1b6a;
+  }
+  
+  /* 🌟 Student Modal - Centered */
+  .student-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* 🌟 Modal Box - Increased Spacing */
+  .modal-content {
+    background: white;
+    padding: 40px 30px 30px; /* Extra padding at the top */
+    border-radius: 12px;
+    text-align: center;
+    width: 450px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 80vh; /* Prevents large modals on small screens */
+    overflow-y: auto;
+  }
+  
+  /* ❌ Close Button - Moved & Fixed */
+  .close-modal {
+    background: #d32f2f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    position: absolute;
+    top: -12px;  /* Moves button outside the box */
+    right: -12px; /* Aligns correctly */
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Close Button Hover */
+  .close-modal:hover {
+    background: #b71c1c;
+    transform: scale(1.1);
+  }
+  
+  /* 🌟 Modal Title */
+  .modal-content h2 {
+    font-size: 22px;
+    color: #1a237e;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  /* 🌟 Student List */
+  .student-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  /* 🌟 Student Card */
+  .student-list li {
+    background: #1a237e;
+    color: white;
+    margin: 10px 0;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* 🌟 Hover Effect for Student Card */
+  .student-list li:hover {
+    background: #0d1b6a;
+    transform: scale(1.05);
+  }
+  /* 🌟 Download CSV Button */
+  .download-csv-btn {
+    background: #00796b;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .download-csv-btn:hover {
+    background: #004d40;
+    transform: scale(1.05);
+  }
+  
+  /* 🌟 Student List */
+  .student-list li {
+    background: #1a237e;
+    color: white;
+    margin: 10px 0;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* 📱 Responsive Fix */
+  @media (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+  
+    .student-list li {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+  
+    .close-modal {
+        top: -8px;
+        right: -8px;
+        padding: 6px 10px;
+    }
+  }
+  

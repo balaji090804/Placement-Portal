@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #1a237e;
+  --primary-light: #e8eaf6;
+  --dark-blue: #1a237e;
+  --dark-blue-hover: #0d153e;
+  --light-bg: #f4f7fa;
+  --card-bg: #ffffff;
+  --font-family: 'Poppins', sans-serif;
+  --border-radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--light-bg);
+  color: var(--primary-color);
+}
+
+.daily-coding-container {
+  margin-left: 230px;
+  padding: 2rem;
+  background-color: var(--light-bg);
+  min-height: 100vh;
+}
+
+/* =========================
+   Header Section
+   ========================= */
+.daily-coding-header {
+  text-align: center;
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 2.5rem 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.daily-coding-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.daily-coding-header p {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #dfe3f0;
+}
+
+/* =========================
+   Section Headings
+   ========================= */
+.daily-coding-container h2 {
+  text-align: center;
+  color: var(--dark-blue);
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 1rem 0 2rem;
+}
+
+.daily-coding-container h2::before {
+  content: "📌 ";
+}
+
+/* =========================
+   Problem Selection Grid
+   ========================= */
+.coding-problem-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.coding-problem-card {
+  background-color: var(--card-bg);
+  border-left: 6px solid var(--dark-blue);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.coding-problem-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.coding-problem-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--dark-blue);
+}
+
+.coding-problem-card p {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* =========================
+   Problem Solving Interface
+   ========================= */
+.coding-problem-interface {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border-left: 6px solid var(--dark-blue);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.coding-problem-interface h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.coding-problem-interface p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* =========================
+   Code Editor
+   ========================= */
+.coding-textarea-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.coding-textarea-wrapper textarea {
+  width: 100%;
+  height: 250px;
+  padding: 1rem;
+  background-color: #0b0f24;
+  color: white;
+  border-radius: 8px;
+  border: 2px solid var(--dark-blue);
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  resize: vertical;
+  transition: 0.3s ease;
+}
+
+.coding-textarea-wrapper textarea:focus {
+  border-color: var(--dark-blue-hover);
+  box-shadow: 0 0 8px rgba(26, 35, 126, 0.4);
+  outline: none;
+}
+
+/* =========================
+   Submit Button
+   ========================= */
+.code-submit-btn {
+  margin-top: 1.5rem;
+  padding: 0.85rem;
+  width: 100%;
+  background-color: var(--dark-blue);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.code-submit-btn:hover {
+  background-color: var(--dark-blue-hover);
+  transform: scale(1.02);
+}
+
+/* =========================
+   Input/Output Section
+   ========================= */
+.sample-input-output {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--light-bg);
+  border-left: 6px solid var(--dark-blue);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.sample-input-output p {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+/* =========================
+   Responsive Design
+   ========================= */
+@media screen and (max-width: 768px) {
+  .daily-coding-container {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .coding-problem-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .coding-textarea-wrapper textarea {
+    height: 200px;
+  }
+}

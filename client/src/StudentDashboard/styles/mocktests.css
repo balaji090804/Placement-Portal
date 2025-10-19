@@ -1,0 +1,112 @@
+/* Ensuring MockTests Aligns with Sidebar */
+.mocktests-page {
+    display: flex;
+  }
+  
+  .mocktests-container {
+    flex-grow: 1;
+    background: #f8fbff;
+    min-height: 100vh;
+    margin-left: 250px; /* Adjusted for Sidebar */
+    text-align: center;
+  }
+  
+  /* Heading & Description */
+  .mocktests-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1c4980;
+    margin-bottom: 10px;
+  }
+  
+  .mocktests-description {
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 30px;
+  }
+  
+  /* Grid Layout */
+  .mocktests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Mock Test Cards */
+  .mocktest-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease-in-out;
+    overflow: hidden;
+  }
+  
+  .mocktest-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Image Styling */
+  .mocktest-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  /* Card Content */
+  .mocktest-content {
+    padding: 15px;
+  }
+  
+  .mocktest-content h3 {
+    font-size: 1.2rem;
+    color: #1c4980;
+    margin-bottom: 5px;
+  }
+  
+  .mocktest-content p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  /* Button */
+  .mocktest-button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background-color: #0073e6;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  
+  .mocktest-button:hover {
+    background-color: #005bb5;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 900px) {
+    .mocktests-container {
+      margin-left: 0; /* Removes Sidebar margin on smaller screens */
+    }
+  
+    .mocktests-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+  
+    .mocktest-content h3 {
+      font-size: 1rem;
+    }
+  
+    .mocktest-button {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+  }
+  

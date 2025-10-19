@@ -1,0 +1,131 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #2d3748;
+  --dark-blue: #001f5b;
+  --dark-blue-hover: #000d3b;
+  --background-color: #f4f7fa;
+  --card-bg: #ffffff;
+  --border-color: #d1d5db;
+  --font-family: 'Poppins', sans-serif;
+}
+
+/* Reset Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
+
+/* Main Admin Job Listings Container */
+.admin-job-listings {
+  margin-left: 220px;
+  padding: 2rem;
+  max-width: calc(100% - 220px);
+}
+
+/* Page Header */
+.admin-job-listings h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  background: var(--dark-blue);
+  padding: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Add Job Form */
+.add-job-listing-form {
+  margin-top: 2rem;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.add-job-listing-form h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--dark-blue);
+  margin-bottom: 1.5rem;
+}
+
+/* Input Fields */
+.add-job-listing-form input,
+.add-job-listing-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border 0.3s ease;
+}
+
+.add-job-listing-form input:focus,
+.add-job-listing-form textarea:focus {
+  border-color: var(--dark-blue);
+  box-shadow: 0 3px 6px rgba(0, 31, 91, 0.3);
+  outline: none;
+}
+
+/* Textarea Styling */
+.add-job-listing-form textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+/* Submit Button */
+.add-job-listing-form button {
+  width: 100%;
+  background: var(--dark-blue);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.85rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-job-listing-form button:hover {
+  background: var(--dark-blue-hover);
+  transform: scale(1.03);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .admin-job-listings {
+    margin-left: 0;
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .admin-job-listings h1 {
+    font-size: 1.8rem;
+  }
+
+  .add-job-listing-form {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .add-job-listing-form input,
+  .add-job-listing-form textarea {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,95 @@
+/* AdminJobRegistrations.css */
+
+/* Container offset for fixed sidebar (220px) */
+.admin-job-registrations {
+  margin-left: 220px;
+  padding: 2rem;
+  max-width: calc(100% - 220px);
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.admin-job-registrations h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2d3748;
+  font-size: 2rem;
+}
+
+/* Job cards grid */
+.job-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.job-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.job-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.job-card h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #3182ce;
+}
+
+.job-card p {
+  margin: 0.5rem 0;
+  color: #2d3748;
+}
+
+/* Back button for registration view */
+.back-btn {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #3182ce;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #2b6cb0;
+}
+
+/* Registration list styling */
+.registration-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.registration-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.registration-card p {
+  margin: 0.25rem 0;
+  color: #2d3748;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-job-registrations {
+    margin-left: 0;
+    max-width: 100%;
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,21 @@
+.confetti-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+  }
+  
+  
+  
+  /* Styling for the confetti */
+  .react-confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .message {
+  margin-top: 20px;
+  font-size: 20px;
+  
+}

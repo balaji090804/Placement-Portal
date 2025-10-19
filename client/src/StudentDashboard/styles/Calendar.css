@@ -1,0 +1,105 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #2d3748;
+  --dark-blue: #001f5b;
+  --dark-blue-hover: #000d3b;
+  --background-color: #f4f7fa;
+  --card-bg: #ffffff;
+  --border-color: #d1d5db;
+  --font-family: 'Poppins', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
+
+/* Main container offset for fixed sidebar */
+.calendar-page {
+  margin-left: 220px; /* Adjusted for sidebar */
+  padding: 2rem;
+  max-width: calc(100% - 220px);
+}
+
+/* Dark Blue Header */
+.calendar-page h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  background: var(--dark-blue);
+  padding: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Table Container */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Header */
+.schedule-table thead {
+  background: var(--dark-blue);
+  color: white;
+}
+
+.schedule-table th {
+  padding: 1rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Table Body */
+.schedule-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.3s ease;
+}
+
+.schedule-table tbody tr:hover {
+  background: #e2e8f0;
+}
+
+.schedule-table td {
+  padding: 1rem;
+  text-align: left;
+}
+
+/* Status Countdown */
+.countdown {
+  font-weight: bold;
+  color: var(--dark-blue);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .calendar-page {
+    margin-left: 0; /* Remove sidebar margin on mobile */
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .calendar-page h1 {
+    font-size: 1.8rem;
+  }
+
+  .schedule-table th, .schedule-table td {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
