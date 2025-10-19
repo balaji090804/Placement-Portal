@@ -1,0 +1,173 @@
+/* 🌙 Dark Mode Theme */
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    background: #bfe3e3; /* Deep Black */
+    min-height: 100vh;
+    color: #111010;
+    margin-left: 220px;
+  }
+  
+  /* 🚀 Dashboard Header */
+  .dashboard-header {
+    text-align: center;
+    padding: 20px;
+    background: rgba(144, 184, 191, 0.05);
+    border-radius: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 1200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .dashboard-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* 📊 Dashboard Grid Layout */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+  }
+  
+  /* 📌 Card Styling - Glassmorphism Effect */
+  .card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(10px);
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* 🏆 Top Performer Card */
+  .performance-card {
+    grid-column: span 3;
+    text-align: center;
+  }
+  
+  .performance-score {
+    font-size: 22px;
+    font-weight: bold;
+    background: linear-gradient(to right, #ff8a00, #e52e71);
+    padding: 10px;
+    border-radius: 8px;
+    color: #fff;
+  }
+  
+  /* 📅 Placement Drives */
+  .placement-card {
+    grid-column: span 1;
+  }
+  
+  .placement-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .package {
+    color: #ffcc00;
+    font-weight: bold;
+  }
+  
+  /* 📈 Charts - Performance & Interview Analysis */
+  .chart-section {
+    grid-column: span 2;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  /* 🔥 Pending Work */
+  .pending-work-card {
+    grid-column: span 1;
+  }
+  
+  .pending-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .pending-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* 🎤 Mock Interviews */
+  .completed-interviews-card {
+    grid-column: span 2;
+  }
+  
+  .completed-interviews-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .completed-interviews-card li {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 10px;
+    border-radius: 8px;
+    margin: 5px 0;
+  }
+  
+  /* 📩 Group Messages */
+  .messages-card {
+    grid-column: span 3;
+  }
+  
+  .message-item {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  /* 🔔 Notifications */
+  .notifications-card {
+    grid-column: span 1;
+  }
+  
+  .notification-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+  
+  /* 📊 Doughnut Chart */
+  .chart-card {
+    grid-column: span 1;
+  }
+  
+  /* 🔥 Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .card, .chart-section {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* 📱 Responsive */
+  @media (max-width: 900px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

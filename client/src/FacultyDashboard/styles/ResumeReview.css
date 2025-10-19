@@ -1,0 +1,35 @@
+/* Faculty Resume Review */
+.faculty-resume-review {
+    margin-left: 220px;
+    padding: 2rem;
+    max-width: calc(100% - 220px);
+  }
+  
+  .faculty-resume-review h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    background: var(--dark-blue);
+    padding: 1.2rem;
+    border-radius: 8px;
+  }
+  
+  .resume-list li {
+    background: var(--card-bg);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .resume-list button {
+    background: var(--dark-blue);
+    color: white;
+    padding: 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,95 @@
+/* Admin Students Management */
+.admin-students {
+    margin-left: 220px;
+    padding: 2rem;
+    max-width: calc(100% - 220px);
+  }
+  
+  .admin-students h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    background: #001f5b;
+    padding: 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Students Table */
+  .students-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .students-table th {
+    background: #001f5b;
+    color: white;
+    padding: 1rem;
+    font-weight: 600;
+  }
+  
+  .students-table td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .students-table tbody tr:hover {
+    background: #f1f1f1;
+  }
+  
+  /* Status Dropdown */
+  .students-table select {
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    border: 1px solid #001f5b;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+  }
+  
+  /* Remove Button */
+  .remove-btn {
+    background: #dc3545;
+    color: white;
+    padding: 0.5rem 0.8rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .remove-btn:hover {
+    background: #c82333;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .admin-students {
+      margin-left: 0;
+      padding: 1rem;
+      max-width: 100%;
+    }
+  
+    .admin-students h1 {
+      font-size: 1.8rem;
+    }
+  
+    .students-table th,
+    .students-table td {
+      padding: 0.8rem;
+      font-size: 0.9rem;
+    }
+  
+    .remove-btn {
+      font-size: 0.8rem;
+      padding: 0.4rem 0.6rem;
+    }
+  }
+  

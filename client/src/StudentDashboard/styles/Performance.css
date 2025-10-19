@@ -1,0 +1,53 @@
+.performance-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f5f7fa;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Heading */
+.performance-container h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1c3faa;
+    margin-bottom: 15px;
+}
+
+/* Section Styling */
+.mock-test-scores, .coding-progress, .interview-feedback {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Section Headings */
+.mock-test-scores h2, .coding-progress h2, .interview-feedback h2 {
+    color: #1c3faa;
+    font-size: 20px;
+}
+
+/* Charts */
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+/* Coding Challenges Solved */
+.coding-progress {
+    font-size: 22px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Interview Score Section */
+.interview-feedback {
+    background: linear-gradient(180deg, #f9f9f9, #dce7ff);
+}

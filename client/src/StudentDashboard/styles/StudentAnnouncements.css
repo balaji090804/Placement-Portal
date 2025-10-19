@@ -1,0 +1,36 @@
+.student-announcements-page {
+    margin-left: 230px;
+    padding: 30px;
+    background-color: #f9fafb;
+    min-height: 100vh;
+    color: #2d3748;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .student-announcements-page h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #1c3faa;
+  }
+  
+  .announcement-card {
+    background: #fff;
+    padding: 18px 22px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  }
+  
+  .announcement-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #1a202c;
+  }
+  
+  .announcement-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #4a5568;
+  }
+  

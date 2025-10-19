@@ -1,0 +1,53 @@
+/* Admin Announcements */
+.admin-announcements {
+    margin-left: 220px;
+    padding: 2rem;
+    max-width: calc(100% - 220px);
+  }
+  
+  .admin-announcements h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    background: #001f5b;
+    padding: 1.2rem;
+    border-radius: 8px;
+  }
+  
+  .add-announcement {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-announcement input,
+  .add-announcement textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #001f5b;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .add-announcement button {
+    background: #001f5b;
+    color: white;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .announcement-list li {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    border-left: 5px solid #001f5b;
+  }
+  

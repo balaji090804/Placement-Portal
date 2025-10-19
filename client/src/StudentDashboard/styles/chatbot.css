@@ -1,0 +1,13 @@
+.fullarea{
+    background-color: rgb(235, 223, 223);
+
+}
+.chat{
+    background-color: rgb(235, 223, 223);
+    border: 10px solid red;
+}
+mychatbot{
+    display: flexbox;
+    padding-left: 100px;
+    
+}

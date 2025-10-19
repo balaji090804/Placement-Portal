@@ -1,0 +1,19 @@
+.todo-list {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+/* Empty Message */
+.empty-message {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Smooth transition for task items */
+.todo-list .todo-item {
+  transition: all 0.3s ease-in-out;
+}

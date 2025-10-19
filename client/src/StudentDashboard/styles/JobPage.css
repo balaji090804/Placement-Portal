@@ -1,0 +1,146 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #2d3748;
+  --dark-blue: #001f5b;
+  --dark-blue-hover: #000d3b;
+  --background-color: #f8f9fa;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --font-family: 'Poppins', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
+
+/* Main content offset for fixed sidebar */
+.main-content {
+  margin-left: 220px;
+  padding: 2rem;
+  max-width: calc(100% - 220px);
+}
+
+/* Dark Blue Heading */
+.main-content h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: white;
+  background: var(--dark-blue);
+  padding: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Job Grid Layout */
+.job-page {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* Job Cards with Uniform Height */
+.job-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px; /* Ensures uniform card heights */
+}
+
+.job-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.job-card h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--dark-blue);
+  text-align: center;
+}
+
+.job-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  flex-grow: 1; /* Ensures descriptions do not push buttons out */
+}
+
+/* Links */
+.job-card a {
+  color: var(--dark-blue);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.job-card a:hover {
+  color: var(--dark-blue-hover);
+}
+
+/* Dark Blue Buttons */
+.apply-btn {
+  display: block;
+  width: 100%;
+  background-color: var(--dark-blue);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: auto; /* Ensures all buttons align at the bottom */
+}
+
+.apply-btn:hover {
+  background-color: var(--dark-blue-hover);
+  transform: scale(1.02);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .main-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .job-card {
+    min-height: auto; /* Adjusts for smaller screens */
+  }
+
+  .job-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .job-card p {
+    font-size: 0.85rem;
+  }
+
+  .apply-btn {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+}

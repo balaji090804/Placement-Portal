@@ -1,0 +1,44 @@
+/* Form Container */
+.todo-form {
+  margin-bottom: 20px;
+}
+
+/* Input Container */
+.input-container {
+  display: flex;
+  align-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Input Field */
+.todo-input {
+  flex: 1;
+  border: none;
+  font-size: 18px;
+  padding: 8px;
+  background: transparent;
+  color: white;
+  outline: none;
+}
+
+/* Input Placeholder */
+.todo-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Input Hover Effect */
+.input-container:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.02);
+}
+
+/* Input Icon */
+.input-container svg {
+  color: white;
+  margin-right: 10px;
+}

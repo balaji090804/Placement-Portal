@@ -1,0 +1,157 @@
+/* Page Container */
+.page-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+/* Main content */
+.main-content {
+  margin-left: 250px; /* Sidebar width */
+  flex-grow: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* News Header */
+.news-header {
+  font-size: 30px;
+  color: #222;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* News Grid */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  padding: 20px;
+}
+
+/* News Card */
+.news-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* News Image */
+.news-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* News Title */
+.news-title {
+  font-size: 22px;
+  color: #15171c;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* News Description */
+.news-description {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+/* Read More Link */
+.news-link {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.news-link:hover {
+  color: white;
+  background-color: #007bff;
+}
+
+/* Placement Highlights */
+.highlights {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 35px;
+  text-align: center;
+}
+
+.highlights h2 {
+  font-size: 24px;
+  color: #15171c;
+  margin-bottom: 15px;
+}
+
+.highlights p {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Testimonial Section */
+.testimonial-section {
+  margin-top: 40px;
+  background: #eef7ff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-section h2 {
+  font-size: 24px;
+  color: #15171c;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.testimonial {
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+  font-size: 16px;
+  color: #444;
+}
+
+.testimonial strong {
+  color: #007bff;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 0;
+  }
+
+  .news-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}

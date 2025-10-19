@@ -1,0 +1,97 @@
+/* Google Font (Optional for consistency) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary: #1c3faa;
+  --primary-hover: #112f7c;
+  --bg-light: #f9fafc;
+  --text-dark: #2d3748;
+  --input-border: #cbd5e0;
+  --font: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: var(--bg-light);
+  font-family: var(--font);
+}
+
+.placement-create-form {
+  max-width: 700px;
+  margin: 30px auto;
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  color: var(--text-dark);
+}
+
+.placement-create-form h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 10px;
+}
+
+.placement-create-form label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 15px 0 5px;
+}
+
+.placement-create-form input,
+.placement-create-form select,
+.placement-create-form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  transition: border 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+}
+
+.placement-create-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.placement-create-form input:focus,
+.placement-create-form select:focus,
+.placement-create-form textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 6px rgba(28, 63, 170, 0.2);
+  outline: none;
+}
+
+.placement-create-form button {
+  width: 100%;
+  margin-top: 25px;
+  background-color: var(--primary);
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.placement-create-form button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  .placement-create-form {
+    padding: 20px;
+  }
+
+  .placement-create-form h2 {
+    font-size: 1.3rem;
+  }
+}

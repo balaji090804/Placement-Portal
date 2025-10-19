@@ -1,0 +1,119 @@
+/* AdminFaculty.css - Advanced Styling for Faculty Management */
+
+:root {
+  --faculty-primary-color: #001f5b;
+  --faculty-secondary-color: #0d1b6a;
+  --faculty-background: #f5f7fa;
+  --faculty-white: #ffffff;
+  --faculty-text-dark: #333;
+  --faculty-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --faculty-box-shadow-hover: 0 6px 14px rgba(0, 0, 0, 0.15);
+  --faculty-border-radius: 8px;
+  --faculty-transition: 0.3s ease-in-out;
+}
+
+/* Container for Faculty Management Page */
+.admin-faculty {
+  margin-left: 220px; /* space for sidebar */
+  padding: 2rem;
+  max-width: calc(100% - 220px);
+  background: var(--faculty-background);
+  min-height: 100vh;
+  animation: fadeIn var(--faculty-transition);
+}
+
+/* Subtle Page Fade In */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Main Heading */
+.admin-faculty h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff; /* White text on dark background */
+  background: var(--faculty-primary-color);
+  padding: 1.2rem;
+  border-radius: var(--faculty-border-radius);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--faculty-box-shadow);
+  position: relative;
+}
+
+/* Decorative underline for heading (optional) */
+.admin-faculty h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: #fff;
+  margin: 0.5rem auto 0 auto;
+  border-radius: 1px;
+}
+
+/* Faculty Table */
+.faculty-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--faculty-white);
+  border-radius: var(--faculty-border-radius);
+  overflow: hidden;
+  box-shadow: var(--faculty-box-shadow);
+  margin-top: 1rem;
+  transition: box-shadow var(--faculty-transition), transform var(--faculty-transition);
+}
+
+.faculty-table:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--faculty-box-shadow-hover);
+}
+
+.faculty-table th {
+  background: var(--faculty-primary-color);
+  color: var(--faculty-white);
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.faculty-table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+  color: var(--faculty-text-dark);
+  transition: background-color var(--faculty-transition);
+}
+
+/* Zebra striping or light hover effect */
+.faculty-table tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.faculty-table tbody tr:hover {
+  background: #f1f4fa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-faculty {
+    margin-left: 0; /* remove sidebar margin for mobile */
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .admin-faculty h1 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .faculty-table th,
+  .faculty-table td {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+}

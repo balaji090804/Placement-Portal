@@ -1,0 +1,157 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #2d3748;
+  --dark-blue: #001f5b;
+  --dark-blue-hover: #000d3b;
+  --background-color: #ffffff;
+  --card-bg: #f4f7fa;
+  --border-color: #e2e8f0;
+  --font-family: 'Poppins', sans-serif;
+  --icon-color: #2d3748;
+}
+
+/* Dark Mode Variables */
+.dark-mode {
+  --primary-color: #ffffff;
+  --background-color: #1a1a2e;
+  --card-bg: #16213e;
+  --border-color: #0f3460;
+  --icon-color: #ffcc00;
+}
+
+/* Reset Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Navbar Container */
+.navbar {
+  background: var(--background-color);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Left Section (Notification Icon) */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+  color: var(--icon-color);
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-icon:hover {
+  color: var(--dark-blue);
+  transform: scale(1.1);
+}
+
+/* Right Section (Buttons & Profile) */
+.nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: auto; /* Moves items to the right */
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--icon-color);
+  transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Login & Logout Button */
+.login-btn {
+  background: var(--dark-blue);
+  color: white;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.login-btn:hover {
+  background: var(--dark-blue-hover);
+  transform: scale(1.05);
+}
+
+/* Profile Button */
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--dark-blue);
+  color: white;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.profile-btn img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.profile-btn:hover {
+  background: var(--dark-blue-hover);
+  transform: scale(1.05);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .nav-btns {
+    gap: 1rem;
+  }
+
+  .nav-icon {
+    font-size: 1.2rem;
+  }
+
+  .login-btn,
+  .profile-btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .profile-btn img {
+    width: 25px;
+    height: 25px;
+  }
+}
