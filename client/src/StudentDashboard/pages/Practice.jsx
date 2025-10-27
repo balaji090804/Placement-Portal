@@ -24,8 +24,8 @@ const Practice = () => {
   }, []);
 
   const practiceTests = [
-    { title: "Aptitude Test", desc: "Sharpen your logical reasoning skills.", link: "/StudentDashboard/Aptitude" },
-    { title: "Coding Test", desc: "Test your coding and problem-solving abilities.", link: "/coding-test" },
+    { title: "Aptitude Test", desc: "Sharpen your logical reasoning skills.", link: "https://www.indiabix.com/aptitude/questions-and-answers/" },
+    { title: "Coding Test", desc: "Test your coding and problem-solving abilities.", link: "/g-test" },
     { title: "Communication Skills", desc: "Improve verbal and written communication.", link: "/communication-test" },
     { title: "Technical MCQs", desc: "Evaluate your fundamental technical knowledge.", link: "/technical-test" },
     { title: "Data Structures & Algorithms", desc: "Strengthen your DSA skills.", link: "/dsa-test" },
@@ -48,7 +48,18 @@ const Practice = () => {
         <h2>📑 Practice Tests</h2>
         <div className="practice-test-grid">
           {practiceTests.map((test, index) => (
-            <div key={index} className="practice-card" onClick={() => navigate(test.link)}>
+            <div
+              key={index}
+              className="practice-card"
+              onClick={() => {
+                // If link is an absolute external URL, open in new tab; otherwise navigate internally
+                if (typeof test.link === "string" && (test.link.startsWith("http://") || test.link.startsWith("https://"))) {
+                  window.open(test.link, "_blank", "noopener,noreferrer");
+                } else {
+                  navigate(test.link);
+                }
+              }}
+            >
               <h3>{test.title}</h3>
               <p>{test.desc}</p>
               <button className="practice-btn">Start Test</button>

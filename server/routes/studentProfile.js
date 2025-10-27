@@ -22,14 +22,7 @@ router.get("/", authMiddleware, async (req, res) => {
     return res.status(500).json({ message: "Server error." });
   }
 });
-// GET /api/student-profile?email=...
-router.get("/student-profile", authMiddleware, async (req, res) => {
-  const { email } = req.query;
-  const profile = await StudentProfile.findOne({ collegeEmail: email });
-  if (!profile) return res.status(404).json({ message: "Not found" });
-  res.json(profile);
-});
-
+// (Removed duplicate nested route to avoid /api/student-profile/student-profile)
 
 // PUT /api/student-profile
 // Upserts by `collegeEmail`
@@ -51,7 +44,7 @@ router.put("/", authMiddleware, async (req, res) => {
       linkedin,
       codingProfiles,
       skills,
-      profilePicture
+      profilePicture,
     } = req.body;
 
     if (!collegeEmail) {
@@ -83,7 +76,9 @@ router.put("/", authMiddleware, async (req, res) => {
 
     await student.save();
 
-    return res.status(200).json({ message: "Profile created or updated successfully!" });
+    return res
+      .status(200)
+      .json({ message: "Profile created or updated successfully!" });
   } catch (err) {
     console.error("Error upserting profile:", err);
     return res.status(500).json({ message: "Server error." });

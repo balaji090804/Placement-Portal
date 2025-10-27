@@ -1,5 +1,11 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { useState, useEffect } from "react";
+import { fetchUserData as fetchUserDataApi } from "./api";
 import "./app.css";
 import Signup from "./components/Signup/Signup.jsx";
 import Login from "./components/Login/Login.jsx";
@@ -42,7 +48,6 @@ import FacultyAddNetworking from "./FacultyDashboard/pages/FacultyAddNetworking.
 import FacultyAddOS from "./FacultyDashboard/pages/FacultyAddOS.jsx";
 import FacultyAddTechnical from "./FacultyDashboard/pages/FacultyAddTechnical.jsx";
 
-
 // Student
 import StudentDashboard from "./StudentDashboard/App.js";
 import HomeHero from "./StudentDashboard/components/HomeHero.jsx";
@@ -55,30 +60,11 @@ import Aptitude from "./StudentDashboard/pages/AptitudeTest.jsx";
 import PerformanceAnalytics from "./StudentDashboard/pages/PerformanceAnalytics.jsx";
 import Todo from "./StudentDashboard/components/todo/Todo.js";
 import Profile from "./StudentDashboard/pages/Profile.jsx"; // <-- The advanced Profile page
-import Performancetracker from "./StudentDashboard/pages/Performancetracker.jsx"
-import SAnnouncements from "./StudentDashboard/pages/StudentAnnouncements.jsx"
-import UpcomingDrive from "./StudentDashboard/pages/UpcomingDrives.jsx"
+import Performancetracker from "./StudentDashboard/pages/Performancetracker.jsx";
+import SAnnouncements from "./StudentDashboard/pages/StudentAnnouncements.jsx";
+import UpcomingDrive from "./StudentDashboard/pages/UpcomingDrives.jsx";
 
-const fetchUserData = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-
-    const response = await fetch("http://localhost:8080/api/users/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!response.ok) {
-      console.error("Failed to fetch user data");
-      return null;
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    return null;
-  }
-};
+// Use shared API helper instead of duplicating fetch logic
 
 function App() {
   const [user, setUser] = useState(null);
@@ -86,7 +72,7 @@ function App() {
 
   useEffect(() => {
     const loadUserData = async () => {
-      const data = await fetchUserData();
+      const data = await fetchUserDataApi();
       if (data) {
         setUser(data);
       }
@@ -109,65 +95,132 @@ function App() {
         {user && (
           <>
             {user.role === "student" && (
-              <Route path="/StudentDashboard" element={<StudentDashboard user={user} />}>
+              <Route
+                path="/StudentDashboard"
+                element={<StudentDashboard user={user} />}
+              >
                 {/* Nested Student Routes */}
                 <Route path="HomeHero" element={<HomeHero />} />
-                <Route path="JobPortal" element={<JobPortal studentName={user.firstName} studentEmail={user.email} />} />
+                <Route
+                  path="JobPortal"
+                  element={
+                    <JobPortal
+                      studentName={user.firstName}
+                      studentEmail={user.email}
+                    />
+                  }
+                />
                 <Route path="Practice" element={<Practice />} />
                 <Route path="DailyCoding" element={<DailyCoding />} />
                 <Route path="ResumeBuilder" element={<ResumeBuilder />} />
                 <Route path="Aptitude" element={<Aptitude />} />
-                <Route path="InterviewPreparation" element={<InterviewPreparation />} />
-                <Route path="PerformanceAnalytics" element={<PerformanceAnalytics studentEmail={user.email}/>} />
+                <Route
+                  path="InterviewPreparation"
+                  element={<InterviewPreparation />}
+                />
+                <Route
+                  path="PerformanceAnalytics"
+                  element={<PerformanceAnalytics studentEmail={user.email} />}
+                />
                 <Route path="Todo" element={<Todo />} />
                 <Route path="Profile" element={<Profile />} />
-                <Route path="Performancetracker" element={<Performancetracker user={user}  />} />
-                <Route path="SAnnouncements" element={<SAnnouncements   />} />
-                <Route path="UpcomingDrive" element={<UpcomingDrive  />} />
-                <Route path="StudentPerformance" element={<StudentPerformance />} />
+                <Route
+                  path="Performancetracker"
+                  element={<Performancetracker user={user} />}
+                />
+                <Route path="SAnnouncements" element={<SAnnouncements />} />
+                <Route path="UpcomingDrive" element={<UpcomingDrive />} />
+                <Route
+                  path="StudentPerformance"
+                  element={<StudentPerformance />}
+                />
               </Route>
             )}
 
             {user.role === "admin" && (
-              <Route path="/AdminPlacementDashboard" element={<AdminPlacementDashboard user={user} />}>
+              <Route
+                path="/AdminPlacementDashboard"
+                element={<AdminPlacementDashboard user={user} />}
+              >
                 {/* Nested Admin Routes */}
                 <Route path="Add New Job" element={<AdminJobListings />} />
-                <Route path="AddPlacementRecord" element={<AddPlacementRecord />} />
-                <Route path="AdminRegistration" element={<AdminRegistration />} />
-                <Route path="AdminAnnouncements" element={<AdminAnnouncements />} />
+                <Route
+                  path="AddPlacementRecord"
+                  element={<AddPlacementRecord />}
+                />
+                <Route
+                  path="AdminRegistration"
+                  element={<AdminRegistration />}
+                />
+                <Route
+                  path="AdminAnnouncements"
+                  element={<AdminAnnouncements />}
+                />
                 <Route path="AdminFaculty" element={<AdminFaculty />} />
-                <Route path="AdminStudentPerformance" element={<AdminStudentPerformance />} />
+                <Route
+                  path="AdminStudentPerformance"
+                  element={<AdminStudentPerformance />}
+                />
                 <Route path="AdminStudents" element={<AdminStudents />} />
                 <Route path="AdminDashboard" element={<AdminDashboard />} />
-                <Route path="AdminPlacementCreate" element={<AdminPlacementCreate />} />
+                <Route
+                  path="AdminPlacementCreate"
+                  element={<AdminPlacementCreate />}
+                />
                 <Route path="AUpcomingDrives" element={<AUpcomingDrives />} />
-                <Route path="AdminPlacementTracking" element={<AdminPlacementTracking />}/>
-                </Route>
+                <Route
+                  path="AdminPlacementTracking"
+                  element={<AdminPlacementTracking />}
+                />
+              </Route>
             )}
 
             {user.role === "faculty" && (
-              <Route path="/FacultyDashboard" element={<FacultyDashboard user={user} />} >
-                <Route path="Practicepage" element={<Practicepage/>} />
-                <Route path="Interviews" element={<Interviews/>}/>
-                <Route path="Dashboard" element={<Dashboard/>}/>
-                <Route path="JobMonitoring" element={<JobMonitoring/>}/>
-                <Route path="ResumeReview" element={<ResumeReview/>}/>
-                <Route path="Announcements" element={<Announcements/>}/>
-                <Route path="FacultyPlacementUpdate" element={<FacultyPlacementUpdate/>}/>
-                <Route path="ClassManagement" element={<ClassManagement/>}/>
-                <Route path="Projects" element={<Projects/>}/>
-                <Route path="StudentPerformance" element={<StudentPerformance/>}/>
-                <Route path="Attendance" element={<Attendance/>}/>
-                <Route path="FacultyResultsUpdate" element={<FacultyResultsUpdate/>}/>
-                <Route path="FacultyAddAptitude" element={<FacultyAddAptitude/>}/>
-                <Route path="FacultyAddCoding" element={<FacultyAddCoding/>}/>
-                <Route path="FacultyAddCommunication" element={<FacultyAddCommunication/>}/>
-                <Route path="FacultyAddDBMS" element={<FacultyAddDBMS/>}/>
-                <Route path="FacultyAddDSA" element={<FacultyAddDSA/>}/>
-                <Route path="FacultyAddNetworking" element={<FacultyAddNetworking/>}/>
-                <Route path="FacultyAddOS" element={<FacultyAddOS/>}/>
-                <Route path="FacultyAddTechnical" element={<FacultyAddTechnical/>}/>
-          
+              <Route
+                path="/FacultyDashboard"
+                element={<FacultyDashboard user={user} />}
+              >
+                <Route path="Practicepage" element={<Practicepage />} />
+                <Route path="Interviews" element={<Interviews />} />
+                <Route path="Dashboard" element={<Dashboard />} />
+                <Route path="JobMonitoring" element={<JobMonitoring />} />
+                <Route path="ResumeReview" element={<ResumeReview />} />
+                <Route path="Announcements" element={<Announcements />} />
+                <Route
+                  path="FacultyPlacementUpdate"
+                  element={<FacultyPlacementUpdate />}
+                />
+                <Route path="ClassManagement" element={<ClassManagement />} />
+                <Route path="Projects" element={<Projects />} />
+                <Route
+                  path="StudentPerformance"
+                  element={<StudentPerformance />}
+                />
+                <Route path="Attendance" element={<Attendance />} />
+                <Route
+                  path="FacultyResultsUpdate"
+                  element={<FacultyResultsUpdate />}
+                />
+                <Route
+                  path="FacultyAddAptitude"
+                  element={<FacultyAddAptitude />}
+                />
+                <Route path="FacultyAddCoding" element={<FacultyAddCoding />} />
+                <Route
+                  path="FacultyAddCommunication"
+                  element={<FacultyAddCommunication />}
+                />
+                <Route path="FacultyAddDBMS" element={<FacultyAddDBMS />} />
+                <Route path="FacultyAddDSA" element={<FacultyAddDSA />} />
+                <Route
+                  path="FacultyAddNetworking"
+                  element={<FacultyAddNetworking />}
+                />
+                <Route path="FacultyAddOS" element={<FacultyAddOS />} />
+                <Route
+                  path="FacultyAddTechnical"
+                  element={<FacultyAddTechnical />}
+                />
               </Route>
             )}
           </>
