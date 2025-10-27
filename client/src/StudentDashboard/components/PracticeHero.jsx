@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 import "../styles/PracticeHero.css";
 import MockTests from "../components/MockTests";
 const PracticeHero = () => {
@@ -9,9 +9,27 @@ const PracticeHero = () => {
   useEffect(() => {
     // Simulating student performance data (Replace with API call)
     setStudents([
-      { name: "John Doe", aptitude: 85, coding: 90, communication: 80, technical: 95 },
-      { name: "Jane Smith", aptitude: 88, coding: 85, communication: 75, technical: 80 },
-      { name: "Alice Brown", aptitude: 78, coding: 88, communication: 85, technical: 90 },
+      {
+        name: "John Doe",
+        aptitude: 85,
+        coding: 90,
+        communication: 80,
+        technical: 95,
+      },
+      {
+        name: "Jane Smith",
+        aptitude: 88,
+        coding: 85,
+        communication: 75,
+        technical: 80,
+      },
+      {
+        name: "Alice Brown",
+        aptitude: 78,
+        coding: 88,
+        communication: 85,
+        technical: 90,
+      },
     ]);
   }, []);
 
@@ -21,8 +39,9 @@ const PracticeHero = () => {
       <section className="practice-header">
         <h1>🚀 Placement Practice Hub</h1>
         <p>
-          Prepare for **Aptitude**, **Coding**, **Communication**, and **Technical** rounds with
-          **real-world assessments** to excel in your job interviews!
+          Prepare for **Aptitude**, **Coding**, **Communication**, and
+          **Technical** rounds with **real-world assessments** to excel in your
+          job interviews!
         </p>
       </section>
 
@@ -43,7 +62,11 @@ const PracticeHero = () => {
           <tbody>
             {students.map((student, index) => {
               const overall =
-                (student.aptitude + student.coding + student.communication + student.technical) / 4;
+                (student.aptitude +
+                  student.coding +
+                  student.communication +
+                  student.technical) /
+                4;
               return (
                 <tr key={index}>
                   <td>{student.name}</td>
@@ -61,7 +84,12 @@ const PracticeHero = () => {
 
       {/* 📝 Practice Tests Section */}
       <section className="practice-tests">
-        <div className="practice-card" onClick={() => navigate("/aptitude-test")}>
+        <div
+          className="practice-card"
+          onClick={() =>
+            replace("https://www.indiabix.com/aptitude/questions-and-answers/")
+          }
+        >
           <h3>Aptitude Test</h3>
           <button className="practice-btn">Start Test</button>
         </div>
@@ -69,11 +97,17 @@ const PracticeHero = () => {
           <h3>Coding Test</h3>
           <button className="practice-btn">Start Test</button>
         </div>
-        <div className="practice-card" onClick={() => navigate("/communication-test")}>
+        <div
+          className="practice-card"
+          onClick={() => navigate("/communication-test")}
+        >
           <h3>Communication Skills</h3>
           <button className="practice-btn">Start Test</button>
         </div>
-        <div className="practice-card" onClick={() => navigate("/technical-test")}>
+        <div
+          className="practice-card"
+          onClick={() => navigate("/technical-test")}
+        >
           <h3>Technical MCQs</h3>
           <button className="practice-btn">Start Test</button>
         </div>
