@@ -71,6 +71,9 @@
 .passwordWrapper {
   position: relative;
   width: 370px; /* match .input width */
+  display: inline-flex; /* align children and match input height */
+  align-items: stretch; /* make button fill height */
+  margin: 5px 0; /* take over vertical spacing for perfect centering */
 }
 
 /* Add spacing so text doesn't overlap the icon */
@@ -81,17 +84,23 @@
 .togglePasswordBtn {
   position: absolute;
   right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0; /* stretch to input height */
+  transform: none; /* center via flex */
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 0 6px; /* larger click target */
   display: flex;
-  align-items: center;
+  align-items: center; /* vertical center */
   justify-content: center;
   z-index: 3;
   color: #333;
+}
+
+/* Remove input margins inside the wrapper to keep the icon centered */
+.passwordWrapper .input {
+  margin: 0;
 }
 
 .error_msg {
