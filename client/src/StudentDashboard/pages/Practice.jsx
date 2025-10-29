@@ -24,14 +24,46 @@ const Practice = () => {
   }, []);
 
   const practiceTests = [
-    { title: "Aptitude Test", desc: "Sharpen your logical reasoning skills.", link: "https://www.indiabix.com/aptitude/questions-and-answers/" },
-    { title: "Coding Test", desc: "Test your coding and problem-solving abilities.", link: "/g-test" },
-    { title: "Communication Skills", desc: "Improve verbal and written communication.", link: "/communication-test" },
-    { title: "Technical MCQs", desc: "Evaluate your fundamental technical knowledge.", link: "/technical-test" },
-    { title: "Data Structures & Algorithms", desc: "Strengthen your DSA skills.", link: "/dsa-test" },
-    { title: "Database Management", desc: "Assess your SQL and DBMS knowledge.", link: "/dbms-test" },
-    { title: "Operating Systems", desc: "Test your OS concepts and problem-solving.", link: "/os-test" },
-    { title: "Networking Basics", desc: "Evaluate your knowledge of computer networks.", link: "/networking-test" },
+    {
+      title: "Aptitude Test",
+      desc: "Sharpen your logical reasoning skills.",
+      link: "https://www.indiabix.com/aptitude/questions-and-answers/",
+    },
+    {
+      title: "Coding Test",
+      desc: "Test your coding and problem-solving abilities.",
+      link: "/g-test",
+    },
+    {
+      title: "Communication Skills",
+      desc: "Improve verbal and written communication.",
+      link: "https://www.indiabix.com/verbal-ability/questions-and-answers/",
+    },
+    {
+      title: "Technical MCQs",
+      desc: "Evaluate your fundamental technical knowledge.",
+      link: "https://www.indiabix.com/computer-science/questions-and-answers/",
+    },
+    {
+      title: "Data Structures & Algorithms",
+      desc: "Strengthen your DSA skills.",
+      link: "https://www.indiabix.com/data-structures/questions-and-answers/",
+    },
+    {
+      title: "Database Management",
+      desc: "Assess your SQL and DBMS knowledge.",
+      link: "https://www.indiabix.com/database/questions-and-answers/",
+    },
+    {
+      title: "Operating Systems",
+      desc: "Test your OS concepts and problem-solving.",
+      link: "https://www.indiabix.com/operating-systems/questions-and-answers/",
+    },
+    {
+      title: "Networking Basics",
+      desc: "Evaluate your knowledge of computer networks.",
+      link: "https://www.indiabix.com/networking/questions-and-answers/",
+    },
   ];
 
   return (
@@ -53,7 +85,11 @@ const Practice = () => {
               className="practice-card"
               onClick={() => {
                 // If link is an absolute external URL, open in new tab; otherwise navigate internally
-                if (typeof test.link === "string" && (test.link.startsWith("http://") || test.link.startsWith("https://"))) {
+                if (
+                  typeof test.link === "string" &&
+                  (test.link.startsWith("http://") ||
+                    test.link.startsWith("https://"))
+                ) {
                   window.open(test.link, "_blank", "noopener,noreferrer");
                 } else {
                   navigate(test.link);
@@ -67,8 +103,6 @@ const Practice = () => {
           ))}
         </div>
       </section>
-
-      
     </div>
   );
 };

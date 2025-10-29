@@ -17,6 +17,7 @@ const assignmentRoutes = require("./routes/assignments");
 const announcementsRouter = require("./routes/announcements");
 const interviewRoutes = require("./routes/interviews");
 const studentSelectionsRoutes = require("./routes/studentSelections");
+const facultyDashboardRoutes = require("./routes/facultyDashboard");
 const app = express();
 
 // Connect to Database
@@ -48,6 +49,7 @@ app.use("/api/assignments", assignmentRoutes);
 app.use("/api/interviews", interviewRoutes);
 app.use("/api/announcements", announcementsRouter);
 app.use("/api/studentSelections", studentSelectionsRoutes);
+app.use("/api/faculty-dashboard", facultyDashboardRoutes);
 // Start Server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}...`));

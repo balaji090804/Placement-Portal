@@ -90,6 +90,8 @@ function App() {
         {/* Authentication Routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        {/* Always send root to login */}
+        <Route path="/" element={<Navigate replace to="/login" />} />
 
         {/* Role-based Routing */}
         {user && (

@@ -1,60 +1,132 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/FacultySidebar";
 import "../styles/Dashboard.css";
 import { Outlet } from "react-router-dom";
+import { fetchUserData } from "../../api";
 
 const Dashboard = () => {
-  // Manually entered JSON data for demonstration purposes
-  const manualData = {
-    totalStudents: 45,
-    averagePerformance: "B+",
-    upcomingLectures: 3,
-    recentAssignments: [
-      { id: 1, title: "Assignment 1", dueDate: "2025-03-01", status: "Graded" },
-      { id: 2, title: "Assignment 2", dueDate: "2025-03-05", status: "Pending" }
-    ],
-    announcements: [
-      { id: 1, title: "Exam Schedule", description: "Exams scheduled for next month." },
-      { id: 2, title: "Guest Lecture", description: "Industry expert guest lecture on Friday." }
-    ],
+  // Local UI-only data that isn't part of the real-time API
+  const staticUiData = {
     classSchedule: [
-      { id: 1, course: "Data Structures", time: "10:00 AM - 11:30 AM", day: "Monday" },
-      { id: 2, course: "Algorithms", time: "2:00 PM - 3:30 PM", day: "Wednesday" }
+      {
+        id: 1,
+        course: "Data Structures",
+        time: "10:00 AM - 11:30 AM",
+        day: "Monday",
+      },
+      {
+        id: 2,
+        course: "Algorithms",
+        time: "2:00 PM - 3:30 PM",
+        day: "Wednesday",
+      },
     ],
     quickActions: [
-      { id: 1, label: "Schedule Lecture", route: "/FacultyDashboard/ScheduleLecture" },
-      { id: 2, label: "Post Announcement", route: "/FacultyDashboard/PostAnnouncement" },
-      { id: 3, label: "Review Assignments", route: "/FacultyDashboard/ReviewAssignments" },
-      { id: 4, label: "Manage Students", route: "/FacultyDashboard/ManageStudents" }
+      {
+        id: 1,
+        label: "Schedule Lecture",
+        route: "/FacultyDashboard/ScheduleLecture",
+      },
+      {
+        id: 2,
+        label: "Post Announcement",
+        route: "/FacultyDashboard/PostAnnouncement",
+      },
+      {
+        id: 3,
+        label: "Review Assignments",
+        route: "/FacultyDashboard/ReviewAssignments",
+      },
+      {
+        id: 4,
+        label: "Manage Students",
+        route: "/FacultyDashboard/ManageStudents",
+      },
     ],
     facultyNews: [
-      { id: 1, title: "New Research Grant Awarded", description: "Dr. Smith received a research grant for AI applications." },
-      { id: 2, title: "Conference Participation", description: "Faculty members to attend the annual tech conference next month." }
-    ]
+      {
+        id: 1,
+        title: "New Research Grant Awarded",
+        description: "Dr. Smith received a research grant for AI applications.",
+      },
+      {
+        id: 2,
+        title: "Conference Participation",
+        description:
+          "Faculty members to attend the annual tech conference next month.",
+      },
+    ],
   };
 
-  const [dashboardData] = useState(manualData);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let intervalId;
+
+    const fetchDashboard = async () => {
+      try {
+        setError("");
+        // Get logged-in user to know the faculty email
+        const me = await fetchUserData();
+        const facultyEmail = me?.email || "";
+        if (!facultyEmail) {
+          setError("Unable to determine faculty email. Please log in again.");
+          setLoading(false);
+          return;
+        }
+
+        const res = await fetch(
+          `http://localhost:8080/api/faculty-dashboard?facultyEmail=${encodeURIComponent(
+            facultyEmail
+          )}`
+        );
+        if (!res.ok) {
+          throw new Error(`Failed to load dashboard (${res.status})`);
+        }
+        const json = await res.json();
+        setData(json);
+        setLoading(false);
+      } catch (e) {
+        console.error("Failed to fetch faculty dashboard:", e);
+        setError(e.message || "Failed to load dashboard");
+        setLoading(false);
+      }
+    };
+
+    fetchDashboard();
+    // Poll every 60s for near real-time updates
+    intervalId = setInterval(fetchDashboard, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="faculty-dashboard">
-    
-     
       <div className="faculty-content">
         <h1>Faculty Dashboard</h1>
+
+        {loading && <p>Loading dashboard...</p>}
+        {!!error && !loading && <p style={{ color: "#b00020" }}>{error}</p>}
 
         {/* Metrics Section */}
         <section className="metrics-section">
           <div className="metrics-card">
             <h3>Total Students</h3>
-            <p>{dashboardData.totalStudents}</p>
+            <p>{data?.totalStudents ?? "-"}</p>
           </div>
           <div className="metrics-card">
-            <h3>Average Performance</h3>
-            <p>{dashboardData.averagePerformance}</p>
+            <h3>Average Interview Score</h3>
+            <p>
+              {typeof data?.averageInterviewScore === "number"
+                ? data.averageInterviewScore.toFixed(1)
+                : "-"}
+            </p>
           </div>
           <div className="metrics-card">
             <h3>Upcoming Lectures</h3>
-            <p>{dashboardData.upcomingLectures}</p>
+            <p>{data?.upcomingLectures ?? "-"}</p>
           </div>
         </section>
 
@@ -62,9 +134,9 @@ const Dashboard = () => {
         <section className="quick-actions">
           <h2>Quick Actions</h2>
           <div className="actions-container">
-            {dashboardData.quickActions.map((action) => (
-              <button 
-                key={action.id} 
+            {staticUiData.quickActions.map((action) => (
+              <button
+                key={action.id}
                 className="action-btn"
                 onClick={() => window.location.assign(action.route)}
               >
@@ -78,13 +150,18 @@ const Dashboard = () => {
         <section className="details-section">
           <h2>Recent Assignments</h2>
           <div className="card-container">
-            {dashboardData.recentAssignments.map((assignment) => (
-              <div key={assignment.id} className="detail-card">
-                <h3>{assignment.title}</h3>
-                <p>Due Date: {assignment.dueDate}</p>
-                <p>Status: {assignment.status}</p>
-              </div>
-            ))}
+            {(data?.recentAssignments || []).map((assignment, idx) => {
+              const assignedAt = assignment?.assignedAt
+                ? new Date(assignment.assignedAt).toLocaleString()
+                : "-";
+              return (
+                <div key={assignment._id || idx} className="detail-card">
+                  <h3>Assignment</h3>
+                  <p>Student: {assignment.studentEmail}</p>
+                  <p>Assigned: {assignedAt}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
 
@@ -92,12 +169,18 @@ const Dashboard = () => {
         <section className="details-section">
           <h2>Announcements</h2>
           <div className="card-container">
-            {dashboardData.announcements.map((announcement) => (
-              <div key={announcement.id} className="detail-card">
-                <h3>{announcement.title}</h3>
-                <p>{announcement.description}</p>
-              </div>
-            ))}
+            {(data?.announcements || []).map((announcement, idx) => {
+              const title = `${announcement.companyName} - ${announcement.jobRole}`;
+              const when = announcement?.dateTime
+                ? new Date(announcement.dateTime).toLocaleString()
+                : "-";
+              return (
+                <div key={announcement._id || idx} className="detail-card">
+                  <h3>{title}</h3>
+                  <p>{when}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
 
@@ -105,7 +188,7 @@ const Dashboard = () => {
         <section className="details-section">
           <h2>Class Schedule</h2>
           <div className="card-container">
-            {dashboardData.classSchedule.map((schedule) => (
+            {staticUiData.classSchedule.map((schedule) => (
               <div key={schedule.id} className="detail-card">
                 <h3>{schedule.course}</h3>
                 <p>{schedule.day}</p>
@@ -119,7 +202,7 @@ const Dashboard = () => {
         <section className="details-section">
           <h2>Faculty News</h2>
           <div className="card-container">
-            {dashboardData.facultyNews.map((news) => (
+            {staticUiData.facultyNews.map((news) => (
               <div key={news.id} className="detail-card">
                 <h3>{news.title}</h3>
                 <p>{news.description}</p>
