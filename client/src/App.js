@@ -50,6 +50,7 @@ import FacultyAddTechnical from "./FacultyDashboard/pages/FacultyAddTechnical.js
 
 // Student
 import StudentDashboard from "./StudentDashboard/App.js";
+import StudentHome from "./StudentDashboard/pages/DashboardHome.jsx";
 import HomeHero from "./StudentDashboard/components/HomeHero.jsx";
 import JobPortal from "./StudentDashboard/pages/JobPortal.jsx";
 import Practice from "./StudentDashboard/pages/Practice.jsx";
@@ -101,6 +102,8 @@ function App() {
                 path="/StudentDashboard"
                 element={<StudentDashboard user={user} />}
               >
+                {/* Default Home for Student Dashboard */}
+                <Route index element={<StudentHome />} />
                 {/* Nested Student Routes */}
                 <Route path="HomeHero" element={<HomeHero />} />
                 <Route

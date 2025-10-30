@@ -3,6 +3,7 @@ import React from "react";
 import Sidebar from "./components/FacultySidebar";
 import "./styles/FacultyDashboard.css";
 import { Outlet } from "react-router-dom";
+import ChatRAGWidget from "../components/ChatRAG/ChatRAGWidget.jsx";
 
 const FacultyDashboard = ({ user }) => {
   return (
@@ -10,6 +11,7 @@ const FacultyDashboard = ({ user }) => {
       <Sidebar />
       {/* Pass the user object in the Outlet context */}
       <Outlet context={{ user }} />
+      <ChatRAGWidget />
     </div>
   );
 };

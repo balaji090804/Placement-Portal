@@ -88,7 +88,7 @@ const Sidebar = () => {
     <SidebarContainer>
       <SidebarHeader>PLACEMENT PORTAL</SidebarHeader>
       <SidebarMenu>
-        <SidebarItem to="/StudentDashboard/Homehero">
+        <SidebarItem to="/StudentDashboard" end>
           <FaHome />
           <span>Dashboard</span>
         </SidebarItem>

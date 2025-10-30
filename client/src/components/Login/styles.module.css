@@ -68,7 +68,7 @@
 .togglePasswordBtn {
   position: absolute;
   right: 10px;
-  top: 0;
+  top: -50%;
   bottom: 0; /* stretch to input height */
   transform: none; /* center via flex */
   background: transparent;

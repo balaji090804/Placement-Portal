@@ -45,6 +45,11 @@ const Practice = () => {
       link: "https://www.indiabix.com/computer-science/questions-and-answers/",
     },
     {
+      title: "Faculty Aptitude Test",
+      desc: "Attempt aptitude questions added by your faculty.",
+      link: "/StudentDashboard/Aptitude",
+    },
+    {
       title: "Data Structures & Algorithms",
       desc: "Strengthen your DSA skills.",
       link: "https://www.indiabix.com/data-structures/questions-and-answers/",
