@@ -5,7 +5,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 # Environment variables
-env
+.env
+.env.*
+*.env
+*.env.*
+server/.env
+client/.env
 # Build and cache directories
 build/
 dist/
