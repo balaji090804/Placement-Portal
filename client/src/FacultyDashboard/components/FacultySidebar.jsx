@@ -15,6 +15,7 @@ import {
   FaTasks,
   FaUserCheck,
   FaGraduationCap,
+  FaTrophy,
   FaSignOutAlt,
 } from "react-icons/fa";
 
@@ -94,6 +95,11 @@ const Sidebar = () => {
         <SidebarItem to="/FacultyDashboard/Practicepage">
           <FaPlusSquare />
           <span>Add Test Questions</span>
+        </SidebarItem>
+
+        <SidebarItem to="/FacultyDashboard/FacultyLeaderboard">
+          <FaTrophy />
+          <span>Leaderboard Analytics</span>
         </SidebarItem>
 
         <SidebarItem to="/FacultyDashboard/Interviews">

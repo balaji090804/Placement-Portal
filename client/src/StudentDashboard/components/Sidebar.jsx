@@ -13,6 +13,7 @@ import {
   FaFileAlt,
   FaCalendarCheck,
   FaBullhorn,
+  FaTrophy,
   FaSignOutAlt,
 } from "react-icons/fa";
 
@@ -99,6 +100,10 @@ const Sidebar = () => {
         <SidebarItem to="/StudentDashboard/Practice">
           <FaCode />
           <span>Practice</span>
+        </SidebarItem>
+        <SidebarItem to="/StudentDashboard/Leaderboard">
+          <FaTrophy />
+          <span>Leaderboard</span>
         </SidebarItem>
         <SidebarItem to="/StudentDashboard/DailyCoding">
           <FaBookOpen />

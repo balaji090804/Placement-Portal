@@ -103,7 +103,13 @@ const ChatRAGWidget = () => {
         <div className={styles.panel}>
           <div className={styles.header}>
             <div>College Assistant</div>
-            <button className={styles.closeBtn} onClick={() => setOpen(false)}>
+            <button
+              type="button"
+              aria-label="Close chat"
+              title="Close"
+              className={styles.closeBtn}
+              onClick={() => setOpen(false)}
+            >
               ×
             </button>
           </div>

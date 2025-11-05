@@ -49,6 +49,8 @@ import FacultyAddDSA from "./FacultyDashboard/pages/FacultyAddDSA.jsx";
 import FacultyAddNetworking from "./FacultyDashboard/pages/FacultyAddNetworking.jsx";
 import FacultyAddOS from "./FacultyDashboard/pages/FacultyAddOS.jsx";
 import FacultyAddTechnical from "./FacultyDashboard/pages/FacultyAddTechnical.jsx";
+import AddQuestion from "./FacultyDashboard/pages/AddQuestion.jsx";
+import ManageQuestions from "./FacultyDashboard/pages/ManageQuestions.jsx";
 
 // Student
 import StudentDashboard from "./StudentDashboard/App.js";
@@ -66,6 +68,11 @@ import Profile from "./StudentDashboard/pages/Profile.jsx"; // <-- The advanced 
 import Performancetracker from "./StudentDashboard/pages/Performancetracker.jsx";
 import SAnnouncements from "./StudentDashboard/pages/StudentAnnouncements.jsx";
 import UpcomingDrive from "./StudentDashboard/pages/UpcomingDrives.jsx";
+import Leaderboard from "./StudentDashboard/pages/Leaderboard.jsx";
+import DomainTest from "./StudentDashboard/pages/DomainTest.jsx";
+
+// Faculty Leaderboard
+import FacultyLeaderboard from "./FacultyDashboard/pages/FacultyLeaderboard.jsx";
 
 // Use shared API helper instead of duplicating fetch logic
 
@@ -137,6 +144,8 @@ function App() {
                 />
                 <Route path="SAnnouncements" element={<SAnnouncements />} />
                 <Route path="UpcomingDrive" element={<UpcomingDrive />} />
+                <Route path="Leaderboard" element={<Leaderboard />} />
+                <Route path="DomainTest/:domain" element={<DomainTest />} />
                 <Route
                   path="StudentPerformance"
                   element={<StudentPerformance />}
@@ -227,6 +236,15 @@ function App() {
                 <Route
                   path="FacultyAddTechnical"
                   element={<FacultyAddTechnical />}
+                />
+                <Route path="AddQuestion/:domain" element={<AddQuestion />} />
+                <Route
+                  path="ManageQuestions/:domain"
+                  element={<ManageQuestions />}
+                />
+                <Route
+                  path="FacultyLeaderboard"
+                  element={<FacultyLeaderboard />}
                 />
               </Route>
             )}

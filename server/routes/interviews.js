@@ -43,7 +43,8 @@ router.post("/schedule", async (req, res) => {
     const { requestId, meetingLink, date, time } = req.body;
 
     const interviewRequest = await InterviewRequest.findById(requestId);
-    if (!interviewRequest) return res.status(404).json({ error: "Request not found" });
+    if (!interviewRequest)
+      return res.status(404).json({ error: "Request not found" });
 
     // Update the interview request with scheduled details
     interviewRequest.meetingLink = meetingLink;
@@ -55,8 +56,8 @@ router.post("/schedule", async (req, res) => {
     // 📧 Send Email Notification to Student
     const transporter = nodemailer.createTransport({
       service: "gmail",
-      auth: { 
-        user: "bitplacementportal@gmail.com", // 🔹 Replace with your email
+      auth: {
+        user: "placementportal@gmail.com", // 🔹 Replace with your email
         pass: "yckz uxvi olib szbf",
       },
     });
@@ -69,8 +70,9 @@ router.post("/schedule", async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: "Interview scheduled & student notified via email!" });
-
+    res
+      .status(200)
+      .json({ message: "Interview scheduled & student notified via email!" });
   } catch (error) {
     console.error("Error scheduling interview:", error);
     res.status(500).json({ error: "Server error" });
@@ -80,7 +82,9 @@ router.post("/schedule", async (req, res) => {
 // 📌 Faculty Fetches Scheduled Interviews
 router.get("/scheduled", async (req, res) => {
   try {
-    const scheduledInterviews = await InterviewRequest.find({ status: "Scheduled" });
+    const scheduledInterviews = await InterviewRequest.find({
+      status: "Scheduled",
+    });
     res.status(200).json(scheduledInterviews);
   } catch (error) {
     console.error("Error fetching scheduled interviews:", error);

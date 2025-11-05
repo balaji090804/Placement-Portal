@@ -7,14 +7,14 @@ async function sendMailToMany(recipients, subject, text) {
   let transporter = nodemailer.createTransport({
     service: "gmail", // or your SMTP
     auth: {
-        user: "bitplacementportal@gmail.com", // 🔹 Replace with your email
-        pass: "yckz uxvi olib szbf", // 🔹 Use an app password, NOT your email password!
+      user: "placementportal@gmail.com", // 🔹 Replace with your email
+      pass: "yckz uxvi olib szbf", // 🔹 Use an app password, NOT your email password!
     },
   });
 
   // Prepare mail options
   let mailOptions = {
-    from: "bitplacementportal@gmail.com",
+    from: "placementportal@gmail.com",
     to: recipients, // array or comma-separated
     subject,
     text,

@@ -23,14 +23,46 @@ const Practice = () => {
   }, []);
 
   const practiceTests = [
-    { title: "Aptitude Questions", desc: "Add aptitude questions to test logical reasoning.", link: "/FacultyDashboard/FacultyAddAptitude" },
-    { title: "Coding Questions", desc: "Add coding problems for students to practice.", link: "/FacultyDashboard/FacultyAddCoding" },
-    { title: "Communication Skills", desc: "Create scenarios to improve communication skills.", link: "/FacultyDashboard/FacultyAddCommunication" },
-    { title: "Technical MCQs", desc: "Upload technical multiple-choice questions.", link: "/FacultyDashboard/FacultyAddTechnical" },
-    { title: "DSA Problems", desc: "Curate questions on Data Structures and Algorithms.", link: "/FacultyDashboard/FacultyAddDSA" },
-    { title: "DBMS Quiz", desc: "Frame questions related to database management systems.", link: "/FacultyDashboard/FacultyAddDBMS" },
-    { title: "Operating Systems", desc: "Design OS-related questions for practice.", link: "/FacultyDashboard/FacultyAddOS" },
-    { title: "Networking Basics", desc: "Add questions covering computer networks fundamentals.", link: "/FacultyDashboard/FacultyAddNetworking" },
+    {
+      title: "Aptitude Questions",
+      desc: "Add aptitude questions to test logical reasoning.",
+      link: "/FacultyDashboard/AddQuestion/aptitude",
+    },
+    {
+      title: "Coding Questions",
+      desc: "Add coding problems for students to practice.",
+      link: "/FacultyDashboard/AddQuestion/coding",
+    },
+    {
+      title: "Communication Skills",
+      desc: "Create scenarios to improve communication skills.",
+      link: "/FacultyDashboard/AddQuestion/communication",
+    },
+    {
+      title: "Technical MCQs",
+      desc: "Upload technical multiple-choice questions.",
+      link: "/FacultyDashboard/AddQuestion/technical",
+    },
+    {
+      title: "DSA Problems",
+      desc: "Curate questions on Data Structures and Algorithms.",
+      link: "/FacultyDashboard/AddQuestion/dsa",
+    },
+    {
+      title: "DBMS Quiz",
+      desc: "Frame questions related to database management systems.",
+      link: "/FacultyDashboard/AddQuestion/dbms",
+    },
+    {
+      title: "Operating Systems",
+      desc: "Design OS-related questions for practice.",
+      link: "/FacultyDashboard/AddQuestion/os",
+    },
+    {
+      title: "Networking Basics",
+      desc: "Add questions covering computer networks fundamentals.",
+      link: "/FacultyDashboard/AddQuestion/networking",
+    },
   ];
 
   return (
@@ -47,7 +79,11 @@ const Practice = () => {
         <h2>➕ Add Practice Questions by Category</h2>
         <div className="practice-test-grid">
           {practiceTests.map((test, index) => (
-            <div key={index} className="practice-card" onClick={() => navigate(test.link)}>
+            <div
+              key={index}
+              className="practice-card"
+              onClick={() => navigate(test.link)}
+            >
               <h3>{test.title}</h3>
               <p>{test.desc}</p>
               <button className="practice-btn">Add Questions</button>

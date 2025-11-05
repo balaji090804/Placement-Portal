@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
+import axios from "axios";
 import "../styles/AptitudeTest.css";
 
 const AptitudeTest = () => {
+  const { studentName, studentEmail } = useOutletContext();
   const [questions, setQuestions] = useState([]);
   const [totalTime, setTotalTime] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
+  const [startTime, setStartTime] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [score, setScore] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   // Fetch stored aptitude questions from the backend
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/aptitude-questions");
+        const response = await fetch(
+          "http://localhost:8080/api/aptitude-questions"
+        );
         const data = await response.json();
         setQuestions(data);
         // Compute total test time as the sum of individual question times
         const computedTime = data.reduce((acc, q) => acc + q.time, 0);
         setTotalTime(computedTime);
         setTimeLeft(computedTime);
+        setStartTime(Date.now()); // Record start time
       } catch (error) {
         console.error("Error fetching aptitude questions:", error);
       } finally {
@@ -61,14 +69,45 @@ const AptitudeTest = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (submitting) return; // Prevent double submission
+    setSubmitting(true);
+
+    // Calculate score
     let calculatedScore = 0;
     questions.forEach((q, index) => {
       if (selectedAnswers[index] === q.correctAnswer) {
         calculatedScore += 1;
       }
     });
+
+    // Calculate time taken in seconds
+    const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+
+    // Submit to leaderboard
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        "http://localhost:8080/api/leaderboard/submit",
+        {
+          studentName: studentName || "Unknown",
+          studentEmail: studentEmail || "unknown@example.com",
+          score: calculatedScore,
+          totalQuestions: questions.length,
+          timeTaken,
+          assessmentType: "Aptitude Test",
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("Score submitted to leaderboard successfully");
+    } catch (error) {
+      console.error("Error submitting to leaderboard:", error);
+    }
+
     setScore(calculatedScore);
+    setSubmitting(false);
   };
 
   if (loading) {
@@ -117,7 +156,9 @@ const AptitudeTest = () => {
             <button
               key={idx}
               className={`option-btn ${
-                selectedAnswers[currentQuestionIndex] === option ? "selected" : ""
+                selectedAnswers[currentQuestionIndex] === option
+                  ? "selected"
+                  : ""
               }`}
               onClick={() => handleOptionClick(option)}
             >
