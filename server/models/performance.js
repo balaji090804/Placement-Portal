@@ -9,26 +9,37 @@ const PerformanceSchema = new mongoose.Schema({
     technical: { type: Number, default: 0 },
   },
   codingChallengesSolved: { type: Number, default: 0 },
-  interviewScores: { type: Number, default: 0 }, 
+  interviewScores: { type: Number, default: 0 },
   pastInterviews: [
     {
       companyName: String,
       interviewDate: Date,
       technicalScore: Number,
       hrScore: Number,
-      overallPerformance: String
-    }
+      overallPerformance: String,
+    },
   ],
   mockInterviews: [
     {
       date: Date,
       technicalScore: Number,
       hrScore: Number,
-      feedback: String
-    }
+      feedback: String,
+    },
   ],
   improvementAreas: [String],
+  // Append-only log of actions to compute trends/graphs
+  events: [
+    {
+      type: { type: String, required: true }, // e.g., 'jobApplied', 'dailyCodeSubmitted', 'practiceStarted'
+      date: { type: Date, default: Date.now },
+      meta: { type: Object, default: {} },
+    },
+  ],
   lastUpdated: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Performance", PerformanceSchema);
+// Avoid OverwriteModelError in watch/hot-reload scenarios
+module.exports =
+  mongoose.models.Performance ||
+  mongoose.model("Performance", PerformanceSchema);

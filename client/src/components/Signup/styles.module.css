@@ -146,3 +146,13 @@
   color: white;
   margin: 10px;
 }
+
+/* Button row to keep actions on one line within the form box */
+.buttonRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 370px; /* match input width */
+  gap: 10px; /* 180 + 180 + 10 = 370, keeps buttons inside box */
+  margin: 10px;
+}

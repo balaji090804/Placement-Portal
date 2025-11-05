@@ -1,5 +1,5 @@
 const express = require("express");
-const Performance = require("../models/Performance");
+const Performance = require("../models/performance");
 const router = express.Router();
 
 // Fetch student performance by email (auto-create if missing)
@@ -21,15 +21,15 @@ router.get("/:email", async (req, res) => {
           interviewDate: new Date("2024-01-15"),
           technicalScore: 85,
           hrScore: 80,
-          overallPerformance: "Good"
+          overallPerformance: "Good",
         },
         {
           companyName: "Amazon",
           interviewDate: new Date("2024-02-10"),
           technicalScore: 78,
           hrScore: 85,
-          overallPerformance: "Satisfactory"
-        }
+          overallPerformance: "Satisfactory",
+        },
       ];
 
       // Sample mock interviews
@@ -38,25 +38,30 @@ router.get("/:email", async (req, res) => {
           date: new Date("2024-01-05"),
           technicalScore: 80,
           hrScore: 75,
-          feedback: "Needs improvement in system design."
+          feedback: "Needs improvement in system design.",
         },
         {
           date: new Date("2024-02-02"),
           technicalScore: 85,
           hrScore: 80,
-          feedback: "Good confidence, but work on problem-solving speed."
-        }
+          feedback: "Good confidence, but work on problem-solving speed.",
+        },
       ];
 
       // Default data
       performance = {
         studentEmail: email,
-        mockTestScores: { aptitude: 80, coding: 75, communication: 85, technical: 90 },
+        mockTestScores: {
+          aptitude: 80,
+          coding: 75,
+          communication: 85,
+          technical: 90,
+        },
         codingChallengesSolved: 20,
         interviewScores: 88,
         pastInterviews: pastInterviewsSample,
         mockInterviews: mockInterviewsSample,
-        improvementAreas: ["System Design", "Problem Solving Speed"]
+        improvementAreas: ["System Design", "Problem Solving Speed"],
       };
 
       console.log("✅ Default performance record created.");
@@ -66,6 +71,137 @@ router.get("/:email", async (req, res) => {
   } catch (error) {
     console.error("❌ Error fetching performance:", error);
     res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// --- New APIs below ---
+
+// GET /api/performance/:email/events/summary?months=12
+// Returns monthly counts per event type for the current year (or last N months window)
+router.get("/:email/events/summary", async (req, res) => {
+  try {
+    const email = String(req.params.email || "")
+      .trim()
+      .toLowerCase();
+    const months = Math.max(1, Math.min(12, parseInt(req.query.months) || 12));
+    const perf = await Performance.findOne(
+      { studentEmail: email },
+      { events: 1 }
+    ).lean();
+    const now = new Date();
+    const labels = [];
+    const types = [
+      "jobApplied",
+      "dailyCodeSubmitted",
+      "practiceStarted",
+      "taskCompleted",
+      "driveRegistered",
+      "announcementsViewed",
+      "resumeCreated",
+      "interviewRequested",
+    ];
+    const series = Object.fromEntries(
+      types.map((t) => [t, Array(months).fill(0)])
+    );
+
+    // Build labels as last N months ending current month
+    for (let i = months - 1; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      labels.push(d.toLocaleString(undefined, { month: "short" }));
+    }
+
+    const events = Array.isArray(perf?.events) ? perf.events : [];
+    events.forEach((ev) => {
+      const d = new Date(ev.date);
+      if (isNaN(d)) return;
+      // compute index in last N months window
+      const diffMonths =
+        (now.getFullYear() - d.getFullYear()) * 12 +
+        (now.getMonth() - d.getMonth());
+      const idx = months - 1 - diffMonths;
+      if (idx >= 0 && idx < months && types.includes(ev.type)) {
+        series[ev.type][idx] += 1;
+      }
+    });
+
+    return res.json({ labels, series });
+  } catch (err) {
+    console.error("/api/performance/:email/events/summary error:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// POST /api/performance/event
+// Body: { email, type, meta }
+// Creates or updates performance doc, appends event, and updates simple counters
+router.post("/event", async (req, res) => {
+  try {
+    const { email, type, meta } = req.body || {};
+    if (!email || !type) {
+      return res.status(400).json({ message: "email and type are required" });
+    }
+    const studentEmail = String(email).trim().toLowerCase();
+    let doc = await Performance.findOne({ studentEmail });
+    if (!doc) {
+      doc = new Performance({ studentEmail });
+    }
+
+    // Update counters heuristically
+    switch (type) {
+      case "dailyCodeSubmitted":
+        doc.codingChallengesSolved = (doc.codingChallengesSolved || 0) + 1;
+        doc.mockTestScores.coding = Math.min(
+          100,
+          (doc.mockTestScores.coding || 0) + 1
+        );
+        break;
+      case "practiceStarted":
+        doc.mockTestScores.aptitude = Math.min(
+          100,
+          (doc.mockTestScores.aptitude || 0) + 1
+        );
+        break;
+      case "jobApplied":
+        // Track as pastInterviews opportunity placeholder if provided
+        if (meta?.companyName && meta?.jobRole) {
+          doc.pastInterviews = doc.pastInterviews || [];
+          doc.pastInterviews.push({
+            companyName: meta.companyName,
+            interviewDate: new Date(),
+            technicalScore: 0,
+            hrScore: 0,
+            overallPerformance: "Applied",
+          });
+        }
+        break;
+      case "resumeCreated":
+        doc.mockTestScores.communication = Math.min(
+          100,
+          (doc.mockTestScores.communication || 0) + 1
+        );
+        break;
+      default:
+        break;
+    }
+
+    doc.events = doc.events || [];
+    doc.events.push({ type, meta: meta || {}, date: new Date() });
+    doc.lastUpdated = new Date();
+    await doc.save();
+    // Realtime notify
+    const io = req.app.get("io");
+    if (io) {
+      io.to(`user:${studentEmail}`).emit("performance:event", { type, meta });
+      // generic dashboard update for student role
+      io.to(`user:${studentEmail}`).emit("dashboard:update", {
+        scope: "student",
+        email: studentEmail,
+      });
+    }
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("/api/performance/event error:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 

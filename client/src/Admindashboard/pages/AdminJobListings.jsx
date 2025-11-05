@@ -25,7 +25,7 @@ const AdminJobListings = () => {
     aboutCompany: "",
     jobResponsibilities: "",
     internshipInfo: "",
-    additionalNotes: ""
+    additionalNotes: "",
   });
 
   useEffect(() => {
@@ -38,10 +38,20 @@ const AdminJobListings = () => {
 
   const handleAddJob = async () => {
     const requiredFields = [
-      "companyName", "jobTitle", "packageOffered", "interviewDate",
-      "jobLocation", "jobType", "jobMode", "experienceLevel",
-      "requiredSkills", "jobDescription", "eligibilityCriteria",
-      "selectionProcess", "jobLocationDetails", "registrationLink"
+      "companyName",
+      "jobTitle",
+      "packageOffered",
+      "interviewDate",
+      "jobLocation",
+      "jobType",
+      "jobMode",
+      "experienceLevel",
+      "requiredSkills",
+      "jobDescription",
+      "eligibilityCriteria",
+      "selectionProcess",
+      "jobLocationDetails",
+      "registrationLink",
     ];
 
     const missing = requiredFields.filter((field) => {
@@ -55,10 +65,15 @@ const AdminJobListings = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/recruiters", {
-        ...newJob,
-        requiredSkills: newJob.requiredSkills.split(",").map(skill => skill.trim()),
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/recruiters",
+        {
+          ...newJob,
+          requiredSkills: newJob.requiredSkills
+            .split(",")
+            .map((skill) => skill.trim()),
+        }
+      );
 
       toast.success(response.data.message);
       setNewJob({
@@ -81,11 +96,13 @@ const AdminJobListings = () => {
         aboutCompany: "",
         jobResponsibilities: "",
         internshipInfo: "",
-        additionalNotes: ""
+        additionalNotes: "",
       });
     } catch (err) {
       console.error("Error posting job:", err);
-      toast.error("Failed to add job.");
+      const msg =
+        err?.response?.data?.message || err.message || "Failed to add job.";
+      toast.error(msg);
     }
   };
 
@@ -98,63 +115,168 @@ const AdminJobListings = () => {
 
           {/* Company Info */}
           <label>Company Name</label>
-          <input type="text" name="companyName" placeholder="e.g. Avasoft" value={newJob.companyName} onChange={handleChange} />
+          <input
+            type="text"
+            name="companyName"
+            placeholder="e.g. Avasoft"
+            value={newJob.companyName}
+            onChange={handleChange}
+          />
 
           <label>Company Website (optional)</label>
-          <input type="text" name="companyWebsite" placeholder="https://example.com" value={newJob.companyWebsite} onChange={handleChange} />
+          <input
+            type="text"
+            name="companyWebsite"
+            placeholder="https://example.com"
+            value={newJob.companyWebsite}
+            onChange={handleChange}
+          />
 
           {/* Job Basics */}
           <label>Job Title</label>
-          <input type="text" name="jobTitle" placeholder="e.g. Business Development Executive" value={newJob.jobTitle} onChange={handleChange} />
+          <input
+            type="text"
+            name="jobTitle"
+            placeholder="e.g. Business Development Executive"
+            value={newJob.jobTitle}
+            onChange={handleChange}
+          />
 
           <label>Package Offered (LPA)</label>
-          <input type="text" name="packageOffered" placeholder="e.g. 5.0" value={newJob.packageOffered} onChange={handleChange} />
+          <input
+            type="text"
+            name="packageOffered"
+            placeholder="e.g. 5.0"
+            value={newJob.packageOffered}
+            onChange={handleChange}
+          />
 
           <label>Interview Date</label>
-          <input type="date" name="interviewDate" value={newJob.interviewDate} onChange={handleChange} />
+          <input
+            type="date"
+            name="interviewDate"
+            value={newJob.interviewDate}
+            onChange={handleChange}
+          />
 
           <label>Job Location</label>
-          <input type="text" name="jobLocation" placeholder="e.g. Chennai" value={newJob.jobLocation} onChange={handleChange} />
+          <input
+            type="text"
+            name="jobLocation"
+            placeholder="e.g. Chennai"
+            value={newJob.jobLocation}
+            onChange={handleChange}
+          />
 
           <label>Job Mode</label>
-          <input type="text" name="jobMode" placeholder="On-Site / Remote / Hybrid" value={newJob.jobMode} onChange={handleChange} />
+          <select name="jobMode" value={newJob.jobMode} onChange={handleChange}>
+            <option value="On-Site">On-Site</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
 
           <label>Job Type</label>
-          <input type="text" name="jobType" placeholder="Full-time / Internship" value={newJob.jobType} onChange={handleChange} />
+          <select name="jobType" value={newJob.jobType} onChange={handleChange}>
+            <option value="Full-time">Full-time</option>
+            <option value="Internship">Internship</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Contract">Contract</option>
+          </select>
 
           <label>Experience Level</label>
-          <input type="text" name="experienceLevel" placeholder="Entry / Mid / Senior" value={newJob.experienceLevel} onChange={handleChange} />
+          <select
+            name="experienceLevel"
+            value={newJob.experienceLevel}
+            onChange={handleChange}
+          >
+            <option value="Entry Level">Entry Level</option>
+            <option value="Mid Level">Mid Level</option>
+            <option value="Senior Level">Senior Level</option>
+          </select>
 
           <label>Required Skills (comma-separated)</label>
-          <input type="text" name="requiredSkills" placeholder="e.g. Communication, CRM, Python" value={newJob.requiredSkills} onChange={handleChange} />
+          <input
+            type="text"
+            name="requiredSkills"
+            placeholder="e.g. Communication, CRM, Python"
+            value={newJob.requiredSkills}
+            onChange={handleChange}
+          />
 
           <label>Job Description</label>
-          <textarea name="jobDescription" placeholder="Describe the role..." value={newJob.jobDescription} onChange={handleChange} />
+          <textarea
+            name="jobDescription"
+            placeholder="Describe the role..."
+            value={newJob.jobDescription}
+            onChange={handleChange}
+          />
 
           {/* New Fields for Detailed Mail */}
           <label>About the Company</label>
-          <textarea name="aboutCompany" placeholder="Brief about the organization..." value={newJob.aboutCompany} onChange={handleChange} />
+          <textarea
+            name="aboutCompany"
+            placeholder="Brief about the organization..."
+            value={newJob.aboutCompany}
+            onChange={handleChange}
+          />
 
           <label>Job Roles & Responsibilities</label>
-          <textarea name="jobResponsibilities" placeholder="List key duties..." value={newJob.jobResponsibilities} onChange={handleChange} />
+          <textarea
+            name="jobResponsibilities"
+            placeholder="List key duties..."
+            value={newJob.jobResponsibilities}
+            onChange={handleChange}
+          />
 
           <label>Internship Details</label>
-          <textarea name="internshipInfo" placeholder="Stipend, duration, joining details..." value={newJob.internshipInfo} onChange={handleChange} />
+          <textarea
+            name="internshipInfo"
+            placeholder="Stipend, duration, joining details..."
+            value={newJob.internshipInfo}
+            onChange={handleChange}
+          />
 
           <label>Eligibility Criteria</label>
-          <textarea name="eligibilityCriteria" placeholder="Who can apply?" value={newJob.eligibilityCriteria} onChange={handleChange} />
+          <textarea
+            name="eligibilityCriteria"
+            placeholder="Who can apply?"
+            value={newJob.eligibilityCriteria}
+            onChange={handleChange}
+          />
 
           <label>Selection Process</label>
-          <textarea name="selectionProcess" placeholder="e.g. GD → Tech → HR" value={newJob.selectionProcess} onChange={handleChange} />
+          <textarea
+            name="selectionProcess"
+            placeholder="e.g. GD → Tech → HR"
+            value={newJob.selectionProcess}
+            onChange={handleChange}
+          />
 
           <label>Job Location Details</label>
-          <input type="text" name="jobLocationDetails" placeholder="e.g. Remote during internship" value={newJob.jobLocationDetails} onChange={handleChange} />
+          <input
+            type="text"
+            name="jobLocationDetails"
+            placeholder="e.g. Remote during internship"
+            value={newJob.jobLocationDetails}
+            onChange={handleChange}
+          />
 
           <label>Registration Link</label>
-          <input type="text" name="registrationLink" placeholder="e.g. https://bit.edu/apply" value={newJob.registrationLink} onChange={handleChange} />
+          <input
+            type="text"
+            name="registrationLink"
+            placeholder="e.g. https://bit.edu/apply"
+            value={newJob.registrationLink}
+            onChange={handleChange}
+          />
 
           <label>Additional Notes (Optional)</label>
-          <textarea name="additionalNotes" placeholder="e.g. Apply before Jan 27 at 9AM" value={newJob.additionalNotes} onChange={handleChange} />
+          <textarea
+            name="additionalNotes"
+            placeholder="e.g. Apply before Jan 27 at 9AM"
+            value={newJob.additionalNotes}
+            onChange={handleChange}
+          />
 
           <button onClick={handleAddJob}>➕ Add Job</button>
         </div>

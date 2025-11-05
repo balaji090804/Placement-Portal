@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../styles/DailyCoding.css";
+import { useOutletContext } from "react-router-dom";
+import { recordPerformanceEvent } from "../../lib/performance";
 
 const DailyCoding = () => {
   const [selectedProblem, setSelectedProblem] = useState(null);
   const [submittedCode, setSubmittedCode] = useState("");
+  const { studentEmail } = useOutletContext?.() || {}; // optional if context provided
   const [daily, setDaily] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -156,7 +159,21 @@ const DailyCoding = () => {
             />
           </div>
 
-          <button className="code-submit-btn">Submit Code</button>
+          <button
+            className="code-submit-btn"
+            onClick={() => {
+              // Optimistically record a code submission event
+              if (studentEmail) {
+                recordPerformanceEvent(studentEmail, "dailyCodeSubmitted", {
+                  problemId: selectedProblem.id,
+                  title: selectedProblem.title,
+                });
+              }
+              alert("Code submitted! Keep practicing.");
+            }}
+          >
+            Submit Code
+          </button>
 
           <div className="sample-input-output">
             <p>

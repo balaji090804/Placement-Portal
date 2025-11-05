@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import "../styles/DashboardHome.css";
 import Chatbot from "../components/Chatbot";
+import { onEvent } from "../../lib/socket";
 
 const StudentHome = () => {
   const { studentName, studentEmail } = useOutletContext();
@@ -10,6 +11,7 @@ const StudentHome = () => {
   const [perf, setPerf] = useState(null);
   const [upcoming, setUpcoming] = useState([]);
   const [daily, setDaily] = useState(null);
+  const [studentMetrics, setStudentMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -23,7 +25,7 @@ const StudentHome = () => {
           setError("");
         }
 
-        const [pRes, aRes, dRes] = await Promise.all([
+        const [pRes, aRes, dRes, sRes] = await Promise.all([
           fetch(
             `http://localhost:8080/api/performance/${encodeURIComponent(
               studentEmail
@@ -31,12 +33,18 @@ const StudentHome = () => {
           ),
           fetch("http://localhost:8080/api/announcements/upcoming"),
           fetch("http://localhost:8080/api/daily/leetcode"),
+          fetch(
+            `http://localhost:8080/api/student-dashboard?studentEmail=${encodeURIComponent(
+              studentEmail
+            )}`
+          ),
         ]);
 
         if (!cancelled) {
           if (pRes.ok) setPerf(await pRes.json());
           if (aRes.ok) setUpcoming((await aRes.json()).slice(0, 5));
           if (dRes.ok) setDaily(await dRes.json());
+          if (sRes.ok) setStudentMetrics(await sRes.json());
         }
       } catch (e) {
         if (!cancelled) setError(e.message || "Failed to load dashboard");
@@ -45,15 +53,26 @@ const StudentHome = () => {
       }
     };
 
+    let off;
     if (studentEmail) {
       load();
       // Real-time-ish polling every 60s
       intervalRef.current = setInterval(load, 60000);
+      // Subscribe to realtime dashboard updates
+      off = onEvent("dashboard:update", (payload) => {
+        if (
+          payload?.scope === "student" &&
+          payload?.email?.toLowerCase() === studentEmail.toLowerCase()
+        ) {
+          load();
+        }
+      });
     }
 
     return () => {
       cancelled = true;
       if (intervalRef.current) clearInterval(intervalRef.current);
+      if (typeof off === "function") off();
     };
   }, [studentEmail]);
 
@@ -124,6 +143,31 @@ const StudentHome = () => {
       </section>
 
       <section className="grid">
+        {studentMetrics && (
+          <div className="card">
+            <div className="card-header">
+              <h2>Your Activity</h2>
+            </div>
+            <ul className="list">
+              <li className="list-item">
+                <strong>Tasks</strong>
+                <span className="muted">
+                  {studentMetrics.tasks.completed}/{studentMetrics.tasks.total}
+                </span>
+              </li>
+              <li className="list-item">
+                <strong>Applications</strong>
+                <span className="muted">{studentMetrics.applications}</span>
+              </li>
+              <li className="list-item">
+                <strong>Upcoming Announcements</strong>
+                <span className="muted">
+                  {studentMetrics.upcomingAnnouncements}
+                </span>
+              </li>
+            </ul>
+          </div>
+        )}
         <div className="card wide">
           <div className="card-header">
             <h2>Today’s Challenge</h2>

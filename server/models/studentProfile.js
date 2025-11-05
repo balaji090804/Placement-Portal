@@ -4,9 +4,12 @@ const mongoose = require("mongoose");
 const studentProfileSchema = new mongoose.Schema({
   collegeEmail: { type: String, required: true, unique: true },
   name: String,
+  headline: String,
+  summary: String,
   contactNumber: String,
   stream: String,
   branch: String,
+  location: String,
   resume: String,
   tenthPercentage: Number,
   twelfthPercentage: Number,
@@ -34,6 +37,32 @@ const studentProfileSchema = new mongoose.Schema({
   ],
   skills: String,
   profilePicture: String,
+  // Naukri-like additions
+  totalExperienceMonths: Number,
+  employmentHistory: [
+    {
+      company: String,
+      designation: String,
+      from: String, // ISO date or month-year string
+      to: String, // ISO date or month-year string or "Present"
+      current: Boolean,
+      description: String,
+    },
+  ],
+  education: [
+    {
+      degree: String,
+      institution: String,
+      year: String,
+      score: String,
+    },
+  ],
+  preferredRoles: [String],
+  preferredLocations: [String],
+  noticePeriodDays: Number,
+  currentCTC: Number,
+  expectedCTC: Number,
+  profileVisibility: { type: String, default: "public" },
 });
 
 module.exports = mongoose.model("StudentProfile", studentProfileSchema);

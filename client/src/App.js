@@ -9,6 +9,8 @@ import { fetchUserData as fetchUserDataApi } from "./api";
 import "./app.css";
 import Signup from "./components/Signup/Signup.jsx";
 import Login from "./components/Login/Login.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Admin
 import AdminPlacementDashboard from "./Admindashboard/AdminPlacementDashboard.jsx";
@@ -249,6 +251,13 @@ function App() {
           }
         />
       </Routes>
+      {/* Global toast container for notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop
+      />
     </Router>
   );
 }

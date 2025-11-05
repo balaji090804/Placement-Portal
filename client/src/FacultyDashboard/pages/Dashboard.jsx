@@ -3,6 +3,7 @@ import Sidebar from "../components/FacultySidebar";
 import "../styles/Dashboard.css";
 import { Outlet } from "react-router-dom";
 import { fetchUserData } from "../../api";
+import { onEvent } from "../../lib/socket";
 
 const Dashboard = () => {
   // Local UI-only data that isn't part of the real-time API
@@ -95,11 +96,17 @@ const Dashboard = () => {
       }
     };
 
+    const unsubscribe = onEvent("dashboard:update", () => {
+      fetchDashboard();
+    });
     fetchDashboard();
     // Poll every 60s for near real-time updates
     intervalId = setInterval(fetchDashboard, 60000);
 
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+      if (typeof unsubscribe === "function") unsubscribe();
+    };
   }, []);
 
   return (

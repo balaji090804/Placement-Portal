@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import "../styles/Practice.css";
+import { recordPerformanceEvent } from "../../lib/performance";
 
 const Practice = () => {
   const navigate = useNavigate();
@@ -98,6 +99,17 @@ const Practice = () => {
                   window.open(test.link, "_blank", "noopener,noreferrer");
                 } else {
                   navigate(test.link);
+                }
+                try {
+                  const { studentEmail } =
+                    (useOutletContext && useOutletContext()) || {};
+                  if (studentEmail) {
+                    recordPerformanceEvent(studentEmail, "practiceStarted", {
+                      title: test.title,
+                    });
+                  }
+                } catch (e) {
+                  // ignore if no context
                 }
               }}
             >

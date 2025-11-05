@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/UpcomingDrives.css";
+import { recordPerformanceEvent } from "../../lib/performance";
 
 const UpcomingDrives = () => {
   const [drives, setDrives] = useState([]);
@@ -14,6 +15,7 @@ const UpcomingDrives = () => {
         });
 
         const studentEmail = userRes.data.email;
+        localStorage.setItem("studentEmail", studentEmail);
 
         const driveRes = await axios.get(
           `http://localhost:8080/api/announcements/student?studentEmail=${studentEmail}`
@@ -21,7 +23,9 @@ const UpcomingDrives = () => {
 
         const today = new Date();
 
-        const upcoming = driveRes.data.filter((d) => new Date(d.dateTime) >= today);
+        const upcoming = driveRes.data.filter(
+          (d) => new Date(d.dateTime) >= today
+        );
 
         setDrives(upcoming);
       } catch (error) {
@@ -40,18 +44,48 @@ const UpcomingDrives = () => {
       ) : (
         drives.map((d) => (
           <div key={d._id} className="drive-card">
-            <h3>{d.companyName} - {d.jobRole}</h3>
-            <p><strong>Date:</strong> {new Date(d.dateTime).toLocaleString()}</p>
-            {d.venue && <p><strong>Venue:</strong> {d.venue}</p>}
+            <h3>
+              {d.companyName} - {d.jobRole}
+            </h3>
+            <p>
+              <strong>Date:</strong> {new Date(d.dateTime).toLocaleString()}
+            </p>
+            {d.venue && (
+              <p>
+                <strong>Venue:</strong> {d.venue}
+              </p>
+            )}
             {d.prePlacementTalkVenue && d.prePlacementTalkTime && (
-              <p><strong>Pre-placement Talk:</strong> {d.prePlacementTalkVenue} at {new Date(d.prePlacementTalkTime).toLocaleString()}</p>
+              <p>
+                <strong>Pre-placement Talk:</strong> {d.prePlacementTalkVenue}{" "}
+                at {new Date(d.prePlacementTalkTime).toLocaleString()}
+              </p>
             )}
             {d.alumniInteractionTime && (
-              <p><strong>Alumni Interaction:</strong> {new Date(d.alumniInteractionTime).toLocaleString()}</p>
+              <p>
+                <strong>Alumni Interaction:</strong>{" "}
+                {new Date(d.alumniInteractionTime).toLocaleString()}
+              </p>
             )}
             {d.requiredItems && (
-              <p><strong>Required Items:</strong> {d.requiredItems}</p>
+              <p>
+                <strong>Required Items:</strong> {d.requiredItems}
+              </p>
             )}
+            <button
+              className="register-btn"
+              onClick={() => {
+                const email = localStorage.getItem("studentEmail");
+                if (email)
+                  recordPerformanceEvent(email, "driveRegistered", {
+                    companyName: d.companyName,
+                    jobRole: d.jobRole,
+                  });
+                alert("Registered your interest for this drive.");
+              }}
+            >
+              Register interest
+            </button>
           </div>
         ))
       )}

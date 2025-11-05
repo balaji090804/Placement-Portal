@@ -62,6 +62,15 @@ router.post("/bulk-upload", async (req, res) => {
       });
     }
 
+    try {
+      const io = req.app.get("io");
+      if (io) {
+        io.emit("dashboard:update", { scope: "global" });
+      }
+    } catch (e) {
+      console.warn("Socket emit failed for placements bulk-upload:", e.message);
+    }
+
     res.json({
       message: `🎉 ${placedStudents.length} students added & emails sent!`,
     });

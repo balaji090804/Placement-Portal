@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/Profile.css"; // Updated CSS references .form-group
+import ActivityInsights from "../components/ActivityInsights";
 
 const Profile = () => {
   // Logged-in user from /api/users/me
@@ -23,9 +24,12 @@ const Profile = () => {
   const [formData, setFormData] = useState({
     collegeEmail: "",
     name: "",
+    headline: "",
+    summary: "",
     contactNumber: "",
     stream: "BE",
     branch: "",
+    location: "",
     resume: "",
     tenthPercentage: "",
     twelfthPercentage: "",
@@ -36,14 +40,46 @@ const Profile = () => {
     linkedin: "",
     codingProfiles: [],
     skills: "",
-    profilePicture: ""
+    profilePicture: "",
+    totalExperienceMonths: "",
+    employmentHistory: [],
+    education: [],
+    preferredRoles: [],
+    preferredLocations: [],
+    noticePeriodDays: "",
+    currentCTC: "",
+    expectedCTC: "",
+    profileVisibility: "public",
   });
 
   // For handling array inputs (projects, certifications, etc.)
   const [newSkill, setNewSkill] = useState("");
   const [newCert, setNewCert] = useState({ name: "", url: "" });
-  const [newProject, setNewProject] = useState({ name: "", techStack: "", description: "" });
-  const [newCodeProfile, setNewCodeProfile] = useState({ platform: "", url: "" });
+  const [newProject, setNewProject] = useState({
+    name: "",
+    techStack: "",
+    description: "",
+  });
+  const [newCodeProfile, setNewCodeProfile] = useState({
+    platform: "",
+    url: "",
+  });
+  const [newEmployment, setNewEmployment] = useState({
+    company: "",
+    designation: "",
+    from: "",
+    to: "",
+    current: false,
+    description: "",
+  });
+  const [newEducation, setNewEducation] = useState({
+    degree: "",
+    institution: "",
+    year: "",
+    score: "",
+  });
+  const [newPrefRole, setNewPrefRole] = useState("");
+  const [newPrefLoc, setNewPrefLoc] = useState("");
 
   // ==============================================
   // 1) On mount, load user + check if profile doc exists
@@ -60,7 +96,10 @@ const Profile = () => {
 
         const config = { headers: { Authorization: `Bearer ${token}` } };
         // GET /api/users/me => get user => user.email
-        const userRes = await axios.get("http://localhost:8080/api/users/me", config);
+        const userRes = await axios.get(
+          "http://localhost:8080/api/users/me",
+          config
+        );
         const loggedUser = userRes.data;
         setUser(loggedUser);
 
@@ -73,13 +112,14 @@ const Profile = () => {
         // If found, store it
         setProfileExists(true);
         setProfile(profileRes.data);
-
       } catch (err) {
         // If 404 => doc not found, so user must create a new one
         if (err.response && err.response.status === 404) {
           setProfileExists(false);
         } else {
-          setError(err.response?.data?.message || "Error fetching user/profile");
+          setError(
+            err.response?.data?.message || "Error fetching user/profile"
+          );
         }
       } finally {
         setLoading(false);
@@ -101,9 +141,12 @@ const Profile = () => {
     setFormData({
       collegeEmail: profile.collegeEmail || "",
       name: profile.name || "",
+      headline: profile.headline || "",
+      summary: profile.summary || "",
       contactNumber: profile.contactNumber || "",
       stream: profile.stream || "BE",
       branch: profile.branch || "",
+      location: profile.location || "",
       resume: profile.resume || "",
       tenthPercentage: profile.tenthPercentage || "",
       twelfthPercentage: profile.twelfthPercentage || "",
@@ -114,7 +157,16 @@ const Profile = () => {
       linkedin: profile.linkedin || "",
       codingProfiles: profile.codingProfiles || [],
       skills: profile.skills || "",
-      profilePicture: profile.profilePicture || ""
+      profilePicture: profile.profilePicture || "",
+      totalExperienceMonths: profile.totalExperienceMonths || "",
+      employmentHistory: profile.employmentHistory || [],
+      education: profile.education || [],
+      preferredRoles: profile.preferredRoles || [],
+      preferredLocations: profile.preferredLocations || [],
+      noticePeriodDays: profile.noticePeriodDays || "",
+      currentCTC: profile.currentCTC || "",
+      expectedCTC: profile.expectedCTC || "",
+      profileVisibility: profile.profileVisibility || "public",
     });
   };
 
@@ -144,7 +196,11 @@ const Profile = () => {
       payload.collegeEmail = user.email;
 
       // PUT /api/student-profile => upsert
-      const res = await axios.put("http://localhost:8080/api/student-profile", payload, config);
+      const res = await axios.put(
+        "http://localhost:8080/api/student-profile",
+        payload,
+        config
+      );
 
       setMessage(res.data.message || "Profile saved!");
 
@@ -168,6 +224,11 @@ const Profile = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
   // Profile picture
@@ -209,6 +270,37 @@ const Profile = () => {
     }
   };
 
+  const addEmployment = () => {
+    if (
+      newEmployment.company &&
+      newEmployment.designation &&
+      (newEmployment.from || newEmployment.current)
+    ) {
+      setFormData((prev) => ({
+        ...prev,
+        employmentHistory: [...prev.employmentHistory, newEmployment],
+      }));
+      setNewEmployment({
+        company: "",
+        designation: "",
+        from: "",
+        to: "",
+        current: false,
+        description: "",
+      });
+    }
+  };
+
+  const addEducation = () => {
+    if (newEducation.degree && newEducation.institution) {
+      setFormData((prev) => ({
+        ...prev,
+        education: [...prev.education, newEducation],
+      }));
+      setNewEducation({ degree: "", institution: "", year: "", score: "" });
+    }
+  };
+
   // Certifications
   const addCertification = () => {
     if (newCert.name && newCert.url) {
@@ -246,14 +338,14 @@ const Profile = () => {
       <div className="profile-page">
         <h1>Create Your Profile</h1>
         <p className="subtext">
-          No existing profile was found for <b>{user.email}</b>. Please fill out the form below:
+          No existing profile was found for <b>{user.email}</b>. Please fill out
+          the form below:
         </p>
 
         {message && <p className="success-text">{message}</p>}
         {error && <p className="error-text">{error}</p>}
 
         <form onSubmit={handleSubmit} className="profile-form">
-
           {/* Example usage of .form-group for single fields */}
           <div className="form-group">
             <label>Name</label>
@@ -361,17 +453,23 @@ const Profile = () => {
             <input
               placeholder="Project Name"
               value={newProject.name}
-              onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
+              onChange={(e) =>
+                setNewProject({ ...newProject, name: e.target.value })
+              }
             />
             <input
               placeholder="Tech Stack"
               value={newProject.techStack}
-              onChange={(e) => setNewProject({ ...newProject, techStack: e.target.value })}
+              onChange={(e) =>
+                setNewProject({ ...newProject, techStack: e.target.value })
+              }
             />
             <textarea
               placeholder="Description"
               value={newProject.description}
-              onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+              onChange={(e) =>
+                setNewProject({ ...newProject, description: e.target.value })
+              }
             />
             <button type="button" onClick={addProject} className="add-btn">
               Add Project
@@ -399,7 +497,11 @@ const Profile = () => {
               value={newCert.url}
               onChange={(e) => setNewCert({ ...newCert, url: e.target.value })}
             />
-            <button type="button" onClick={addCertification} className="add-btn">
+            <button
+              type="button"
+              onClick={addCertification}
+              className="add-btn"
+            >
               Add Cert
             </button>
 
@@ -419,13 +521,18 @@ const Profile = () => {
               placeholder="Platform"
               value={newCodeProfile.platform}
               onChange={(e) =>
-                setNewCodeProfile({ ...newCodeProfile, platform: e.target.value })
+                setNewCodeProfile({
+                  ...newCodeProfile,
+                  platform: e.target.value,
+                })
               }
             />
             <input
               placeholder="Profile URL"
               value={newCodeProfile.url}
-              onChange={(e) => setNewCodeProfile({ ...newCodeProfile, url: e.target.value })}
+              onChange={(e) =>
+                setNewCodeProfile({ ...newCodeProfile, url: e.target.value })
+              }
             />
             <button
               type="button"
@@ -481,7 +588,11 @@ const Profile = () => {
                 className="preview-pic"
               />
             )}
-            <input type="file" accept="image/*" onChange={handlePictureUpload} />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handlePictureUpload}
+            />
           </div>
 
           <div className="form-group">
@@ -499,71 +610,294 @@ const Profile = () => {
   // If NOT editing => read-only. If editing => form with pre-filled data
   // ----------------------------------------------
   if (!editing) {
-    // read-only display
+    // Naukri-like read-only layout with profile strength and section cards
+    const fieldsForStrength = [
+      profile.name,
+      profile.headline,
+      profile.summary,
+      profile.skills,
+      profile.linkedin,
+      profile.github,
+      profile.projects && profile.projects.length,
+      profile.certifications && profile.certifications.length,
+      profile.employmentHistory && profile.employmentHistory.length,
+      profile.education && profile.education.length,
+      profile.resume,
+      profile.profilePicture,
+    ];
+    const filled = fieldsForStrength.filter(Boolean).length;
+    const strength = Math.min(
+      100,
+      Math.round((filled / fieldsForStrength.length) * 100)
+    );
+
     return (
       <div className="profile-page">
         <h1>My Profile</h1>
         {message && <p className="success-text">{message}</p>}
         {error && <p className="error-text">{error}</p>}
 
-        <div className="read-section">
-          <div className="profile-picture">
-            <img
-              src={
-                profile.profilePicture ||
-                "https://www.w3schools.com/howto/img_avatar.png"
-              }
-              alt="Profile"
-              className="preview-pic"
-            />
+        {/* Activity Insights */}
+        <ActivityInsights
+          email={user.email}
+          token={localStorage.getItem("token")}
+        />
+
+        <div
+          className="read-section"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "260px 1fr",
+            gap: "20px",
+          }}
+        >
+          {/* Left rail */}
+          <div>
+            <div className="profile-picture" style={{ textAlign: "center" }}>
+              <img
+                src={
+                  profile.profilePicture ||
+                  "https://www.w3schools.com/howto/img_avatar.png"
+                }
+                alt="Profile"
+                className="preview-pic"
+                style={{ borderRadius: "60px" }}
+              />
+              <h2 style={{ marginTop: "10px" }}>
+                {profile.name || "Your Name"}
+              </h2>
+              {profile.headline && (
+                <p style={{ color: "#666" }}>{profile.headline}</p>
+              )}
+              {profile.location && (
+                <p style={{ color: "#888", fontSize: "0.9rem" }}>
+                  📍 {profile.location}
+                </p>
+              )}
+            </div>
+
+            <div style={{ marginTop: "16px" }}>
+              <p style={{ fontWeight: 600, marginBottom: 6 }}>
+                Profile Strength
+              </p>
+              <div style={{ background: "#eee", borderRadius: 8, height: 10 }}>
+                <div
+                  style={{
+                    width: `${strength}%`,
+                    height: 10,
+                    background:
+                      strength > 80
+                        ? "#2e7d32"
+                        : strength > 50
+                        ? "#ff9800"
+                        : "#f44336",
+                    borderRadius: 8,
+                  }}
+                ></div>
+              </div>
+              <p style={{ fontSize: "0.9rem", color: "#666", marginTop: 6 }}>
+                {strength}% complete
+              </p>
+            </div>
+
+            <div style={{ marginTop: "16px" }}>
+              <p>
+                <strong>Resume</strong>
+              </p>
+              {profile.resume ? (
+                <a href={profile.resume} target="_blank" rel="noreferrer">
+                  View Resume
+                </a>
+              ) : (
+                <p style={{ color: "#888" }}>No resume added</p>
+              )}
+            </div>
+
+            <div style={{ marginTop: "16px" }}>
+              <button
+                onClick={startEditing}
+                className="edit-btn"
+                style={{ width: "100%" }}
+              >
+                Edit Profile
+              </button>
+            </div>
           </div>
 
-          <div className="profile-details">
-            <p><strong>Email:</strong> {profile.collegeEmail}</p>
-            <p><strong>Name:</strong> {profile.name}</p>
-            <p><strong>Contact:</strong> {profile.contactNumber}</p>
-            <p><strong>Stream:</strong> {profile.stream}</p>
-            <p><strong>Branch:</strong> {profile.branch}</p>
-            <p><strong>10th %:</strong> {profile.tenthPercentage}</p>
-            <p><strong>12th %:</strong> {profile.twelfthPercentage}</p>
-            <p><strong>CGPA:</strong> {profile.cgpa}</p>
-            <p><strong>Resume:</strong> {profile.resume}</p>
-            <p><strong>LinkedIn:</strong> {profile.linkedin}</p>
-            <p><strong>GitHub:</strong> {profile.github}</p>
-            <p><strong>Skills:</strong> {profile.skills}</p>
+          {/* Right content */}
+          <div>
+            {/* Summary */}
+            <div className="array-display">
+              <h3>Profile Summary</h3>
+              {profile.summary ? (
+                <p>{profile.summary}</p>
+              ) : (
+                <p style={{ color: "#888" }}>
+                  Add a short professional summary.
+                </p>
+              )}
+            </div>
+
+            {/* Key Skills */}
+            <div className="array-display">
+              <h3>Key Skills</h3>
+              <div className="skills-container">
+                {String(profile.skills || "")
+                  .split(",")
+                  .filter(Boolean)
+                  .map((sk, i) => (
+                    <span key={i} className="skill-chip">
+                      {sk.trim()}
+                    </span>
+                  ))}
+                {!profile.skills && (
+                  <p style={{ color: "#888" }}>
+                    Add skills to improve profile strength.
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Employment */}
+            <div className="array-display">
+              <h3>Employment</h3>
+              {Array.isArray(profile.employmentHistory) &&
+              profile.employmentHistory.length ? (
+                <ul>
+                  {profile.employmentHistory.map((job, idx) => (
+                    <li key={idx}>
+                      <b>{job.designation}</b> @ {job.company} ({job.from} -{" "}
+                      {job.current ? "Present" : job.to})
+                      {job.description && (
+                        <div style={{ color: "#555" }}>{job.description}</div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ color: "#888" }}>Add your work experience.</p>
+              )}
+            </div>
+
+            {/* Education */}
+            <div className="array-display">
+              <h3>Education</h3>
+              {Array.isArray(profile.education) && profile.education.length ? (
+                <ul>
+                  {profile.education.map((ed, idx) => (
+                    <li key={idx}>
+                      <b>{ed.degree}</b>, {ed.institution}{" "}
+                      {ed.year && `- ${ed.year}`}{" "}
+                      {ed.score && `(Score: ${ed.score})`}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ color: "#888" }}>Add your education details.</p>
+              )}
+            </div>
+
+            {/* Projects */}
+            <div className="array-display">
+              <h3>Projects</h3>
+              {profile.projects && profile.projects.length ? (
+                <ul>
+                  {profile.projects.map((proj, idx) => (
+                    <li key={idx}>
+                      <b>{proj.name}</b> ({proj.techStack}): {proj.description}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ color: "#888" }}>
+                  Add projects to showcase your work.
+                </p>
+              )}
+            </div>
+
+            {/* Certifications */}
+            <div className="array-display">
+              <h3>Certifications</h3>
+              {profile.certifications && profile.certifications.length ? (
+                <ul>
+                  {profile.certifications.map((c, idx) => (
+                    <li key={idx}>
+                      {c.name} - {c.url}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ color: "#888" }}>Add certifications.</p>
+              )}
+            </div>
+
+            {/* Social Profiles */}
+            <div className="array-display">
+              <h3>Social & Coding Profiles</h3>
+              <ul>
+                <li>
+                  <b>LinkedIn:</b>{" "}
+                  {profile.linkedin || (
+                    <span style={{ color: "#888" }}>Add your LinkedIn</span>
+                  )}
+                </li>
+                <li>
+                  <b>GitHub:</b>{" "}
+                  {profile.github || (
+                    <span style={{ color: "#888" }}>Add your GitHub</span>
+                  )}
+                </li>
+                {profile.codingProfiles &&
+                  profile.codingProfiles.map((cp, idx) => (
+                    <li key={idx}>
+                      <b>{cp.platform}:</b> {cp.url}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+
+            {/* Career Preferences */}
+            <div className="array-display">
+              <h3>Career Preferences</h3>
+              <p>
+                <b>Preferred Roles:</b>{" "}
+                {(profile.preferredRoles || []).join(", ") || (
+                  <span style={{ color: "#888" }}>Add roles</span>
+                )}
+              </p>
+              <p>
+                <b>Preferred Locations:</b>{" "}
+                {(profile.preferredLocations || []).join(", ") || (
+                  <span style={{ color: "#888" }}>Add locations</span>
+                )}
+              </p>
+              <p>
+                <b>Notice Period:</b>{" "}
+                {profile.noticePeriodDays ? (
+                  `${profile.noticePeriodDays} days`
+                ) : (
+                  <span style={{ color: "#888" }}>Add notice period</span>
+                )}
+              </p>
+              <p>
+                <b>Current CTC:</b>{" "}
+                {profile.currentCTC ? (
+                  `${profile.currentCTC} LPA`
+                ) : (
+                  <span style={{ color: "#888" }}>Add current CTC</span>
+                )}
+              </p>
+              <p>
+                <b>Expected CTC:</b>{" "}
+                {profile.expectedCTC ? (
+                  `${profile.expectedCTC} LPA`
+                ) : (
+                  <span style={{ color: "#888" }}>Add expected CTC</span>
+                )}
+              </p>
+            </div>
           </div>
         </div>
-
-        <div className="array-display">
-          <h3>Projects</h3>
-          <ul>
-            {profile.projects.map((proj, idx) => (
-              <li key={idx}>
-                <b>{proj.name}</b> ({proj.techStack}): {proj.description}
-              </li>
-            ))}
-          </ul>
-
-          <h3>Certifications</h3>
-          <ul>
-            {profile.certifications.map((c, idx) => (
-              <li key={idx}>
-                {c.name} - {c.url}
-              </li>
-            ))}
-          </ul>
-
-          <h3>Coding Profiles</h3>
-          <ul>
-            {profile.codingProfiles.map((cp, idx) => (
-              <li key={idx}>
-                <b>{cp.platform}:</b> {cp.url}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <button onClick={startEditing} className="edit-btn">Edit Profile</button>
       </div>
     );
   }
@@ -576,10 +910,29 @@ const Profile = () => {
       {error && <p className="error-text">{error}</p>}
 
       <form onSubmit={handleSubmit} className="profile-form">
-        
         <div className="form-group">
           <label>Name</label>
           <input name="name" value={formData.name} onChange={handleChange} />
+        </div>
+
+        <div className="form-group">
+          <label>Headline</label>
+          <input
+            name="headline"
+            value={formData.headline}
+            onChange={handleChange}
+            placeholder="e.g., Final-year CS student | MERN Developer"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Summary</label>
+          <textarea
+            name="summary"
+            value={formData.summary}
+            onChange={handleChange}
+            placeholder="Short professional summary"
+          />
         </div>
 
         <div className="form-group">
@@ -593,11 +946,7 @@ const Profile = () => {
 
         <div className="form-group">
           <label>Stream</label>
-          <select
-            name="stream"
-            value={formData.stream}
-            onChange={handleChange}
-          >
+          <select name="stream" value={formData.stream} onChange={handleChange}>
             <option value="BE">BE</option>
             <option value="BTECH">BTECH</option>
             <option value="ME">ME</option>
@@ -611,6 +960,16 @@ const Profile = () => {
             name="branch"
             value={formData.branch}
             onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Location</label>
+          <input
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
+            placeholder="City, State"
           />
         </div>
 
@@ -647,7 +1006,43 @@ const Profile = () => {
 
         <div className="form-group">
           <label>Resume URL</label>
-          <input name="resume" value={formData.resume} onChange={handleChange} />
+          <input
+            name="resume"
+            value={formData.resume}
+            onChange={handleChange}
+          />
+          <div style={{ marginTop: 8 }}>
+            <label>Or upload resume (PDF/DOC/DOCX)</label>
+            <input
+              type="file"
+              accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                try {
+                  const token = localStorage.getItem("token");
+                  const fd = new FormData();
+                  fd.append("file", file);
+                  const res = await fetch(
+                    "http://localhost:8080/api/student-profile/resume",
+                    {
+                      method: "POST",
+                      headers: { Authorization: `Bearer ${token}` },
+                      body: fd,
+                    }
+                  );
+                  const data = await res.json();
+                  if (!res.ok) throw new Error(data.message || "Upload failed");
+                  setFormData((prev) => ({ ...prev, resume: data.url }));
+                  setMessage("Resume uploaded successfully");
+                } catch (err) {
+                  setError(err.message);
+                } finally {
+                  e.target.value = "";
+                }
+              }}
+            />
+          </div>
         </div>
 
         <div className="form-group">
@@ -674,17 +1069,23 @@ const Profile = () => {
           <input
             placeholder="Project Name"
             value={newProject.name}
-            onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
+            onChange={(e) =>
+              setNewProject({ ...newProject, name: e.target.value })
+            }
           />
           <input
             placeholder="Tech Stack"
             value={newProject.techStack}
-            onChange={(e) => setNewProject({ ...newProject, techStack: e.target.value })}
+            onChange={(e) =>
+              setNewProject({ ...newProject, techStack: e.target.value })
+            }
           />
           <textarea
             placeholder="Description"
             value={newProject.description}
-            onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+            onChange={(e) =>
+              setNewProject({ ...newProject, description: e.target.value })
+            }
           />
           <button type="button" onClick={addProject} className="add-btn">
             Add Project
@@ -694,6 +1095,146 @@ const Profile = () => {
             {formData.projects.map((p, idx) => (
               <li key={idx}>
                 <b>{p.name}</b> ({p.techStack}): {p.description}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Employment */}
+        <div className="form-group array-section">
+          <h3>Employment</h3>
+          <input
+            placeholder="Company"
+            value={newEmployment.company}
+            onChange={(e) =>
+              setNewEmployment({ ...newEmployment, company: e.target.value })
+            }
+          />
+          <input
+            placeholder="Designation"
+            value={newEmployment.designation}
+            onChange={(e) =>
+              setNewEmployment({
+                ...newEmployment,
+                designation: e.target.value,
+              })
+            }
+          />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "8px",
+            }}
+          >
+            <input
+              placeholder="From (e.g., 2023-06)"
+              value={newEmployment.from}
+              onChange={(e) =>
+                setNewEmployment({ ...newEmployment, from: e.target.value })
+              }
+            />
+            <input
+              placeholder="To (e.g., 2024-05)"
+              value={newEmployment.to}
+              onChange={(e) =>
+                setNewEmployment({ ...newEmployment, to: e.target.value })
+              }
+              disabled={newEmployment.current}
+            />
+          </div>
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              marginTop: "6px",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={newEmployment.current}
+              onChange={(e) =>
+                setNewEmployment({
+                  ...newEmployment,
+                  current: e.target.checked,
+                })
+              }
+            />
+            Currently working here
+          </label>
+          <textarea
+            placeholder="Description"
+            value={newEmployment.description}
+            onChange={(e) =>
+              setNewEmployment({
+                ...newEmployment,
+                description: e.target.value,
+              })
+            }
+          />
+          <button type="button" onClick={addEmployment} className="add-btn">
+            Add Employment
+          </button>
+
+          <ul>
+            {formData.employmentHistory.map((job, idx) => (
+              <li key={idx}>
+                <b>{job.designation}</b> @ {job.company} ({job.from} -{" "}
+                {job.current ? "Present" : job.to})
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Education */}
+        <div className="form-group array-section">
+          <h3>Education</h3>
+          <input
+            placeholder="Degree"
+            value={newEducation.degree}
+            onChange={(e) =>
+              setNewEducation({ ...newEducation, degree: e.target.value })
+            }
+          />
+          <input
+            placeholder="Institution"
+            value={newEducation.institution}
+            onChange={(e) =>
+              setNewEducation({ ...newEducation, institution: e.target.value })
+            }
+          />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "8px",
+            }}
+          >
+            <input
+              placeholder="Year"
+              value={newEducation.year}
+              onChange={(e) =>
+                setNewEducation({ ...newEducation, year: e.target.value })
+              }
+            />
+            <input
+              placeholder="Score/CGPA"
+              value={newEducation.score}
+              onChange={(e) =>
+                setNewEducation({ ...newEducation, score: e.target.value })
+              }
+            />
+          </div>
+          <button type="button" onClick={addEducation} className="add-btn">
+            Add Education
+          </button>
+
+          <ul>
+            {formData.education.map((ed, idx) => (
+              <li key={idx}>
+                <b>{ed.degree}</b>, {ed.institution} {ed.year && `- ${ed.year}`}{" "}
+                {ed.score && `(Score: ${ed.score})`}
               </li>
             ))}
           </ul>
@@ -738,7 +1279,9 @@ const Profile = () => {
           <input
             placeholder="Profile URL"
             value={newCodeProfile.url}
-            onChange={(e) => setNewCodeProfile({ ...newCodeProfile, url: e.target.value })}
+            onChange={(e) =>
+              setNewCodeProfile({ ...newCodeProfile, url: e.target.value })
+            }
           />
           <button type="button" onClick={addCodingProfile} className="add-btn">
             Add Profile
@@ -777,6 +1320,142 @@ const Profile = () => {
           </div>
         </div>
 
+        {/* Preferences & Experience */}
+        <div className="form-group array-section">
+          <h3>Experience & Preferences</h3>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "8px",
+            }}
+          >
+            <input
+              type="number"
+              name="totalExperienceMonths"
+              placeholder="Total Experience (months)"
+              value={formData.totalExperienceMonths}
+              onChange={handleChange}
+            />
+            <input
+              type="number"
+              name="noticePeriodDays"
+              placeholder="Notice Period (days)"
+              value={formData.noticePeriodDays}
+              onChange={handleChange}
+            />
+            <input
+              type="number"
+              step="0.1"
+              name="currentCTC"
+              placeholder="Current CTC (LPA)"
+              value={formData.currentCTC}
+              onChange={handleChange}
+            />
+            <input
+              type="number"
+              step="0.1"
+              name="expectedCTC"
+              placeholder="Expected CTC (LPA)"
+              value={formData.expectedCTC}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div style={{ marginTop: "8px" }}>
+            <label>Preferred Roles</label>
+            <div className="skills-container">
+              {(formData.preferredRoles || []).map((r, i) => (
+                <span key={i} className="skill-chip">
+                  {r}
+                  <span
+                    className="remove-skill"
+                    onClick={() => {
+                      const arr = [...formData.preferredRoles];
+                      arr.splice(i, 1);
+                      setFormData((prev) => ({ ...prev, preferredRoles: arr }));
+                    }}
+                  >
+                    ×
+                  </span>
+                </span>
+              ))}
+              <input
+                placeholder="Add role..."
+                value={newPrefRole}
+                onChange={(e) => setNewPrefRole(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && newPrefRole.trim()) {
+                    e.preventDefault();
+                    setFormData((prev) => ({
+                      ...prev,
+                      preferredRoles: [
+                        ...(prev.preferredRoles || []),
+                        newPrefRole.trim(),
+                      ],
+                    }));
+                    setNewPrefRole("");
+                  }
+                }}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginTop: "8px" }}>
+            <label>Preferred Locations</label>
+            <div className="skills-container">
+              {(formData.preferredLocations || []).map((l, i) => (
+                <span key={i} className="skill-chip">
+                  {l}
+                  <span
+                    className="remove-skill"
+                    onClick={() => {
+                      const arr = [...formData.preferredLocations];
+                      arr.splice(i, 1);
+                      setFormData((prev) => ({
+                        ...prev,
+                        preferredLocations: arr,
+                      }));
+                    }}
+                  >
+                    ×
+                  </span>
+                </span>
+              ))}
+              <input
+                placeholder="Add location..."
+                value={newPrefLoc}
+                onChange={(e) => setNewPrefLoc(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && newPrefLoc.trim()) {
+                    e.preventDefault();
+                    setFormData((prev) => ({
+                      ...prev,
+                      preferredLocations: [
+                        ...(prev.preferredLocations || []),
+                        newPrefLoc.trim(),
+                      ],
+                    }));
+                    setNewPrefLoc("");
+                  }
+                }}
+              />
+            </div>
+          </div>
+
+          <div style={{ marginTop: "8px" }}>
+            <label>Profile Visibility</label>
+            <select
+              name="profileVisibility"
+              value={formData.profileVisibility}
+              onChange={handleChange}
+            >
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+        </div>
+
         {/* Picture */}
         <div className="form-group array-section">
           <h3>Profile Picture</h3>
@@ -791,7 +1470,9 @@ const Profile = () => {
         </div>
 
         <div className="form-group">
-          <button type="submit" className="save-btn">Save Profile</button>
+          <button type="submit" className="save-btn">
+            Save Profile
+          </button>
           <button type="button" onClick={cancelEditing} className="cancel-btn">
             Cancel
           </button>

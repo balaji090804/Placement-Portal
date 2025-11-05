@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ResumeBuilder.css";
 import jsPDF from "jspdf";
+import { recordPerformanceEvent } from "../../lib/performance";
 
 const ResumeBuilder = () => {
   const [resumeData, setResumeData] = useState({
@@ -24,7 +25,7 @@ const ResumeBuilder = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
     doc.text("Professional Resume", 10, 20);
-    
+
     doc.setFontSize(14);
     doc.text(`Name: ${resumeData.name}`, 10, 40);
     doc.text(`Email: ${resumeData.email}`, 10, 50);
@@ -37,6 +38,13 @@ const ResumeBuilder = () => {
     doc.text(`Summary: ${resumeData.summary}`, 10, 120);
 
     doc.save("resume.pdf");
+    try {
+      const email = localStorage.getItem("studentEmail");
+      if (email)
+        recordPerformanceEvent(email, "resumeCreated", {
+          hasLinkedIn: !!resumeData.linkedin,
+        });
+    } catch {}
   };
 
   return (
@@ -86,7 +94,9 @@ const ResumeBuilder = () => {
           <label>Summary:</label>
           <textarea name="summary" onChange={handleChange}></textarea>
         </div>
-        <button className="generate-btn" onClick={generatePDF}>📥 Download Resume</button>
+        <button className="generate-btn" onClick={generatePDF}>
+          📥 Download Resume
+        </button>
       </section>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom"; // ✅ Import useOutletContext and navigation
 import axios from "axios";
 import "../styles/InterviewPreparation.css";
+import { recordPerformanceEvent } from "../../lib/performance";
 
 import {
   FaUserTie,
@@ -37,6 +38,12 @@ const InterviewPreparation = () => {
         }
       );
       setSuccessMessage(response.data.message);
+      try {
+        if (studentEmail)
+          recordPerformanceEvent(studentEmail, "interviewRequested", {
+            method: "student",
+          });
+      } catch {}
     } catch (error) {
       console.error("❌ Error requesting interview:", error);
       alert(error.response?.data?.message || "Failed to request interview.");

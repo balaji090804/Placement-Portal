@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { auth, provider, signInWithPopup } from "../../lib/firebase";
 
 const Signup = () => {
   const [data, setData] = useState({
@@ -36,6 +37,42 @@ const Signup = () => {
       ) {
         setError(error.response.data.message);
       }
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    setError("");
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      // Ensure a corresponding backend user exists; receive app JWT & role
+      const { data: res } = await axios.post(
+        "http://localhost:8080/api/check-user",
+        {
+          userId: user.uid,
+          email: user.email,
+          name: user.displayName || "",
+        }
+      );
+
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("role", res.role);
+      if (res.email) localStorage.setItem("studentEmail", res.email);
+
+      // Redirect by role similar to Login flow
+      if (res.role === "student") {
+        window.location.replace("/StudentDashboard/HomeHero");
+      } else if (res.role === "faculty") {
+        window.location.replace("/FacultyDashboard/Dashboard");
+      } else if (res.role === "admin") {
+        window.location.replace("/AdminPlacementDashboard/AdminDashboard");
+      } else {
+        window.location.replace("/login");
+      }
+    } catch (err) {
+      const msg =
+        err?.response?.data?.message || err?.message || "Google signup failed";
+      setError(msg);
     }
   };
 
@@ -132,9 +169,18 @@ const Signup = () => {
               </select>
 
               {error && <div className={styles.error_msg}>{error}</div>}
-              <button type="submit" className={styles.green_btn}>
-                Sign Up
-              </button>
+              <div className={styles.buttonRow}>
+                <button type="submit" className={styles.green_btn}>
+                  Sign Up
+                </button>
+                <button
+                  type="button"
+                  className={styles.white_btn}
+                  onClick={handleGoogleSignup}
+                >
+                  Sign up with Google
+                </button>
+              </div>
             </form>
           </div>
         </div>
