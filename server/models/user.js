@@ -8,7 +8,11 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ["student", "faculty", "admin"], required: true },
+  role: {
+    type: String,
+    enum: ["student", "faculty", "admin", "recruiter"],
+    required: true,
+  },
   // Optional link to Firebase user id when using Firebase Authentication
   firebaseUid: { type: String, required: false },
   Skills: { type: [String], required: false },
@@ -32,7 +36,9 @@ const validate = (data) => {
     lastName: Joi.string().required(),
     email: Joi.string().email().required(),
     password: passwordComplexity().required(),
-    role: Joi.string().valid("student", "faculty", "admin").required(),
+    role: Joi.string()
+      .valid("student", "faculty", "admin", "recruiter")
+      .required(),
     // Skills required only for students; optional for others
     Skills: Joi.when("role", {
       is: "student",

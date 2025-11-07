@@ -109,9 +109,9 @@ const AdminJobListings = () => {
   return (
     <div className="admin-job-listings">
       <div className="admin-job-listings-content">
-        <h1>💼 Manage Job Listings</h1>
+        <h1>Manage Job Listings</h1>
         <div className="add-job-listing-form">
-          <h2>📄 Add New Job Listing</h2>
+          <h2>Add New Job Listing</h2>
 
           {/* Company Info */}
           <label>Company Name</label>

@@ -5,12 +5,12 @@ const BehavioralInterview = () => {
   return (
     <div className="interview-page">
       <section className="interview-header">
-        <h1>🎭 Behavioral Interview Preparation</h1>
+        <h1>Behavioral Interview Preparation</h1>
         <p>Prepare for behavioral interviews using the STAR method and strong storytelling techniques.</p>
       </section>
 
       <section className="interview-content">
-        <h2>🎙️ Common Behavioral Interview Questions</h2>
+        <h2>Common Behavioral Interview Questions</h2>
         <ul className="question-list">
           <li>Describe a situation where you had to work under pressure.</li>
           <li>How do you handle conflict in a team environment?</li>

@@ -19,7 +19,7 @@ const ResumeReview = () => {
           <li key={resume.id}>
             <p>{resume.student} - {resume.status}</p>
             {resume.status === "Pending Review" && (
-              <button onClick={() => handleReview(resume.id, "Approved")}>✅ Approve</button>
+              <button onClick={() => handleReview(resume.id, "Approved")}>Approve</button>
             )}
           </li>
         ))}

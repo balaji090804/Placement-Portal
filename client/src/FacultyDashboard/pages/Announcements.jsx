@@ -76,7 +76,7 @@ const Announcements = () => {
           </p>
           <p>
             <strong>Status:</strong>{" "}
-            {ann.isCompleted ? "✅ Completed" : "⏳ Pending Faculty Update"}
+            {ann.isCompleted ? "Completed" : "Pending Faculty Update"}
           </p>
         </div>
       ))}

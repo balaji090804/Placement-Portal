@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { auth, provider, signInWithPopup } from "../../lib/firebase";
+import { auth, provider, signInWithPopup, createUserWithEmailAndPassword, sendEmailVerification } from "../../lib/firebase";
 
 const Signup = () => {
   const [data, setData] = useState({
@@ -24,19 +24,21 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     try {
-      const url = "http://localhost:8080/api/users"; // Ensure correct API path
-      const { data: res } = await axios.post(url, data);
-      alert("Signup Successful! Please login.");
+      // Create auth account in Firebase and send verification email
+      const cred = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      try { await sendEmailVerification(cred.user); } catch {}
+      alert(
+        "Signup successful. A verification link has been sent to your email. Please verify and then log in."
+      );
       navigate("/login");
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response.data.message);
-      }
+    } catch (err) {
+      setError(err?.message || "Signup failed");
     }
   };
 
@@ -180,6 +182,9 @@ const Signup = () => {
                 >
                   Sign up with Google
                 </button>
+              </div>
+              <div style={{ marginTop: 8, fontSize: 12, color: "#6b7280" }}>
+                Note: Email verification is required. You’ll receive a link after signup.
               </div>
             </form>
           </div>

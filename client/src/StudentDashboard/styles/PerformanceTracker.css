@@ -1,0 +1,224 @@
+/* PerformanceTracker.css - Professional token-aligned visuals */
+
+.perftracker {
+  margin-left: 220px;
+  padding: 24px;
+  background: var(--bg-color);
+  min-height: 100vh;
+}
+.perftracker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+}
+.perftracker-header .title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.small {
+  font-size: 11px;
+}
+
+.info-banner {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px dashed rgba(37, 99, 235, 0.25);
+  border-radius: var(--radius-card);
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--primary-color);
+  font-size: 13px;
+}
+
+/* Gauges */
+.gauge-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.gauge-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+}
+.gauge-card h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.gauge-card .muted {
+  font-size: 12px;
+  color: var(--muted-color);
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.insight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+}
+.insight-card .metric {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-color);
+}
+.insight-card .label {
+  font-size: 13px;
+  color: var(--muted-color);
+}
+.insight-card .caption {
+  font-size: 11px;
+  color: var(--muted-color);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Heatmap */
+.heatmap {
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  background: var(--surface-color);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.heatmap-grid {
+  display: flex;
+  gap: 4px;
+}
+.heatmap-col {
+  display: grid;
+  grid-template-rows: repeat(7, 12px);
+  gap: 4px;
+}
+.cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #e5e7eb;
+}
+.cell.level-1 {
+  background: #c7d2fe;
+}
+.cell.level-2 {
+  background: #93c5fd;
+}
+.cell.level-3 {
+  background: #60a5fa;
+}
+.cell.level-4 {
+  background: #2563eb;
+}
+
+/* Weekly */
+.weekly {
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  background: var(--surface-color);
+  box-shadow: var(--shadow-sm);
+}
+.sparkline-wrap {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.weekly-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+}
+.stat .label {
+  font-size: 12px;
+  color: var(--muted-color);
+}
+.stat .value {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.recent.card {
+  margin-top: 24px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.timeline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.timeline-item:last-child {
+  border-bottom: none;
+}
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 70%;
+}
+.timeline-item .primary {
+  font-weight: 600;
+  color: var(--text-color);
+}
+.timeline-item .meta,
+.timeline-item .timestamp {
+  font-size: 12px;
+  color: var(--muted-color);
+}
+.timeline-item .timestamp {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .perftracker {
+    margin-left: 0;
+    padding: 16px;
+  }
+  .gauge-grid {
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+  }
+  .timeline-content {
+    max-width: 100%;
+  }
+  .timeline-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

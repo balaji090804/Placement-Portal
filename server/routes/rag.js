@@ -9,6 +9,7 @@ const Recruiter = require("../models/recruiters");
 const CompanyRole = require("../models/companyRole");
 const Assignment = require("../models/assignment");
 const FacultyAnnouncement = require("../models/FacultyAnnouncement");
+const Placement = require("../models/placement");
 const auth = require("../middleware/authMiddleware");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -248,7 +249,24 @@ router.post("/chat", auth, async (req, res) => {
 
     const msg = message.toLowerCase();
 
-    // 1) Role-aware dynamic shortcuts
+    // 1) Real-time portal data queries (available to all roles) - Make these more specific
+    // Only match if explicitly asking for real-time data, not general questions
+    const upcomingDrivesQuery = /^(what|list|show|tell|give).*(upcoming|coming|scheduled).*(drive|placement|interview)/.test(msg) ||
+      /(upcoming|coming|scheduled).*(drive|placement|interview).*(list|show|tell)/.test(msg) ||
+      /^what.*(drive|placement|interview).*(upcoming|coming|scheduled)/.test(msg);
+
+    const placementStatsQuery = /^(what|tell|show).*(placement|placed).*(percentage|percent|stat|statistic|rate|ratio)/.test(msg) ||
+      /^(previous|last|past).*year.*placement/.test(msg) ||
+      /^how.*many.*(placed|placement)/.test(msg) ||
+      /^placement.*(rate|percentage|stat)/.test(msg);
+
+    const companyFeedbackQuery = /^(what|tell|show).*(feedback|experience).*(amazon|google|microsoft|tcs|infosys|wipro|accenture)/.test(msg) ||
+      /^(amazon|google|microsoft|tcs|infosys|wipro|accenture).*(placed|student).*(feedback|experience)/.test(msg);
+
+    const companyPrepQuery = /^(how|what).*prepare.*(for|amazon|google|microsoft|tcs|infosys|wipro|accenture)/.test(msg) ||
+      /^(prep|preparation|tip|advice).*(for|amazon|google|microsoft|tcs|infosys|wipro|accenture)/.test(msg);
+
+    // 2) Role-aware dynamic shortcuts
     // Student: "eligible jobs", "what can I apply", etc.
     const studentIntent =
       role === "student" &&
@@ -263,6 +281,134 @@ router.post("/chat", auth, async (req, res) => {
       (/(my|what).*(task|assignment|students).*(assigned|pending)/.test(msg) ||
         /pending announcements/.test(msg) ||
         /what.*assigned.*me/.test(msg));
+
+    // Handle real-time portal data queries
+    if (upcomingDrivesQuery) {
+      const now = new Date();
+      const upcoming = await PlacementAnnouncement.find({
+        dateTime: { $gte: now },
+      })
+        .sort({ dateTime: 1 })
+        .limit(10)
+        .lean();
+
+      if (upcoming.length === 0) {
+        return res.json({
+          answer: "There are no upcoming placement drives scheduled at the moment. Check back later or contact the placement office for updates.",
+          citations: [],
+          topScore: null,
+        });
+      }
+
+      const driveList = upcoming.map((ann, idx) => {
+        const dateStr = new Date(ann.dateTime).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        return `${idx + 1}. ${ann.companyName} - ${ann.jobRole} on ${dateStr}`;
+      }).join('\n');
+
+      const answer = `Here are the upcoming placement drives:\n\n${driveList}\n\nTotal: ${upcoming.length} drive(s) scheduled.`;
+      return res.json({ answer, citations: [], topScore: null });
+    }
+
+    if (placementStatsQuery) {
+      const totalStudents = await User.countDocuments({ role: "student" });
+      const placedStudents = await Placement.countDocuments({ status: "Placed" });
+      const placementPercentage = totalStudents > 0 
+        ? ((placedStudents / totalStudents) * 100).toFixed(2)
+        : 0;
+
+      // Get company-wise placement stats
+      const companyStats = await Placement.aggregate([
+        { $match: { status: "Placed" } },
+        { $group: { _id: "$company", count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+        { $limit: 5 }
+      ]);
+
+      let companyStatsText = "";
+      if (companyStats.length > 0) {
+        companyStatsText = "\n\nTop companies:\n" + companyStats.map((c, idx) => 
+          `${idx + 1}. ${c._id}: ${c.count} student(s)`
+        ).join('\n');
+      }
+
+      const answer = `Placement Statistics:\n\nTotal Students: ${totalStudents}\nPlaced Students: ${placedStudents}\nPlacement Percentage: ${placementPercentage}%${companyStatsText}`;
+      return res.json({ answer, citations: [], topScore: null });
+    }
+
+    if (companyFeedbackQuery || companyPrepQuery) {
+      // Extract company name from query
+      const companies = ['amazon', 'google', 'microsoft', 'tcs', 'infosys', 'wipro', 'accenture'];
+      const mentionedCompany = companies.find(c => msg.includes(c));
+      
+      if (mentionedCompany) {
+        // Get placements for this company
+        const companyPlacements = await Placement.find({
+          company: new RegExp(mentionedCompany, 'i'),
+          status: "Placed"
+        })
+        .limit(5)
+        .lean();
+
+        // Get recruiter info for prep tips
+        const recruiterInfo = await Recruiter.findOne({
+          companyName: new RegExp(mentionedCompany, 'i')
+        })
+        .sort({ postedAt: -1 })
+        .lean();
+
+        let answer = "";
+        if (companyPlacements.length > 0) {
+          answer = `Found ${companyPlacements.length} placement(s) at ${mentionedCompany.toUpperCase()}.\n\n`;
+          if (companyFeedbackQuery) {
+            answer += "For specific student feedback, please contact the placement office or check the placement records section.\n\n";
+          }
+        } else {
+          answer = `No recent placements found for ${mentionedCompany.toUpperCase()}.\n\n`;
+        }
+
+        if (companyPrepQuery && recruiterInfo) {
+          const skills = Array.isArray(recruiterInfo.requiredSkills) 
+            ? recruiterInfo.requiredSkills.join(', ')
+            : 'Not specified';
+          const eligibility = recruiterInfo.eligibilityCriteria || 'Not specified';
+          
+          answer += `Preparation Tips for ${mentionedCompany.toUpperCase()}:\n\n`;
+          answer += `Required Skills: ${skills}\n`;
+          answer += `Eligibility: ${eligibility}\n\n`;
+          answer += "General Tips:\n";
+          answer += "• Focus on data structures and algorithms\n";
+          answer += "• Practice coding problems regularly\n";
+          answer += "• Prepare for behavioral interviews\n";
+          answer += "• Review company-specific interview patterns\n";
+        } else if (companyPrepQuery) {
+          answer += `General preparation tips for ${mentionedCompany.toUpperCase()}:\n\n`;
+          answer += "• Focus on data structures and algorithms\n";
+          answer += "• Practice coding problems regularly\n";
+          answer += "• Prepare for behavioral interviews\n";
+          answer += "• Review company-specific interview patterns\n";
+        }
+
+        return res.json({ answer, citations: [], topScore: null });
+      } else {
+        // General prep tips
+        let answer = "General Placement Preparation Tips:\n\n";
+        answer += "• Focus on data structures and algorithms\n";
+        answer += "• Practice coding problems regularly (LeetCode, HackerRank)\n";
+        answer += "• Prepare for behavioral interviews (STAR method)\n";
+        answer += "• Review company-specific interview patterns\n";
+        answer += "• Build a strong resume highlighting relevant projects\n";
+        answer += "• Practice mock interviews\n";
+        answer += "• Stay updated with industry trends\n\n";
+        answer += "For company-specific tips, mention the company name (e.g., 'Amazon prep tips').";
+        return res.json({ answer, citations: [], topScore: null });
+      }
+    }
 
     if (studentIntent && email) {
       // Build student-specific recommendation from upcoming announcements and their profile
@@ -336,14 +482,16 @@ router.post("/chat", auth, async (req, res) => {
       });
 
       const header = profile
-        ? `Based on your profile (branch: ${branch || "—"}, cgpa: ${
+        ? `Based on your profile (${branch || "—"} branch, CGPA: ${
             cgpa ?? "—"
-          }), here are upcoming opportunities you can apply to:`
-        : `Here are upcoming placement announcements you can apply to:`;
+          }), here are relevant opportunities:`
+        : `Here are upcoming placement opportunities:`;
 
-      const answer = `${header}\n\n${lines.join(
+      // Limit to top 3 most relevant to keep response concise
+      const topThree = lines.slice(0, 3);
+      const answer = `${header}\n\n${topThree.join(
         "\n\n"
-      )}\n\nTip: Keep your Student Profile updated to get better matches.`;
+      )}\n\nTip: Keep your profile updated for better matches.`;
       return res.json({ answer, citations: [], topScore: null });
     }
 
@@ -371,17 +519,23 @@ router.post("/chat", auth, async (req, res) => {
       let answer = "";
       if (annLines.length === 0 && stuLines.length === 0) {
         answer =
-          "You currently have no pending placement announcements or assigned students.";
+          "You currently have no pending announcements or assigned students.";
       } else {
         if (annLines.length) {
-          answer += `Pending announcements assigned to you:\n${annLines.join(
+          // Limit to top 5 to keep response concise
+          const topAnn = annLines.slice(0, 5);
+          answer += `Pending announcements (${pendingAnnouncements.length}):\n${topAnn.join(
             "\n"
-          )}\n\n`;
+          )}`;
+          if (annLines.length > 5) {
+            answer += `\n...and ${annLines.length - 5} more.`;
+          }
         }
         if (stuLines.length) {
-          answer += `Students assigned to you (${
-            assigned.length
-          }):\n${stuLines.join("\n")}`;
+          answer += `\n\nAssigned students (${assigned.length}):\n${stuLines.slice(0, 5).join("\n")}`;
+          if (stuLines.length > 5) {
+            answer += `\n...and ${stuLines.length - 5} more.`;
+          }
         }
       }
       return res.json({ answer, citations: [], topScore: null });
@@ -408,36 +562,58 @@ router.post("/chat", auth, async (req, res) => {
         content: c.content,
         metadata: c.metadata,
       }))
+      .filter((c) => c.score > 0) // Filter out negative scores
       .sort((a, b) => b.score - a.score)
-      .slice(0, 6);
+      .slice(0, 8); // Get more chunks for better context
 
-    const context = scored
-      .map((s, i) => `# Source ${i + 1}:\n${s.content}`)
-      .join("\n\n");
+    // Lower threshold to allow more document matches
+    const MIN_SIM = parseFloat(process.env.RAG_MIN_SIM || "0.15");
+    const topScore = scored.length > 0 ? scored[0].score : -1;
 
-    // If nothing relevant is found, switch to a helpful fallback mode
-    const MIN_SIM = parseFloat(process.env.RAG_MIN_SIM || "0.25");
-    const topScore = scored.length ? scored[0].score : -1;
+    // Build context from relevant chunks
+    const relevantChunks = scored.filter((s) => s.score >= MIN_SIM);
+    const context = relevantChunks.length > 0
+      ? relevantChunks
+          .map((s, i) => `# Source ${i + 1} (from ${s.metadata.filename || 'college document'}):\n${s.content}`)
+          .join("\n\n")
+      : "";
 
     let system;
     let prompt;
-    if (topScore < MIN_SIM) {
-      // Fallback: provide general, structured guidance (no strict RAG constraint)
-      system = `You are a placement preparation mentor. When sources are missing or irrelevant, still provide clear, actionable guidance.
-Keep answers skimmable and organized with short sections and bullet points.
-If the user's question suggests a company-specific prep (e.g., Amazon, Google, etc.), include:
-- Core DSA topics and difficulty ranges
-- Systems topics (for experienced) or basic design fundamentals (for freshers)
-- Behavioral/values rounds (e.g., leadership principles)
-- Suggested 4–6 week roadmap with weekly goals and checkpoints
-- Mock interview cadence and evaluation criteria
-Do not invent private data or links to internal files. Avoid sharing secrets.`;
-      prompt = `${system}\n\nUser: ${message}\n\n(There were no relevant internal sources. Provide a best-effort, general plan.)`;
+    
+    if (context && context.length > 0 && relevantChunks.length > 0) {
+      // Use RAG context from uploaded documents
+      system = `You are a specialized placement assistant for this college's placement portal. Your role is to help students, faculty, and administrators with placement-related queries.
+
+IMPORTANT GUIDELINES:
+- Use the provided college-specific documents to answer the question
+- Base your answer PRIMARILY on the provided sources - these are official college documents
+- Keep answers CONCISE (2-4 sentences maximum, unless detailed explanation is specifically requested)
+- Focus on placement-related topics: job opportunities, eligibility criteria, interview preparation, placement procedures, college policies, placement statistics, upcoming drives
+- Do NOT include citations, source IDs, file names, links, or implementation details in your response
+- Do NOT over-populate responses - be clear and direct
+- If the question isn't fully answered by the sources, provide what you can from the sources and acknowledge limitations
+- Be professional and accurate
+- If the sources contain specific information about the college, use that information directly
+- Answer based on what is in the documents provided`;
+
+      prompt = `${system}\n\nUser Question: ${message}\n\nRelevant College Documents (use these to answer the question, but do NOT mention sources in your reply):\n${context}`;
     } else {
-      system = `You are a helpful assistant for a college placement portal.
-Use the provided sources to answer. If something isn't in the sources, you may add general high-level guidance, but prefer the sources.
-Keep answers concise. Do NOT include citations, source IDs, file names, links, or implementation details.`;
-      prompt = `${system}\n\nUser: ${message}\n\nRelevant sources (use for answering, but do not include citations in your reply):\n${context}`;
+      // Fallback: provide general, structured guidance (no strict RAG constraint)
+      system = `You are a specialized placement assistant for this college's placement portal. Your role is to help students, faculty, and administrators with placement-related queries.
+
+IMPORTANT GUIDELINES:
+- Keep answers CONCISE (2-4 sentences maximum, unless detailed explanation is specifically requested)
+- Focus on placement-related topics: job opportunities, eligibility criteria, interview preparation, placement procedures, college policies, placement statistics, upcoming drives
+- If asked about company-specific prep, provide brief, actionable guidance only
+- Do NOT over-populate responses with excessive information
+- Be professional, clear, and direct
+- If you don't know something specific to this college, say so rather than guessing
+- Do not invent private data, links, or internal file references
+- For real-time data queries (upcoming drives, placement stats), direct users to ask specific questions like "what are the upcoming drives" or "what is the placement percentage"
+- Note: No college-specific documents were found in the knowledge base. If the question is about college policies or procedures, suggest that the admin upload relevant documents.`;
+
+      prompt = `${system}\n\nUser Question: ${message}\n\n(No relevant college-specific documents found in the knowledge base. Provide a brief, helpful response based on general placement knowledge. If the question is about college-specific information, suggest that the admin upload relevant documents.)`;
     }
 
     const result = await gemini.generateContent(prompt);
@@ -445,6 +621,7 @@ Keep answers concise. Do NOT include citations, source IDs, file names, links, o
       result && result.response && typeof result.response.text === "function"
         ? result.response.text()
         : "";
+    
     // Strip any citation-like artifacts just in case the model adds them
     answer = answer
       .replace(/\s*\[S\d+(?:[^\]]*)\]/g, "")
@@ -452,15 +629,32 @@ Keep answers concise. Do NOT include citations, source IDs, file names, links, o
       .replace(/\s*Sources?:[\s\S]*$/i, "")
       .trim();
 
+    // Limit answer length to prevent over-population (max 500 characters for concise responses)
+    const MAX_ANSWER_LENGTH = 500;
+    if (answer.length > MAX_ANSWER_LENGTH) {
+      // Try to cut at a sentence boundary
+      const truncated = answer.substring(0, MAX_ANSWER_LENGTH);
+      const lastPeriod = truncated.lastIndexOf('.');
+      const lastQuestion = truncated.lastIndexOf('?');
+      const lastExclamation = truncated.lastIndexOf('!');
+      const lastSentenceEnd = Math.max(lastPeriod, lastQuestion, lastExclamation);
+      
+      if (lastSentenceEnd > MAX_ANSWER_LENGTH * 0.7) {
+        answer = truncated.substring(0, lastSentenceEnd + 1);
+      } else {
+        answer = truncated + '...';
+      }
+    }
+
     const citations = scored.map((s, i) => ({
       index: i + 1,
       filename: s.metadata.filename,
       score: Number(s.score.toFixed(4)),
     }));
 
-    // If we fell back, add a gentle nudge for improving results
-    if (topScore < MIN_SIM) {
-      answer += `\n\nTip: Upload your syllabus/notes in the RAG Library to get source-backed, customized answers.`;
+    // If we fell back, add a gentle nudge for improving results (but keep it brief)
+    if (!context || context.length === 0) {
+      answer += `\n\nTip: For college-specific information, ask the admin to upload relevant documents in the RAG Library.`;
     }
 
     res.json({ answer, citations, topScore });

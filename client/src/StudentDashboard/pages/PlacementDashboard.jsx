@@ -44,7 +44,7 @@ const PlacementDashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <h1>📊 College Placement Dashboard</h1>
+            <h1>College Placement Dashboard</h1>
 
             {loading ? (
                 <p>Loading data...</p>

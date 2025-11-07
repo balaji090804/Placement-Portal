@@ -2,7 +2,7 @@
   margin-left: 220px; /* Sidebar offset */
   padding: 2rem;
   max-width: 1600px;
-  animation: fadeIn 0.5s ease-in;
+  /* Remove animations for a clean UI */
 }
 
 @keyframes fadeIn {
@@ -16,21 +16,20 @@
   }
 }
 
-/* Hero Section */
+/* Hero */
 .faculty-hero {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  color: white;
-  padding: 3rem 2rem;
-  border-radius: 16px;
-  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+  padding: 2rem 2rem 1.75rem;
+  border-radius: 12px;
+  text-align: left;
   margin-bottom: 2rem;
-  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .hero-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  animation: pulse 2s infinite;
+  display: none;
 }
 
 @keyframes pulse {
@@ -64,19 +63,14 @@
 }
 
 .stat-card {
-  background: white;
-  border-radius: 16px;
-  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem 1.25rem 1rem;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  gap: 1.25rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .stat-icon {
@@ -111,10 +105,9 @@
 }
 
 .stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 0.25rem;
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
 }
 
 .stat-label {
@@ -126,11 +119,12 @@
 
 /* Score Distribution */
 .score-distribution-section {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.75rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .score-distribution-section h2 {
@@ -145,7 +139,7 @@
   justify-content: space-around;
   height: 300px;
   padding: 1rem;
-  background: #f7fafc;
+  background: #f9fafb;
   border-radius: 12px;
   margin-bottom: 1rem;
 }
@@ -169,13 +163,13 @@
 
 .bar-fill {
   width: 80%;
-  background: #667eea;
+  background: #2563eb;
   border-radius: 8px 8px 0 0;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding-top: 0.5rem;
-  transition: height 0.5s ease;
+  transition: height 0.4s ease;
   position: relative;
 }
 
@@ -201,11 +195,12 @@
 
 /* Top Performers */
 .top-performers-section {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.75rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .top-performers-section h2 {
@@ -224,18 +219,13 @@
 }
 
 .performer-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 12px;
-  padding: 1.5rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.25rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.performer-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .performer-card.rank-1 {
@@ -293,11 +283,12 @@
 
 /* Recent Activity */
 .recent-activity-section {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.75rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .recent-activity-section h2 {
@@ -316,11 +307,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem;
-  background: #f7fafc;
-  border-radius: 12px;
-  border-left: 4px solid #667eea;
-  transition: background-color 0.2s ease;
+  padding: 1rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
 }
 
 .activity-item:hover {
@@ -367,7 +357,7 @@
 }
 
 .score-badge.good {
-  background: #3b82f6;
+  background: #2563eb;
 }
 
 .score-badge.average {
@@ -380,10 +370,11 @@
 
 /* Full Leaderboard */
 .full-leaderboard-section {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .full-leaderboard-section h2 {
@@ -405,8 +396,9 @@
 }
 
 .leaderboard-table thead {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  color: white;
+  background: #f9fafb;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .leaderboard-table th {

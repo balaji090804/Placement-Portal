@@ -14,18 +14,18 @@ import {
 import "../styles/ManageQuestions.css";
 
 const domainConfig = {
-  aptitude: { title: "Aptitude Questions", icon: "🧮", color: "#2563eb" },
-  coding: { title: "Coding Questions", icon: "💻", color: "#16a34a" },
+  aptitude: { title: "Aptitude Questions", icon: "", color: "#2563eb" },
+  coding: { title: "Coding Questions", icon: "", color: "#16a34a" },
   communication: {
     title: "Communication Skills",
-    icon: "💬",
+    icon: "",
     color: "#9333ea",
   },
-  technical: { title: "Technical MCQs", icon: "⚙️", color: "#ea580c" },
-  dsa: { title: "Data Structures & Algorithms", icon: "🌳", color: "#8b5cf6" },
-  dbms: { title: "Database Management", icon: "🗄️", color: "#e11d48" },
-  os: { title: "Operating Systems", icon: "🖥️", color: "#22c55e" },
-  networking: { title: "Networking Basics", icon: "🌐", color: "#0ea5e9" },
+  technical: { title: "Technical MCQs", icon: "", color: "#ea580c" },
+  dsa: { title: "Data Structures & Algorithms", icon: "", color: "#8b5cf6" },
+  dbms: { title: "Database Management", icon: "", color: "#e11d48" },
+  os: { title: "Operating Systems", icon: "", color: "#22c55e" },
+  networking: { title: "Networking Basics", icon: "", color: "#0ea5e9" },
 };
 
 const ManageQuestions = () => {

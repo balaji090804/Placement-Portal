@@ -35,23 +35,23 @@ const StudentPerformance = ({ user }) => {
 
     return (
         <div className="performance-container">
-            <h1>📊 Student Performance Analytics</h1>
+            <h1>Student Performance Analytics</h1>
 
             {loading ? (
                 <p>Loading data...</p>
             ) : (
                 <>
                     <section className="mock-test-scores">
-                        <h2>📝 Mock Test Scores</h2>
+                        <h2>Mock Test Scores</h2>
                         <Bar data={mockTestData} />
                     </section>
 
                     <section className="coding-progress">
-                        <h2>💻 Coding Challenges Solved: {performance?.codingChallengesSolved}</h2>
+                        <h2>Coding Challenges Solved: {performance?.codingChallengesSolved}</h2>
                     </section>
 
                     <section className="interview-feedback">
-                        <h2>🎤 Interview Performance Score: {performance?.interviewScores}%</h2>
+                        <h2>Interview Performance Score: {performance?.interviewScores}%</h2>
                         <Doughnut data={{
                             labels: ["AI Scoring"],
                             datasets: [{ data: [performance?.interviewScores, 100 - performance?.interviewScores], backgroundColor: ["#1C3FAA", "#d3d3d3"] }]

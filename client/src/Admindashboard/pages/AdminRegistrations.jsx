@@ -53,7 +53,7 @@ const JobMonitoring = () => {
       setRegistrations(response.data);
       setSelectedJob({ companyName, jobRole });
     } catch (error) {
-      console.error("❌ Error fetching applicant profiles:", error);
+      console.error("Error fetching applicant profiles:", error);
       // If there's an error, we set an empty array so the UI doesn't crash
       setRegistrations([]);
       setSelectedJob(null);
@@ -149,7 +149,7 @@ const JobMonitoring = () => {
 
   return (
     <div className="faculty-job-monitoring">
-      <h1>💼 Job Application Monitoring</h1>
+      <h1>Job Application Monitoring</h1>
       <table className="job-table">
         <thead>
           <tr>
@@ -185,13 +185,13 @@ const JobMonitoring = () => {
         <div className="student-modal">
           <div className="modal-content">
             <h2>
-              📜 Applicants for {selectedJob.jobRole} at {selectedJob.companyName}
+              Applicants for {selectedJob.jobRole} at {selectedJob.companyName}
             </h2>
             <button
               className="close-modal"
               onClick={() => setSelectedJob(null)}
             >
-              ❌ Close
+              Close
             </button>
 
             {registrations.length === 0 ? (

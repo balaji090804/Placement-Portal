@@ -659,7 +659,11 @@ const Profile = () => {
                   profile.profilePicture ||
                   "https://www.w3schools.com/howto/img_avatar.png"
                 }
-                alt="Profile"
+                alt={
+                  profile.name
+                    ? `${profile.name} profile photo`
+                    : "Default profile avatar"
+                }
                 className="preview-pic"
                 style={{ borderRadius: "60px" }}
               />
@@ -700,6 +704,47 @@ const Profile = () => {
               </p>
             </div>
 
+            {/* Quick academics glance */}
+            <div
+              className="array-display"
+              aria-label="academics summary"
+              style={{ marginTop: "16px" }}
+            >
+              <h3>Academics</h3>
+              <div className="skills-container">
+                <span
+                  className="skill-chip"
+                  title="CGPA"
+                  aria-label="Current CGPA"
+                >
+                  CGPA: {profile.cgpa || "N/A"}
+                </span>
+                <span
+                  className="skill-chip"
+                  title="10th Percentage"
+                  aria-label="Tenth grade percentage"
+                >
+                  10th: {profile.tenthPercentage || "N/A"}%
+                </span>
+                <span
+                  className="skill-chip"
+                  title="12th Percentage"
+                  aria-label="Twelfth grade percentage"
+                >
+                  12th: {profile.twelfthPercentage || "N/A"}%
+                </span>
+                {profile.branch && (
+                  <span
+                    className="skill-chip"
+                    title="Branch"
+                    aria-label="Branch and stream"
+                  >
+                    {profile.stream || ""} {profile.branch}
+                  </span>
+                )}
+              </div>
+            </div>
+
             <div style={{ marginTop: "16px" }}>
               <p>
                 <strong>Resume</strong>
@@ -718,6 +763,7 @@ const Profile = () => {
                 onClick={startEditing}
                 className="edit-btn"
                 style={{ width: "100%" }}
+                aria-label="Edit profile"
               >
                 Edit Profile
               </button>

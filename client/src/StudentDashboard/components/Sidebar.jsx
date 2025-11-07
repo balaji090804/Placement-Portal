@@ -15,6 +15,7 @@ import {
   FaBullhorn,
   FaTrophy,
   FaSignOutAlt,
+  FaGift,
 } from "react-icons/fa";
 
 const SidebarContainer = styled.div`
@@ -136,6 +137,10 @@ const Sidebar = () => {
         <SidebarItem to="/StudentDashboard/UpcomingDrive">
           <FaCalendarCheck />
           <span>Upcoming Drives</span>
+        </SidebarItem>
+        <SidebarItem to="/StudentDashboard/Offers">
+          <FaGift />
+          <span>Offers</span>
         </SidebarItem>
       </SidebarMenu>
 

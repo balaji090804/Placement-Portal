@@ -70,13 +70,13 @@ const Practice = () => {
       {/* Page Header */}
       <section className="practice-header">
         <div className="header-overlay">
-          <h2>🧠 Faculty Question Framing Portal</h2>
+          <h2>Faculty Question Framing Portal</h2>
         </div>
       </section>
 
       {/* Practice Tests Section */}
       <section className="practice-tests">
-        <h2>➕ Add Practice Questions by Category</h2>
+        <h2>Add Practice Questions by Category</h2>
         <div className="practice-test-grid">
           {practiceTests.map((test, index) => (
             <div

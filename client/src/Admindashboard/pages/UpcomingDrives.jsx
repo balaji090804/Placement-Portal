@@ -34,7 +34,7 @@ const UpcomingDrives = () => {
 
   return (
     <div className="upcoming-drives-page">
-      <h2>🚀 Upcoming Placement Drives</h2>
+      <h2>Upcoming Placement Drives</h2>
       {drives.length === 0 ? (
         <p>No upcoming drives.</p>
       ) : (

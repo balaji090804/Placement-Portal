@@ -183,7 +183,7 @@ const FacultyPlacementUpdate = () => {
             <textarea value={requiredItems} onChange={(e) => setRequiredItems(e.target.value)} placeholder="e.g. Resume, ID" />
           </div>
 
-          <button className="save-btn" onClick={handleUpdate}>✅ Submit Details</button>
+          <button className="save-btn" onClick={handleUpdate}>Submit Details</button>
         </>
       )}
     </div>

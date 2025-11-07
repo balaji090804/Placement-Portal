@@ -1,48 +1,38 @@
-.sdash {
-  margin-left: 220px; /* sidebar space */
-  padding: 24px;
-  background: #f6f8fb;
-  min-height: 100vh;
-}
+/* DashboardHome.css - Professional unified styling */
 
+.sdash {
+  margin-left: 220px;
+  padding: 24px;
+  min-height: 100vh;
+  background: var(--bg-color);
+}
 .sdash-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, #1f3b8a, #2a6ad7);
-  color: #fff;
-  border-radius: 12px;
   padding: 20px 24px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
 }
 .sdash-header h1 {
-  margin: 0 0 6px;
-  font-size: 24px;
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 600;
 }
 .sdash-header p {
   margin: 0;
-  opacity: 0.9;
+  color: var(--muted-color);
+  font-size: 13px;
+}
+.sdash-header .small {
+  font-size: 11px;
 }
 .header-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
-}
-
-.btn {
-  background: #eef3ff;
-  color: #1f3b8a;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.btn:hover {
-  background: #dde8ff;
-}
-.btn.primary {
-  background: #ffcc4d;
-  color: #1f1f1f;
 }
 .btn.small {
   padding: 6px 10px;
@@ -56,40 +46,41 @@
 
 .metrics {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
   margin: 18px 0 24px;
 }
 .metric {
-  background: #fff;
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  padding: 12px 14px;
   text-align: center;
+  box-shadow: var(--shadow-sm);
 }
 .metric h3 {
-  margin: 0;
-  color: #3853a4;
+  margin: 0 0 6px;
+  font-size: 13px;
   font-weight: 600;
+  color: var(--text-color);
 }
 .metric .value {
-  font-size: 24px;
-  margin-top: 6px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 4px;
 }
 .metric .value.highlight {
-  color: #2a6ad7;
+  color: var(--primary-color);
 }
 .metric .progress {
-  height: 8px;
-  background: #eef1f6;
-  border-radius: 6px;
-  margin-top: 10px;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 4px;
   overflow: hidden;
 }
 .metric .progress .bar {
   height: 100%;
-  background: linear-gradient(90deg, #7aa2ff, #2a6ad7);
+  background: var(--primary-color);
   width: 0;
   transition: width 0.4s ease;
 }
@@ -100,10 +91,11 @@
   gap: 16px;
 }
 .card {
-  background: #fff;
-  border-radius: 12px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
   padding: 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
 }
 .card.wide {
   grid-column: span 2;
@@ -112,19 +104,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+.card-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
 }
 .daily h3 {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
+  font-size: 14px;
 }
 .muted {
-  color: #6b7280;
+  color: var(--muted-color);
   font-size: 12px;
 }
 .list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
   display: grid;
   gap: 8px;
 }
@@ -133,35 +131,43 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  border: 1px solid #eef1f6;
-  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
 }
-
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 .chip {
-  background: #eef3ff;
-  color: #1f3b8a;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 20px;
+  background: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+  border-radius: 16px;
   cursor: pointer;
+  font-size: 12px;
 }
 .chip:hover {
-  background: #dde8ff;
+  background: #f1f5f9;
 }
 
 @media (max-width: 1100px) {
-  .metrics {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .grid {
     grid-template-columns: 1fr;
   }
   .card.wide {
     grid-column: auto;
+  }
+}
+@media (max-width: 700px) {
+  .sdash {
+    margin-left: 0;
+    padding: 16px;
+  }
+  .sdash-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }

@@ -106,6 +106,37 @@
   gap: 6px;
 }
 
+.quickRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.quickChip {
+  background: #fff;
+  color: #1c3faa;
+  border: 1px solid #c7d2fe;
+  border-radius: 9999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.quickChip:hover {
+  background: #eef2ff;
+}
+
+.docBadge {
+  align-self: center;
+  color: #0f766e;
+  background: #ecfeff;
+  border: 1px solid #99f6e4;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 .uploadRow {
   display: flex;
   align-items: center;

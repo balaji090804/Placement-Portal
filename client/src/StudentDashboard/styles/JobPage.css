@@ -2,13 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-  --primary-color: #2d3748;
-  --dark-blue: #001f5b;
-  --dark-blue-hover: #000d3b;
-  --background-color: #f8f9fa;
+  --primary-color: #1e40af;
+  --primary-hover: #1e3a8a;
+  --dark-blue: #1e40af;
+  --dark-blue-hover: #1e3a8a;
+  --background-color: #f9fafb;
   --card-bg: #ffffff;
-  --border-color: #e2e8f0;
-  --font-family: 'Poppins', sans-serif;
+  --border-color: #e5e7eb;
+  --text-color: #111827;
+  --text-muted: #6b7280;
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -20,7 +23,7 @@
 body {
   font-family: var(--font-family);
   background-color: var(--background-color);
-  color: var(--primary-color);
+  color: var(--text-color);
 }
 
 /* Main content offset for fixed sidebar */
@@ -30,17 +33,18 @@ body {
   max-width: calc(100% - 220px);
 }
 
-/* Dark Blue Heading */
+/* Professional Header - Fixed contrast */
 .main-content h1 {
   text-align: center;
   margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: 600;
-  color: white;
-  background: var(--dark-blue);
-  padding: 1.2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Job Grid Layout */

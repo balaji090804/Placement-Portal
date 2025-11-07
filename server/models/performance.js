@@ -9,6 +9,7 @@ const PerformanceSchema = new mongoose.Schema({
     technical: { type: Number, default: 0 },
   },
   codingChallengesSolved: { type: Number, default: 0 },
+  offersAccepted: { type: Number, default: 0 },
   interviewScores: { type: Number, default: 0 },
   pastInterviews: [
     {

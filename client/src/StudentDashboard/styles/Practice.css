@@ -2,13 +2,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
 
 :root {
-  --primary-color: #2d3748;
-  --dark-blue: #001f5b;
-  --dark-blue-hover: #000d3b;
-  --background-color: #f8f9fa;
+  --primary-color: #1e40af;
+  --primary-hover: #1e3a8a;
+  --dark-blue: #1e40af;
+  --dark-blue-hover: #1e3a8a;
+  --background-color: #f9fafb;
   --card-bg: #ffffff;
-  --border-color: #e2e8f0;
-  --font-family: "Poppins", sans-serif;
+  --border-color: #e5e7eb;
+  --text-color: #111827;
+  --text-muted: #6b7280;
+  --font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -20,7 +23,7 @@
 body {
   font-family: var(--font-family);
   background-color: var(--background-color);
-  color: var(--primary-color);
+  color: var(--text-color);
 }
 
 /* Main container offset for fixed sidebar */
@@ -32,12 +35,12 @@ body {
 
 /* Hero */
 .practice-hero {
-  background: linear-gradient(135deg, #0b1f5a 0%, #1b3aa6 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  color: #ffffff;
   border-radius: 16px;
   padding: 28px 28px;
   margin-bottom: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 .practice-hero__title {
   font-size: 28px;

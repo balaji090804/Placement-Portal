@@ -15,6 +15,7 @@ const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   const load = async () => {
     try {
@@ -22,6 +23,7 @@ const AdminDashboard = () => {
       const res = await fetch("http://localhost:8080/api/admin-dashboard");
       if (!res.ok) throw new Error(`Failed to load (${res.status})`);
       setData(await res.json());
+      setLastUpdated(new Date());
     } catch (e) {
       setError(e.message || "Failed to load admin dashboard");
     } finally {
@@ -39,10 +41,18 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard-container">
-      <header className="admin-dashboard-header">
-        <h1>
-          <FaChartBar className="admin-header-icon" /> Admin Dashboard
-        </h1>
+      <header className="admin-dashboard-header card">
+        <div className="admin-header-title">
+          <FaChartBar className="admin-header-icon" />
+          <h1>Admin Dashboard</h1>
+        </div>
+        {lastUpdated && (
+          <div className="admin-header-meta">
+            <span className="muted small">
+              Updated {lastUpdated.toLocaleTimeString()}
+            </span>
+          </div>
+        )}
       </header>
 
       <main className="admin-dashboard-content">

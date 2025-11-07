@@ -35,9 +35,8 @@ const PracticeHero = () => {
 
   return (
     <div className="practice-page">
-      {/* 🚀 Page Header */}
       <section className="practice-header">
-        <h1>🚀 Placement Practice Hub</h1>
+        <h1>Placement Practice Hub</h1>
         <p>
           Prepare for **Aptitude**, **Coding**, **Communication**, and
           **Technical** rounds with **real-world assessments** to excel in your
@@ -45,9 +44,8 @@ const PracticeHero = () => {
         </p>
       </section>
 
-      {/* 📊 Leaderboard Section */}
       <section className="leaderboard">
-        <h2>📈 Student Leaderboard</h2>
+        <h2>Student Leaderboard</h2>
         <table className="leaderboard-table">
           <thead>
             <tr>
@@ -82,7 +80,6 @@ const PracticeHero = () => {
         </table>
       </section>
 
-      {/* 📝 Practice Tests Section */}
       <section className="practice-tests">
         <div
           className="practice-card"
@@ -113,9 +110,8 @@ const PracticeHero = () => {
         </div>
       </section>
 
-      {/* 💡 Motivational Section */}
       <section className="motivation">
-        <h2>💡 Stay Inspired</h2>
+        <h2>Stay Inspired</h2>
         <p>“Your only limit is your mind. Keep pushing forward.”</p>
       </section>
       <MockTests />

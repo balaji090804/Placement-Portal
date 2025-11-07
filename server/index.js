@@ -28,6 +28,15 @@ const ragRoutes = require("./routes/rag");
 const atsRoutes = require("./routes/ats");
 const eligibilityRoutes = require("./routes/eligibility");
 const questionsRoutes = require("./routes/questions");
+const offersRoutes = require("./routes/offers");
+const drivesRoutes = require("./routes/drives");
+const applicationsRoutes = require("./routes/applications");
+const interviewSlotsRoutes = require("./routes/interviewSlots");
+const notificationsRoutes = require("./routes/notifications");
+const recruiterPortalRoutes = require("./routes/recruiterPortal");
+const trackingRoutes = require("./routes/tracking");
+const adminToolsRoutes = require("./routes/adminTools");
+const classesRoutes = require("./routes/classes");
 const http = require("http");
 const { Server } = require("socket.io");
 const app = express();
@@ -85,6 +94,15 @@ app.use("/api/rag", ragRoutes);
 app.use("/api/ats", atsRoutes);
 app.use("/api/eligibility", eligibilityRoutes);
 app.use("/api/questions", questionsRoutes);
+app.use("/api/offers", offersRoutes);
+app.use("/api/drives", drivesRoutes);
+app.use("/api/applications", applicationsRoutes);
+app.use("/api/interview-slots", interviewSlotsRoutes);
+app.use("/api/notifications", notificationsRoutes);
+app.use("/api/recruiter", recruiterPortalRoutes);
+app.use("/api/tracking", trackingRoutes);
+app.use("/api/admin-tools", adminToolsRoutes);
+app.use("/api/classes", classesRoutes);
 // Start HTTP server and attach Socket.IO
 const PORT = process.env.PORT || 8080;
 const server = http.createServer(app);
@@ -105,14 +123,29 @@ const io = new Server(server, {
 // Make io accessible in routes via app locals
 app.set("io", io);
 
+// Simple in-memory presence map
+const presence = new Map(); // email -> { lastSeen: Date }
+app.get("/api/presence", (req, res) => {
+  const list = Array.from(presence.keys());
+  res.json({ online: list });
+});
+
 io.on("connection", (socket) => {
   // Optional: join rooms by email if provided in query
   const email = (socket.handshake.query?.email || "").toString().toLowerCase();
   if (email) {
     socket.join(`user:${email}`);
+    presence.set(email, { lastSeen: new Date() });
+    io.emit("presence:update", { email, online: true });
   }
   socket.on("join", (room) => {
     if (room) socket.join(room);
+  });
+  socket.on("disconnect", () => {
+    if (email) {
+      presence.delete(email);
+      io.emit("presence:update", { email, online: false });
+    }
   });
 });
 

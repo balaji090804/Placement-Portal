@@ -22,7 +22,7 @@ router.post("/check-user", async (req, res) => {
       const [firstName, ...rest] = fullName
         ? fullName.split(" ")
         : [email.split("@")[0]];
-      const lastName = rest.join(" ") || "";
+      const lastName = rest.join(" ") || "User";
 
       // Generate a random password; it's not used for Firebase users but required by schema
       const randomPass =
@@ -31,8 +31,8 @@ router.post("/check-user", async (req, res) => {
       const hashPassword = await bcrypt.hash(randomPass, salt);
 
       user = new User({
-        firstName: firstName || "User",
-        lastName: lastName || "",
+        firstName: (firstName || "User").trim(),
+        lastName: (lastName || "User").trim(),
         email,
         password: hashPassword,
         role: "student", // Default new Firebase users to student; admins/faculty should be pre-provisioned

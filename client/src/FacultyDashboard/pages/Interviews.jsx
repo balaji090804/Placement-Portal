@@ -23,7 +23,7 @@ const Interviews = () => {
       const response = await axios.get("http://localhost:5000/api/interviews/requests");
       setRequests(response.data);
     } catch (error) {
-      console.error("❌ Error fetching interview requests:", error);
+      console.error("Error fetching interview requests:", error);
     }
   };
 
@@ -33,14 +33,14 @@ const Interviews = () => {
       const response = await axios.get("http://localhost:5000/api/interviews/scheduled");
       setScheduledInterviews(response.data);
     } catch (error) {
-      console.error("❌ Error fetching scheduled interviews:", error);
+      console.error("Error fetching scheduled interviews:", error);
     }
   };
 
   // ✅ Schedule an interview and notify the student
   const scheduleInterview = async (requestId) => {
     if (!meetingLink.trim() || !date.trim() || !time.trim()) {
-      alert("⚠️ Please fill all fields before scheduling.");
+      alert("Please fill all fields before scheduling.");
       return;
     }
 
@@ -63,7 +63,7 @@ const Interviews = () => {
       setDate("");
       setTime("");
     } catch (error) {
-      console.error("❌ Error scheduling interview:", error);
+      console.error("Error scheduling interview:", error);
       alert("Failed to schedule interview.");
     }
     setLoading(false);
@@ -71,11 +71,10 @@ const Interviews = () => {
 
   return (
     <div className="faculty-interviews">
-      <h1>🎤 Manage Interviews</h1>
+      <h1>Manage Interviews</h1>
 
-      {/* 🚀 Pending Interview Requests */}
       <section className="interview-requests">
-        <h2>📌 Interview Requests</h2>
+        <h2>Interview Requests</h2>
         {requests.length === 0 ? (
           <p>No interview requests pending.</p>
         ) : (
@@ -85,17 +84,16 @@ const Interviews = () => {
                 <h3>{req.studentName}</h3>
                 <p>Email: {req.studentEmail}</p>
                 <p>Status: {req.status}</p>
-                <button onClick={() => setSelectedRequest(req)}>📅 Schedule</button>
+                <button onClick={() => setSelectedRequest(req)}>Schedule</button>
               </li>
             ))}
           </ul>
         )}
       </section>
 
-      {/* ✅ Schedule Interview Form */}
       {selectedRequest && (
         <section className="schedule-section">
-          <h2>📅 Schedule Interview for {selectedRequest.studentName}</h2>
+          <h2>Schedule Interview for {selectedRequest.studentName}</h2>
           <input
             type="text"
             placeholder="Google Meet Link"
@@ -105,17 +103,15 @@ const Interviews = () => {
           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
           <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
           <button onClick={() => scheduleInterview(selectedRequest._id)} disabled={loading}>
-            {loading ? "Scheduling..." : "✅ Confirm & Send Mail"}
+            {loading ? "Scheduling..." : "Confirm & Send Mail"}
           </button>
         </section>
       )}
 
-      {/* ✅ Display Success Message */}
       {successMessage && <p className="success-message">{successMessage}</p>}
 
-      {/* 📆 Scheduled Interviews */}
       <section className="scheduled-interviews">
-        <h2>📆 Scheduled Interviews</h2>
+        <h2>Scheduled Interviews</h2>
         {scheduledInterviews.length === 0 ? (
           <p>No scheduled interviews.</p>
         ) : (

@@ -116,13 +116,54 @@
   }
   
   .rounds-list li::before {
-    content: '✅';
+    content: '';
     position: absolute;
-    left: 0;
-    top: 0;
-    font-size: 14px;
-    color: #28a745;
+    left: 4px;
+    top: 7px;
+    width: 6px;
+    height: 6px;
+    background: #1c3faa;
+    border-radius: 50%;
   }
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.filters input,
+.filters select {
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+}
+
+/* Badges & pills */
+.badge {
+  display: inline-block;
+  background: #eef2ff;
+  color: #1c3faa;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  margin-left: 6px;
+  border: 1px solid #c7d2fe;
+}
+.pill {
+  margin-left: 8px;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+}
+.pill-green { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+.pill-blue  { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+.pill-red   { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.pill-grey  { background: #f3f4f6; color: #374151; border-color: #e5e7eb; }
   
   /* Responsive */
   @media screen and (max-width: 768px) {

@@ -85,7 +85,7 @@ const SidebarFooter = styled.div`
 const Sidebar = () => {
   return (
     <SidebarContainer>
-      <SidebarHeader>BIT ADMIN PORTAL</SidebarHeader>
+      <SidebarHeader>ADMIN PORTAL</SidebarHeader>
       <SidebarMenu>
         <SidebarItem to="/AdminPlacementDashboard/AdminDashboard">
           <FaHome />
@@ -114,6 +114,10 @@ const Sidebar = () => {
         <SidebarItem to="/AdminPlacementDashboard/AdminPlacementTracking">
           <FaListAlt />
           <span>Placement Tracking</span>
+        </SidebarItem>
+        <SidebarItem to="/AdminPlacementDashboard/AdminOffers">
+          <FaUserCheck />
+          <span>Offers</span>
         </SidebarItem>
 
         {/* Performance and Announcements */}

@@ -144,8 +144,8 @@ const Performancetracker = () => {
       {filteredStudent.length > 0 ? (
         <div ref={printRef}>
           <h3>Results for: {searchEmail || "[All Students]"}</h3>
-          <button className="download-btn" onClick={downloadCSV}>📥 Download CSV</button>
-          <button className="print-btn" onClick={handlePrint}>🖨️ Print Report</button>
+          <button className="download-btn" onClick={downloadCSV}>Download CSV</button>
+          <button className="print-btn" onClick={handlePrint}>Print Report</button>
           <table className="performance-table">
             <thead>
               <tr>

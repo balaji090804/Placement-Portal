@@ -2,13 +2,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 :root {
-  --primary-color: #2d3748;
-  --dark-blue: #001f5b;
-  --dark-blue-hover: #000d3b;
-  --background-color: #f8f9fa;
+  --primary-color: #1e40af;
+  --primary-hover: #1e3a8a;
+  --dark-blue: #1e40af;
+  --dark-blue-hover: #1e3a8a;
+  --background-color: #f9fafb;
   --card-bg: #ffffff;
-  --border-color: #e2e8f0;
-  --font-family: 'Poppins', sans-serif;
+  --border-color: #e5e7eb;
+  --text-color: #111827;
+  --text-muted: #6b7280;
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -30,17 +33,56 @@ body {
   max-width: calc(100% - 220px);
 }
 
-/* Dark Blue Heading */
+/* Professional Header - Fixed contrast */
 .interview-header {
   text-align: center;
   margin-bottom: 2rem;
   font-size: 1.5rem;
   font-weight: 600;
-  color: white;
-  background: var(--dark-blue);
-  padding: 1.2rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.interview-header h1 {
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.interview-header .request-btn {
+  background-color: #ffffff;
+  color: #1e40af;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.interview-header .request-btn:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.interview-header .request-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.interview-header .success-message {
+  margin-top: 1rem;
+  color: #d1fae5;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 /* Interview Grid */
@@ -117,11 +159,17 @@ body {
 }
 
 /* Placement Roadmap */
+.placement-roadmap {
+  margin-top: 3rem;
+}
+
 .placement-roadmap h2 {
   font-size: 1.5rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+  font-weight: 600;
 }
 
 /* Timeline */

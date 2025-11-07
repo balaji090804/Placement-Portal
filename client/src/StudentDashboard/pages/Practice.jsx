@@ -97,7 +97,7 @@ const Practice = () => {
 
   return (
     <div className="practice-page">
-      {/* 🚀 Hero */}
+      {/* Hero */}
       <section className="practice-hero">
         <div className="practice-hero__title">
           Coding Practice & Assessments
@@ -107,9 +107,9 @@ const Practice = () => {
         </div>
       </section>
 
-      {/* 📝 Practice Tests Section */}
+      {/* Practice Tests Section */}
       <section className="practice-tests">
-        <h2>📑 Practice Tests</h2>
+        <h2>Practice Assessments</h2>
         <div className="practice-test-grid">
           {practiceTests.map((test, index) => (
             <div

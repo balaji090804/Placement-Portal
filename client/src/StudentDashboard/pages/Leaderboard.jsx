@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import "../styles/Leaderboard.css";
-import { FaTrophy, FaMedal, FaAward, FaChartLine } from "react-icons/fa";
+import { FaTrophy, FaMedal, FaAward, FaChartLine } from "react-icons/fa"; // TODO: Consider replacing with lucide-react for consistency
 
 const Leaderboard = () => {
   const { studentEmail, studentName } = useOutletContext();
@@ -75,21 +75,17 @@ const Leaderboard = () => {
 
   return (
     <div className="leaderboard-page">
-      {/* Hero Section */}
       <section className="leaderboard-hero">
-        <div className="hero-icon">
-          <FaTrophy size={48} />
-        </div>
-        <h1>Practice Assessment Leaderboard</h1>
-        <p>Compete with peers and track your progress</p>
+        <h1 className="leaderboard-title">Practice Assessment Leaderboard</h1>
+        <p className="leaderboard-subtitle">
+          Track performance across all assessments
+        </p>
       </section>
 
       {/* My Stats Card */}
       {myStats && myStats.totalAttempts > 0 && (
         <section className="my-stats-card">
-          <h2>
-            <FaChartLine /> Your Performance
-          </h2>
+          <h2 className="section-heading">Your Performance</h2>
           <div className="stats-grid">
             <div className="stat-item">
               <div className="stat-value">{myStats.rank || "—"}</div>
@@ -111,7 +107,7 @@ const Leaderboard = () => {
 
           {myStats.recentSubmissions && myStats.recentSubmissions.length > 0 && (
             <div className="recent-attempts">
-              <h3>Recent Attempts</h3>
+              <h3 className="sub-heading">Recent Attempts</h3>
               <div className="attempts-list">
                 {myStats.recentSubmissions
                   .slice(0, 3)
@@ -140,11 +136,10 @@ const Leaderboard = () => {
 
       {/* Leaderboard Table */}
       <section className="leaderboard-section">
-        <h2>Top Performers</h2>
+        <h2 className="section-heading">Top Performers</h2>
         {leaderboard.length === 0 ? (
           <div className="empty-state">
-            <FaAward size={64} />
-            <p>No submissions yet. Be the first to take the assessment!</p>
+            <p>No submissions yet. Be the first to take an assessment.</p>
           </div>
         ) : (
           <div className="leaderboard-table-wrapper">
@@ -176,7 +171,9 @@ const Leaderboard = () => {
                     <td className="student-cell">
                       <div className="student-name">{entry.studentName}</div>
                       {entry.studentEmail === studentEmail && (
-                        <div className="you-badge">You</div>
+                        <div className="you-badge" aria-label="Current user">
+                          You
+                        </div>
                       )}
                     </td>
                     <td className="score-cell">

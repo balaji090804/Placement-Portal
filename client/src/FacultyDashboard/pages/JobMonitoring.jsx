@@ -20,14 +20,15 @@ const JobMonitoring = () => {
       const jobsData = response.data;
 
       // Merge with companyroles to get registration counts
-      const registrationsResponse = await axios.get("http://localhost:8080/api/companyroles/all");
+      const registrationsResponse = await axios.get(
+        "http://localhost:8080/api/companyroles/all"
+      );
       const registrationsData = registrationsResponse.data;
 
       const updatedJobs = jobsData.map((job) => {
         const match = registrationsData.find(
           (reg) =>
-            reg.companyName === job.companyName &&
-            reg.jobRole === job.jobTitle
+            reg.companyName === job.companyName && reg.jobRole === job.jobTitle
         );
         return {
           ...job,
@@ -132,7 +133,7 @@ const JobMonitoring = () => {
         csvEscape(projects),
         csvEscape(linkedin),
         csvEscape(coding),
-        csvEscape(skills)
+        csvEscape(skills),
       ].join(",");
 
       csvContent += row + "\n";
@@ -149,7 +150,7 @@ const JobMonitoring = () => {
 
   return (
     <div className="faculty-job-monitoring">
-      <h1>💼 Job Application Monitoring</h1>
+      <h1 className="page-title">Job Application Monitoring</h1>
       <table className="job-table">
         <thead>
           <tr>
@@ -160,56 +161,76 @@ const JobMonitoring = () => {
           </tr>
         </thead>
         <tbody>
-          {jobs.map((job) => (
-            <tr key={job._id}>
-              <td>{job.companyName}</td>
-              <td>{job.jobTitle}</td>
-              <td>{job.registrations}</td>
-              <td>
-                <button
-                  className="view-students-btn"
-                  onClick={() =>
-                    fetchApplicantProfiles(job.companyName, job.jobTitle)
-                  }
-                >
-                  View Students
-                </button>
+          {jobs.length === 0 ? (
+            <tr>
+              <td colSpan="4" className="empty-state">
+                No job listings available.
               </td>
             </tr>
-          ))}
+          ) : (
+            jobs.map((job) => (
+              <tr key={job._id}>
+                <td>{job.companyName}</td>
+                <td>{job.jobTitle}</td>
+                <td>{job.registrations}</td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() =>
+                      fetchApplicantProfiles(job.companyName, job.jobTitle)
+                    }
+                  >
+                    View Students
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
       {/* Modal for viewing the students */}
       {selectedJob && (
-        <div className="student-modal">
-          <div className="modal-content">
-            <h2>
-              📜 Applicants for {selectedJob.jobRole} at {selectedJob.companyName}
+        <div
+          className="student-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="applicants-modal-title"
+        >
+          <div className="modal-content card">
+            <h2 id="applicants-modal-title" className="section-title">
+              Applicants for {selectedJob.jobRole} at {selectedJob.companyName}
             </h2>
             <button
-              className="close-modal"
+              className="btn btn-outline close-modal"
               onClick={() => setSelectedJob(null)}
+              aria-label="Close applicants modal"
             >
-              ❌ Close
+              Close
             </button>
 
             {registrations.length === 0 ? (
-              <p>No students have registered.</p>
+              <p className="empty-state">No students have registered.</p>
             ) : (
               <>
                 <ul className="student-list">
                   {registrations.map((profile, index) => (
-                    <li key={index}>
-                      <strong>{profile.name}</strong> | {profile.collegeEmail} | CGPA:{" "}
-                      {profile.cgpa}
+                    <li key={profile?._id || index} className="card">
+                      <div className="student-row">
+                        <strong>{profile.name}</strong>
+                        <span className="muted">{profile.collegeEmail}</span>
+                        <span className="muted">CGPA: {profile.cgpa}</span>
+                      </div>
                     </li>
                   ))}
                 </ul>
 
                 {/* Download CSV Button */}
-                <button className="download-csv-btn" onClick={downloadCSV}>
-                  📥 Download CSV
+                <button
+                  className="btn btn-primary download-csv-btn"
+                  onClick={downloadCSV}
+                >
+                  Download CSV
                 </button>
               </>
             )}

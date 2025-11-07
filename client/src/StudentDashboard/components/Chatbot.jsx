@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/chatbot.css";
 
 const canned = {
   help:
-    "I can help you find: daily challenge, upcoming drives, practice links, or your performance.",
+    "I can help with: placement opportunities, eligibility criteria, interview preparation, college policies, or your performance. Ask me anything!",
 };
 
 export default function Chatbot({ studentName, studentEmail }) {
@@ -11,14 +11,22 @@ export default function Chatbot({ studentName, studentEmail }) {
   const [messages, setMessages] = useState([
     {
       from: "bot",
-      text: `Hi ${studentName ||
-        "there"}. How can I help? Type 'help' to see options.`,
+      text: `Hello ${studentName || "there"}! I'm your placement assistant. I can help with upcoming drives, placement statistics, company feedback, prep tips, and more. How can I help you today?`,
     },
   ]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   const push = (msg) => setMessages((m) => [...m, msg]);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const fetchDaily = async () => {
     try {
@@ -96,21 +104,60 @@ export default function Chatbot({ studentName, studentEmail }) {
     if (!q) return;
     push({ from: "me", text: q });
     setInput("");
+    setLoading(true);
 
     const lower = q.toLowerCase();
-    if (lower.includes("help")) return push({ from: "bot", text: canned.help });
-    if (lower.includes("daily")) return fetchDaily();
-    if (lower.includes("drive")) return fetchUpcoming();
-    if (lower.includes("practice") || lower.includes("aptitude"))
+    
+    // Handle quick commands first
+    if (lower.includes("help")) {
+      setLoading(false);
+      return push({ from: "bot", text: canned.help });
+    }
+    if (lower.includes("daily")) {
+      setLoading(false);
+      return fetchDaily();
+    }
+    if (lower.includes("drive") || lower.includes("upcoming")) {
+      setLoading(false);
+      return fetchUpcoming();
+    }
+    if (lower.includes("practice") || lower.includes("aptitude")) {
+      setLoading(false);
       return showPractice();
-    if (lower.includes("performance") || lower.includes("score"))
+    }
+    if (lower.includes("performance") || lower.includes("score")) {
+      setLoading(false);
       return fetchPerformance();
+    }
 
-    push({
-      from: "bot",
-      text:
-        "I didn't catch that. Try: daily, drives, practice, performance, or 'help'.",
-    });
+    // Use RAG API for all other queries
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:8080/api/rag/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ message: q }),
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to get response");
+      }
+      
+      const data = await res.json();
+      const answer = data.answer || "I couldn't generate a response. Please try rephrasing your question.";
+      push({ from: "bot", text: answer });
+    } catch (e) {
+      push({
+        from: "bot",
+        text: `Sorry, I encountered an error: ${e.message}. Please try again or use 'help' for quick commands.`,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -126,16 +173,26 @@ export default function Chatbot({ studentName, studentEmail }) {
           <div className="chat-body">
             {messages.map((m, i) => (
               <div key={i} className={`msg ${m.from === "me" ? "me" : "bot"}`}>
-                {m.text}
+                <div className="msg-content">{m.text}</div>
               </div>
             ))}
+            {loading && (
+              <div className="msg bot">
+                <div className="msg-content typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
           <div className="chat-input">
             <input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about daily, drives, practice, performance..."
+              placeholder="Ask about drives, placement stats, company feedback, prep tips..."
               onKeyDown={(e) => e.key === "Enter" && onSend()}
             />
             <button onClick={onSend}>Send</button>
@@ -147,7 +204,7 @@ export default function Chatbot({ studentName, studentEmail }) {
         onClick={() => setOpen((v) => !v)}
         aria-label="Open assistant"
       >
-        {open ? "Close" : "Chat"}
+        {open ? "✕" : "💬"}
       </button>
     </div>
   );

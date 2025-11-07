@@ -9,6 +9,8 @@ import {
   provider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  sendEmailVerification,
+  sendPasswordResetEmail,
 } from "../../lib/firebase";
 
 const Login = () => {
@@ -32,6 +34,14 @@ const Login = () => {
       );
       const user = cred.user;
 
+      if (!user.emailVerified) {
+        try { await sendEmailVerification(user); } catch {}
+        setError(
+          "Email not verified. A verification link has been sent to your email. Please verify and sign in again."
+        );
+        return;
+      }
+
       // Ensure user exists in our backend and get app JWT + role
       const { data: res } = await axios.post(
         "http://localhost:8080/api/check-user",
@@ -47,7 +57,7 @@ const Login = () => {
       if (res.email) localStorage.setItem("studentEmail", res.email);
 
       if (res.role === "student") {
-        window.location.replace("/StudentDashboard/HomeHero");
+        window.location.replace("/StudentDashboard");
       } else if (res.role === "faculty") {
         window.location.replace("/FacultyDashboard/Dashboard");
       } else if (res.role === "admin") {
@@ -56,43 +66,29 @@ const Login = () => {
         window.location.replace("/login");
       }
     } catch (err) {
-      // Fallback: try legacy backend login for users not in Firebase
-      if (
-        err?.code === "auth/invalid-credential" ||
-        err?.code === "auth/user-not-found"
-      ) {
-        try {
-          const url = "http://localhost:8080/api/auth";
-          const { data: legacy } = await axios.post(url, {
-            email: data.email,
-            password: data.password,
-          });
-          localStorage.setItem("token", legacy.token);
-          localStorage.setItem("role", legacy.role);
-          localStorage.setItem("studentEmail", data.email);
-
-          if (legacy.role === "student") {
-            window.location.replace("/StudentDashboard/HomeHero");
-          } else if (legacy.role === "faculty") {
-            window.location.replace("/FacultyDashboard/Dashboard");
-          } else if (legacy.role === "admin") {
-            window.location.replace("/AdminPlacementDashboard/AdminDashboard");
-          } else {
-            window.location.replace("/login");
-          }
-          return;
-        } catch (legacyErr) {
-          const msg =
-            legacyErr?.response?.data?.message ||
-            legacyErr?.message ||
-            "Login failed";
-          setError(`Firebase: ${err.code}. Legacy: ${msg}`);
-          return;
-        }
+      const code = err?.code || "";
+      if (code === "auth/user-not-found") {
+        setError("No account found for this email. Please sign up.");
+      } else if (code === "auth/wrong-password" || code === "auth/invalid-credential") {
+        setError("Incorrect password. You can reset your password below.");
+      } else {
+        const msg = err?.response?.data?.message || err?.message || "Login failed";
+        setError(msg);
       }
-      const msg =
-        err?.response?.data?.message || err?.message || "Login failed";
-      setError(msg);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    setError("");
+    if (!data.email) {
+      setError("Enter your email to reset password.");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, data.email);
+      alert("Password reset email sent. Check your inbox/spam.");
+    } catch (err) {
+      setError(err?.message || "Failed to send reset email");
     }
   };
 
@@ -114,7 +110,7 @@ const Login = () => {
       localStorage.setItem("role", res.role);
       if (res.email) localStorage.setItem("studentEmail", res.email);
       if (res.role === "student") {
-        window.location.replace("/StudentDashboard/HomeHero");
+        window.location.replace("/StudentDashboard");
       } else if (res.role === "faculty") {
         window.location.replace("/FacultyDashboard/Dashboard");
       } else if (res.role === "admin") {
@@ -180,6 +176,14 @@ const Login = () => {
                 style={{ marginTop: 10 }}
               >
                 Sign in with Google
+              </button>
+              <button
+                type="button"
+                className={styles.white_btn}
+                onClick={handleResetPassword}
+                style={{ marginTop: 10 }}
+              >
+                Forgot password?
               </button>
             </form>
           </div>

@@ -23,9 +23,14 @@ import AdminStudentPerformance from "./Admindashboard/pages/AdminStudentPerforma
 import AdminStudents from "./Admindashboard/pages/AdminStudentPerformance.jsx";
 import AdminDashboard from "./Admindashboard/pages/AdminDashboard.jsx";
 import AdminPlacementCreate from "./Admindashboard/pages/AdminPlacementCreate.jsx";
+import AdminDrives from "./Admindashboard/pages/AdminDrives.jsx";
+import AdminOffers from "./Admindashboard/pages/AdminOffers.jsx";
+import AdminApplications from "./Admindashboard/pages/AdminApplications.jsx";
 import StudentPerformance from "./FacultyDashboard/pages/StudentPerformance.jsx";
 import AUpcomingDrives from "./Admindashboard/pages/UpcomingDrives.jsx";
 import AdminPlacementTracking from "./Admindashboard/pages/AdminPlacementTracking.jsx";
+import AdminPipelineAnalytics from "./Admindashboard/pages/AdminPipelineAnalytics.jsx";
+import AdminNotifications from "./Admindashboard/pages/AdminNotifications.jsx";
 
 // Faculty
 import FacultyDashboard from "./FacultyDashboard/FacultyDashboard.js";
@@ -61,6 +66,7 @@ import Practice from "./StudentDashboard/pages/Practice.jsx";
 import DailyCoding from "./StudentDashboard/pages/DailyCoding";
 import ResumeBuilder from "./StudentDashboard/pages/ResumeBuilder";
 import InterviewPreparation from "./StudentDashboard/pages/InterviewPreparation.jsx";
+import InterviewSlots from "./StudentDashboard/pages/InterviewSlots.jsx";
 import Aptitude from "./StudentDashboard/pages/AptitudeTest.jsx";
 import PerformanceAnalytics from "./StudentDashboard/pages/PerformanceAnalytics.jsx";
 import Todo from "./StudentDashboard/components/todo/Todo.js";
@@ -70,6 +76,9 @@ import SAnnouncements from "./StudentDashboard/pages/StudentAnnouncements.jsx";
 import UpcomingDrive from "./StudentDashboard/pages/UpcomingDrives.jsx";
 import Leaderboard from "./StudentDashboard/pages/Leaderboard.jsx";
 import DomainTest from "./StudentDashboard/pages/DomainTest.jsx";
+import Offers from "./StudentDashboard/pages/Offers.jsx";
+import Applications from "./StudentDashboard/pages/Applications.jsx";
+import Notifications from "./StudentDashboard/pages/Notifications.jsx";
 
 // Faculty Leaderboard
 import FacultyLeaderboard from "./FacultyDashboard/pages/FacultyLeaderboard.jsx";
@@ -132,6 +141,7 @@ function App() {
                   path="InterviewPreparation"
                   element={<InterviewPreparation />}
                 />
+                <Route path="InterviewSlots" element={<InterviewSlots />} />
                 <Route
                   path="PerformanceAnalytics"
                   element={<PerformanceAnalytics studentEmail={user.email} />}
@@ -144,6 +154,9 @@ function App() {
                 />
                 <Route path="SAnnouncements" element={<SAnnouncements />} />
                 <Route path="UpcomingDrive" element={<UpcomingDrive />} />
+                <Route path="Offers" element={<Offers />} />
+                <Route path="Applications" element={<Applications />} />
+                <Route path="Notifications" element={<Notifications />} />
                 <Route path="Leaderboard" element={<Leaderboard />} />
                 <Route path="DomainTest/:domain" element={<DomainTest />} />
                 <Route
@@ -183,10 +196,24 @@ function App() {
                   path="AdminPlacementCreate"
                   element={<AdminPlacementCreate />}
                 />
+                <Route path="AdminDrives" element={<AdminDrives />} />
+                <Route path="AdminOffers" element={<AdminOffers />} />
+                <Route
+                  path="AdminApplications"
+                  element={<AdminApplications />}
+                />
                 <Route path="AUpcomingDrives" element={<AUpcomingDrives />} />
                 <Route
                   path="AdminPlacementTracking"
                   element={<AdminPlacementTracking />}
+                />
+                <Route
+                  path="AdminPipelineAnalytics"
+                  element={<AdminPipelineAnalytics />}
+                />
+                <Route
+                  path="AdminNotifications"
+                  element={<AdminNotifications />}
                 />
               </Route>
             )}
@@ -248,6 +275,7 @@ function App() {
                 />
               </Route>
             )}
+
           </>
         )}
 

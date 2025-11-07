@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useOutletContext, useNavigate } from "react-router-dom"; // ✅ Import useOutletContext and navigation
+import { useOutletContext, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/InterviewPreparation.css";
 import { recordPerformanceEvent } from "../../lib/performance";
@@ -15,14 +15,14 @@ import {
 } from "react-icons/fa";
 
 const InterviewPreparation = () => {
-  const { studentName, studentEmail } = useOutletContext(); // ✅ Retrieve student details
+  const { studentName, studentEmail } = useOutletContext();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
   const requestInterview = async () => {
     if (!studentName || !studentEmail) {
-      alert("⚠️ Please log in to request an interview.");
+      alert("Please log in to request an interview.");
       return;
     }
 
@@ -33,8 +33,8 @@ const InterviewPreparation = () => {
       const response = await axios.post(
         "http://localhost:8080/api/interviews/request",
         {
-          studentName, // ✅ Send student name
-          studentEmail, // ✅ Send student email
+          studentName,
+          studentEmail,
         }
       );
       setSuccessMessage(response.data.message);
@@ -45,7 +45,7 @@ const InterviewPreparation = () => {
           });
       } catch {}
     } catch (error) {
-      console.error("❌ Error requesting interview:", error);
+      console.error("Error requesting interview:", error);
       alert(error.response?.data?.message || "Failed to request interview.");
     } finally {
       setLoading(false);
@@ -54,9 +54,8 @@ const InterviewPreparation = () => {
 
   return (
     <div className="interview-page">
-      {/* 🚀 Page Header */}
       <section className="interview-header">
-        <h1>🎤 Interview Preparation Hub</h1>
+        <h1>Interview Preparation Hub</h1>
         <button
           className="request-btn"
           onClick={requestInterview}
@@ -67,9 +66,8 @@ const InterviewPreparation = () => {
         {successMessage && <p className="success-message">{successMessage}</p>}
       </section>
 
-      {/* 📌 Clickable Interview Cards (open external links in new tab) */}
       <section className="interview-types">
-        <h2>📑 Select an Interview Type</h2>
+        <h2>Select an Interview Type</h2>
         <div className="interview-grid">
           {[
             {
@@ -161,9 +159,8 @@ const InterviewPreparation = () => {
         </div>
       </section>
 
-      {/* 🛤️ Placement Preparation Roadmap */}
       <section className="placement-roadmap">
-        <h2>🛤️ Placement Preparation Roadmap</h2>
+        <h2>Placement Preparation Roadmap</h2>
         <div className="timeline">
           {[
             {

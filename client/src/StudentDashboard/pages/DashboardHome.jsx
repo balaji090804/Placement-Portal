@@ -14,6 +14,7 @@ const StudentHome = () => {
   const [studentMetrics, setStudentMetrics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   const intervalRef = useRef(null);
   useEffect(() => {
@@ -45,6 +46,7 @@ const StudentHome = () => {
           if (aRes.ok) setUpcoming((await aRes.json()).slice(0, 5));
           if (dRes.ok) setDaily(await dRes.json());
           if (sRes.ok) setStudentMetrics(await sRes.json());
+          setLastUpdated(new Date());
         }
       } catch (e) {
         if (!cancelled) setError(e.message || "Failed to load dashboard");
@@ -81,15 +83,20 @@ const StudentHome = () => {
 
   return (
     <div className="sdash">
-      <header className="sdash-header">
+      <header className="sdash-header card">
         <div>
           <h1>Welcome back, {studentName || "Student"}</h1>
           <p>Your personalized placement hub</p>
+          {lastUpdated && (
+            <p className="muted small">
+              Updated {lastUpdated.toLocaleTimeString()}
+            </p>
+          )}
         </div>
         <div className="header-actions">
           <button
             onClick={() => navigate("/StudentDashboard/Practice")}
-            className="btn primary"
+            className="btn btn-primary"
           >
             Practice
           </button>

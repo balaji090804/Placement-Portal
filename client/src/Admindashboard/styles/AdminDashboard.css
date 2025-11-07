@@ -1,25 +1,39 @@
+/* Admin Dashboard - Professional unified styling */
 .admin-dashboard-container {
   margin-left: 230px;
   padding: 30px;
-  background-color: #f4f8fb;
+  background: var(--bg-color);
   min-height: 100vh;
-  color: #1e2a3a;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
 }
-
 .admin-dashboard-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 26px;
-  font-weight: 600;
-  color: #1c3faa;
-  margin-bottom: 30px;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
 }
-
+.admin-header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.admin-header-title h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-color);
+}
 .admin-header-icon {
-  font-size: 28px;
-  color: #1c3faa;
+  font-size: 26px;
+  color: var(--primary-color);
+}
+.admin-header-meta .small {
+  font-size: 11px;
 }
 
 .admin-metrics {
@@ -30,23 +44,19 @@
 }
 
 .admin-metric-card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 20px 25px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  padding: 16px 18px;
   flex: 1 1 200px;
-  box-shadow: 0 8px 24px rgba(28, 63, 170, 0.08);
+  box-shadow: var(--shadow-sm);
   text-align: center;
-  transition: all 0.3s ease;
-}
-
-.admin-metric-card:hover {
-  transform: translateY(-4px);
 }
 
 .admin-metric-icon {
-  font-size: 26px;
-  color: #1c3faa;
-  margin-bottom: 10px;
+  font-size: 24px;
+  color: var(--primary-color);
+  margin-bottom: 6px;
 }
 
 .admin-section {
@@ -54,10 +64,10 @@
 }
 
 .admin-section h2 {
-  font-size: 20px;
-  color: #1c3faa;
-  margin-bottom: 15px;
+  font-size: 18px;
   font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 14px;
 }
 
 .admin-card-grid {
@@ -67,25 +77,28 @@
 }
 
 .admin-card {
-  background: #ffffff;
-  padding: 18px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(28, 63, 170, 0.07);
-  transition: all 0.3s ease;
-}
-
-.admin-card:hover {
-  transform: scale(1.02);
+  background: var(--surface-color);
+  padding: 16px 18px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
 }
 
 .admin-card h3 {
-  font-size: 16px;
-  color: #1e2a3a;
-  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 6px;
+}
+.admin-card p {
+  font-size: 12px;
+  color: var(--muted-color);
+  margin: 4px 0;
 }
 
-.admin-card p {
-  font-size: 13px;
-  color: #555e6b;
-  margin: 4px 0;
+@media (max-width: 900px) {
+  .admin-dashboard-container {
+    margin-left: 0;
+    padding: 20px;
+  }
 }

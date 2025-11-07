@@ -1,5 +1,6 @@
 const express = require("express");
 const Performance = require("../models/performance");
+const { recordPerformanceEvent } = require("../utils/performanceEvent");
 const router = express.Router();
 
 // Fetch student performance by email (auto-create if missing)
@@ -90,19 +91,7 @@ router.get("/:email/events/summary", async (req, res) => {
     ).lean();
     const now = new Date();
     const labels = [];
-    const types = [
-      "jobApplied",
-      "dailyCodeSubmitted",
-      "practiceStarted",
-      "taskCompleted",
-      "driveRegistered",
-      "announcementsViewed",
-      "resumeCreated",
-      "interviewRequested",
-    ];
-    const series = Object.fromEntries(
-      types.map((t) => [t, Array(months).fill(0)])
-    );
+    const series = {};
 
     // Build labels as last N months ending current month
     for (let i = months - 1; i >= 0; i--) {
@@ -119,7 +108,10 @@ router.get("/:email/events/summary", async (req, res) => {
         (now.getFullYear() - d.getFullYear()) * 12 +
         (now.getMonth() - d.getMonth());
       const idx = months - 1 - diffMonths;
-      if (idx >= 0 && idx < months && types.includes(ev.type)) {
+      if (idx >= 0 && idx < months) {
+        if (!series[ev.type]) {
+          series[ev.type] = Array(months).fill(0);
+        }
         series[ev.type][idx] += 1;
       }
     });
@@ -140,64 +132,7 @@ router.post("/event", async (req, res) => {
     if (!email || !type) {
       return res.status(400).json({ message: "email and type are required" });
     }
-    const studentEmail = String(email).trim().toLowerCase();
-    let doc = await Performance.findOne({ studentEmail });
-    if (!doc) {
-      doc = new Performance({ studentEmail });
-    }
-
-    // Update counters heuristically
-    switch (type) {
-      case "dailyCodeSubmitted":
-        doc.codingChallengesSolved = (doc.codingChallengesSolved || 0) + 1;
-        doc.mockTestScores.coding = Math.min(
-          100,
-          (doc.mockTestScores.coding || 0) + 1
-        );
-        break;
-      case "practiceStarted":
-        doc.mockTestScores.aptitude = Math.min(
-          100,
-          (doc.mockTestScores.aptitude || 0) + 1
-        );
-        break;
-      case "jobApplied":
-        // Track as pastInterviews opportunity placeholder if provided
-        if (meta?.companyName && meta?.jobRole) {
-          doc.pastInterviews = doc.pastInterviews || [];
-          doc.pastInterviews.push({
-            companyName: meta.companyName,
-            interviewDate: new Date(),
-            technicalScore: 0,
-            hrScore: 0,
-            overallPerformance: "Applied",
-          });
-        }
-        break;
-      case "resumeCreated":
-        doc.mockTestScores.communication = Math.min(
-          100,
-          (doc.mockTestScores.communication || 0) + 1
-        );
-        break;
-      default:
-        break;
-    }
-
-    doc.events = doc.events || [];
-    doc.events.push({ type, meta: meta || {}, date: new Date() });
-    doc.lastUpdated = new Date();
-    await doc.save();
-    // Realtime notify
-    const io = req.app.get("io");
-    if (io) {
-      io.to(`user:${studentEmail}`).emit("performance:event", { type, meta });
-      // generic dashboard update for student role
-      io.to(`user:${studentEmail}`).emit("dashboard:update", {
-        scope: "student",
-        email: studentEmail,
-      });
-    }
+    await recordPerformanceEvent(req.app, email, type, meta || {});
     return res.json({ ok: true });
   } catch (err) {
     console.error("/api/performance/event error:", err);

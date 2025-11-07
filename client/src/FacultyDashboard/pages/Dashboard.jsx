@@ -62,6 +62,7 @@ const Dashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   useEffect(() => {
     let intervalId;
@@ -88,6 +89,7 @@ const Dashboard = () => {
         }
         const json = await res.json();
         setData(json);
+        setLastUpdated(new Date());
         setLoading(false);
       } catch (e) {
         console.error("Failed to fetch faculty dashboard:", e);
@@ -96,8 +98,11 @@ const Dashboard = () => {
       }
     };
 
-    const unsubscribe = onEvent("dashboard:update", () => {
-      fetchDashboard();
+    const unsubscribe = onEvent("dashboard:update", (payload) => {
+      // For now refresh on any global dashboard update
+      if (!payload || payload.scope === "global") {
+        fetchDashboard();
+      }
     });
     fetchDashboard();
     // Poll every 60s for near real-time updates
@@ -112,7 +117,16 @@ const Dashboard = () => {
   return (
     <div className="faculty-dashboard">
       <div className="faculty-content">
-        <h1>Faculty Dashboard</h1>
+        <div className="faculty-dashboard-header card">
+          <div>
+            <h1 className="title">Faculty Dashboard</h1>
+            {lastUpdated && (
+              <p className="muted small">
+                Updated {lastUpdated.toLocaleTimeString()}
+              </p>
+            )}
+          </div>
+        </div>
 
         {loading && <p>Loading dashboard...</p>}
         {!!error && !loading && <p style={{ color: "#b00020" }}>{error}</p>}
@@ -144,7 +158,7 @@ const Dashboard = () => {
             {staticUiData.quickActions.map((action) => (
               <button
                 key={action.id}
-                className="action-btn"
+                className="btn btn-primary action-btn"
                 onClick={() => window.location.assign(action.route)}
               >
                 {action.label}

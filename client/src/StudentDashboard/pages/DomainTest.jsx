@@ -12,14 +12,14 @@ import {
 import "../styles/DomainTest.css";
 
 const domainConfig = {
-  aptitude: { title: "Aptitude Test", icon: "🧮", color: "#2563eb" },
-  coding: { title: "Coding Test", icon: "💻", color: "#16a34a" },
-  communication: { title: "Communication Test", icon: "💬", color: "#9333ea" },
-  technical: { title: "Technical MCQs", icon: "⚙️", color: "#ea580c" },
-  dsa: { title: "DSA Test", icon: "🌳", color: "#8b5cf6" },
-  dbms: { title: "DBMS Test", icon: "🗄️", color: "#e11d48" },
-  os: { title: "OS Test", icon: "🖥️", color: "#22c55e" },
-  networking: { title: "Networking Test", icon: "🌐", color: "#0ea5e9" },
+  aptitude: { title: "Aptitude Test", icon: "", color: "#2563eb" },
+  coding: { title: "Coding Test", icon: "", color: "#16a34a" },
+  communication: { title: "Communication Test", icon: "", color: "#9333ea" },
+  technical: { title: "Technical MCQs", icon: "", color: "#ea580c" },
+  dsa: { title: "DSA Test", icon: "", color: "#8b5cf6" },
+  dbms: { title: "DBMS Test", icon: "", color: "#e11d48" },
+  os: { title: "OS Test", icon: "", color: "#22c55e" },
+  networking: { title: "Networking Test", icon: "", color: "#0ea5e9" },
 };
 
 const DomainTest = () => {

@@ -9,6 +9,7 @@ const ChatRAGWidget = () => {
   const [busy, setBusy] = useState(false);
   const [uploadBusy, setUploadBusy] = useState(false);
   const fileRef = useRef();
+  const [docBadge, setDocBadge] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -27,8 +28,8 @@ const ChatRAGWidget = () => {
     load();
   }, []);
 
-  const send = async () => {
-    const text = input.trim();
+  const send = async (prefill) => {
+    const text = (prefill ?? input).trim();
     if (!text) return;
     setInput("");
     setMessages((m) => [...m, { role: "user", content: text }]);
@@ -46,6 +47,9 @@ const ChatRAGWidget = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Chat failed");
       const answer = data.answer || "";
+      // Mark if answer came from college docs (server returns topScore when RAG docs used)
+      const usedDocs = typeof data.topScore === "number" && data.topScore >= 0.15;
+      setDocBadge(!!usedDocs);
       // Show only the assistant's answer; do not render citations or source names
       setMessages((m) => [
         ...m,
@@ -116,7 +120,7 @@ const ChatRAGWidget = () => {
           <div className={styles.body}>
             {messages.length === 0 ? (
               <div className={styles.placeholder}>
-                Ask about placements, policies, schedules, or resources.
+                Ask about placements, upcoming drives, placement statistics, company feedback, prep tips, policies, or resources.
               </div>
             ) : (
               messages.map((m, idx) => (
@@ -129,6 +133,11 @@ const ChatRAGWidget = () => {
                   {m.content}
                 </div>
               ))
+            )}
+            {docBadge && (
+              <div className={styles.docBadge}>
+                Answered using uploaded college documents
+              </div>
             )}
           </div>
           <div className={styles.footer}>
@@ -145,16 +154,51 @@ const ChatRAGWidget = () => {
                 {uploadBusy && <span className={styles.hint}>Embedding…</span>}
               </div>
             )}
+            {/* Quick intents */}
+            <div className={styles.quickRow}>
+              <button
+                type="button"
+                className={styles.quickChip}
+                onClick={() => send("What are the upcoming drives?")}
+                disabled={busy}
+              >
+                Upcoming Drives
+              </button>
+              <button
+                type="button"
+                className={styles.quickChip}
+                onClick={() => send("What is the placement percentage?")}
+                disabled={busy}
+              >
+                Placement %
+              </button>
+              <button
+                type="button"
+                className={styles.quickChip}
+                onClick={() => send("Show company feedback and prep tips for Amazon")}
+                disabled={busy}
+              >
+                Company Tips
+              </button>
+              <button
+                type="button"
+                className={styles.quickChip}
+                onClick={() => send("College policy: internship attendance and eligibility")}
+                disabled={busy}
+              >
+                Policy
+              </button>
+            </div>
             <div className={styles.inputRow}>
               <input
                 className={styles.input}
-                placeholder={busy ? "Waiting for response…" : "Ask something…"}
+                placeholder={busy ? "Waiting for response…" : "Ask about placements, drives, stats, prep tips..."}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => (e.key === "Enter" ? send() : null)}
                 disabled={busy}
               />
-              <button className={styles.sendBtn} onClick={send} disabled={busy}>
+              <button className={styles.sendBtn} onClick={() => send()} disabled={busy}>
                 Send
               </button>
             </div>

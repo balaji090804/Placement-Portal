@@ -37,13 +37,13 @@ const AdminStudents = () => {
               <td>{student.department}</td>
               <td>
                 <select value={student.status} onChange={(e) => updateStatus(student.id, e.target.value)}>
-                  <option value="Placed">✅ Placed</option>
-                  <option value="Searching">🔍 Searching</option>
-                  <option value="Interview Scheduled">📅 Interview Scheduled</option>
+                  <option value="Placed">Placed</option>
+                  <option value="Searching">Searching</option>
+                  <option value="Interview Scheduled">Interview Scheduled</option>
                 </select>
               </td>
               <td>
-                <button className="remove-btn" onClick={() => removeStudent(student.id)}>🗑️ Remove</button>
+                <button className="remove-btn" onClick={() => removeStudent(student.id)}>Remove</button>
               </td>
             </tr>
           ))}

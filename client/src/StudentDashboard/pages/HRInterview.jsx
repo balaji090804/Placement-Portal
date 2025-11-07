@@ -5,12 +5,12 @@ const HRInterview = () => {
   return (
     <div className="interview-page">
       <section className="interview-header">
-        <h1>🧑‍💼 HR Interview Preparation</h1>
+        <h1>HR Interview Preparation</h1>
         <p>Prepare for HR interviews with commonly asked questions and expert tips.</p>
       </section>
 
       <section className="interview-content">
-        <h2>💬 Common HR Interview Questions</h2>
+        <h2>Common HR Interview Questions</h2>
         <ul className="question-list">
           <li>Tell me about yourself.</li>
           <li>Why do you want to work for our company?</li>

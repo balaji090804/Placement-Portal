@@ -118,7 +118,7 @@ const PerformanceAnalytics = () => {
 
   return (
     <div className="performance-page">
-      <h1>📊 Performance Analytics</h1>
+      <h1>Performance Analytics</h1>
 
       {/* Test Scores */}
       <section className="test-scores">

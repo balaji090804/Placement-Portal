@@ -64,15 +64,13 @@ const DailyCoding = () => {
 
   return (
     <div className="daily-coding-container">
-      {/* 🚀 Page Header */}
       <section className="daily-coding-header">
-        <h1>💻 Coding Practice & Assessments</h1>
+        <h1>Coding Practice & Assessments</h1>
         <p>Select a problem and start coding to test your skills.</p>
       </section>
 
-      {/* 🌟 Today's Daily Challenge (LeetCode) */}
       <section className="daily-challenge">
-        <h2>🌟 Today's Challenge</h2>
+        <h2>Today's Challenge</h2>
         {loading && <p>Loading daily challenge…</p>}
         {!!error && !loading && <p style={{ color: "#b00020" }}>{error}</p>}
         {!loading && !error && daily && (
@@ -126,9 +124,8 @@ const DailyCoding = () => {
         )}
       </section>
 
-      {/* 🔍 Coding Challenges List */}
       <section className="coding-problem-selection">
-        <h2>📌 Choose a Challenge</h2>
+        <h2>Choose a Challenge</h2>
         <div className="coding-problem-grid">
           {problems.map((problem) => (
             <div
@@ -145,10 +142,9 @@ const DailyCoding = () => {
         </div>
       </section>
 
-      {/* 💻 Coding Interface */}
       {selectedProblem && (
         <section className="coding-problem-interface">
-          <h2>💻 Solve: {selectedProblem.title}</h2>
+          <h2>Solve: {selectedProblem.title}</h2>
           <p>{selectedProblem.description}</p>
 
           <div className="coding-textarea-wrapper">
@@ -177,10 +173,10 @@ const DailyCoding = () => {
 
           <div className="sample-input-output">
             <p>
-              <strong>📥 Sample Input:</strong> {selectedProblem.sampleInput}
+              <strong>Sample Input:</strong> {selectedProblem.sampleInput}
             </p>
             <p>
-              <strong>📤 Expected Output:</strong>{" "}
+              <strong>Expected Output:</strong>{" "}
               {selectedProblem.sampleOutput}
             </p>
           </div>

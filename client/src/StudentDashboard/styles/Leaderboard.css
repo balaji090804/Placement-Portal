@@ -448,3 +448,138 @@
     min-width: 600px;
   }
 }
+
+/* --- Professional overrides (brand #2563eb, clean surfaces) --- */
+.leaderboard-hero {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 2rem 2rem 1.75rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  color: #111827;
+}
+.hero-icon {
+  display: none;
+}
+.leaderboard-hero h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem;
+}
+.leaderboard-hero p {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.my-stats-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.75rem 1.75rem 1.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.stats-grid .stat-item {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  box-shadow: none;
+  transform: none;
+}
+.stats-grid .stat-item:hover {
+  transform: none;
+  box-shadow: none;
+}
+.stat-value {
+  color: #2563eb;
+}
+
+.recent-attempts {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+.attempt-item {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-left: none;
+}
+.attempt-percentage {
+  color: #2563eb;
+}
+
+.leaderboard-section {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.leaderboard-section h2 {
+  color: #111827;
+}
+
+.leaderboard-table-wrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: none;
+}
+.leaderboard-table {
+  background: #ffffff;
+}
+.leaderboard-table thead {
+  background: #f9fafb;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+}
+.leaderboard-table th {
+  color: #374151;
+}
+.leaderboard-table tbody tr:hover {
+  background: #f9fafb;
+}
+.leaderboard-table td {
+  color: #111827;
+}
+
+.rank-number {
+  color: #374151;
+}
+.you-badge {
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 10px;
+  font-size: 11px;
+  padding: 2px 8px 3px;
+}
+.score-cell strong {
+  color: #2563eb;
+}
+
+.percentage-bar {
+  height: 22px;
+  background: #f1f5f9;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0 0.5rem;
+}
+.percentage-bar::before {
+  background: #2563eb;
+}
+.percentage-bar span {
+  font-size: 12px;
+  color: #111827;
+}
+
+.attempts-cell {
+  color: #6b7280;
+}
+.date-cell {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.highlight-me {
+  background: #eff6ff !important;
+  border-left: none;
+}

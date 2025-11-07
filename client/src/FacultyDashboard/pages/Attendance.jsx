@@ -59,16 +59,16 @@ const Attendance = () => {
             attendanceList: results.data,
           };
           await axios.post("http://localhost:8080/api/announcements/uploadAttendance", payload);
-          setMessage("✅ Attendance uploaded successfully!");
+          setMessage("Attendance uploaded successfully!");
           setCsvFile(null);
         } catch (error) {
           console.error("Error uploading attendance:", error);
-          setMessage("❌ Failed to upload attendance.");
+          setMessage("Failed to upload attendance.");
         }
       },
       error: (err) => {
         console.error("CSV parse error:", err);
-        setMessage("❌ Failed to parse CSV file.");
+        setMessage("Failed to parse CSV file.");
       },
     });
   };

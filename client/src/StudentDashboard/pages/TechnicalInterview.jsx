@@ -5,12 +5,12 @@ const TechnicalInterview = () => {
   return (
     <div className="interview-page">
       <section className="interview-header">
-        <h1>💻 Technical Interview Preparation</h1>
+        <h1>Technical Interview Preparation</h1>
         <p>Master technical interviews with essential coding, database, and problem-solving skills.</p>
       </section>
 
       <section className="interview-content">
-        <h2>💡 Common Technical Interview Questions</h2>
+        <h2>Common Technical Interview Questions</h2>
         <ul className="question-list">
           <li>What is the difference between C++ and Java?</li>
           <li>Explain the concept of OOP with real-world examples.</li>

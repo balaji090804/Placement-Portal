@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom"; // ✅ Import useOutletContext
+import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import "../styles/JobPage.css";
 import { recordPerformanceEvent } from "../../lib/performance";
 
 const JobPortal = () => {
-  const { studentName, studentEmail } = useOutletContext(); // ✅ Retrieve data from context
+  const { studentName, studentEmail } = useOutletContext();
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +13,6 @@ const JobPortal = () => {
     fetchJobs();
   }, []);
 
-  // ✅ Fetch only placement announcements (visible after faculty/Admin finalize)
   const fetchJobs = async () => {
     try {
       const response = await axios.get(
@@ -21,17 +20,16 @@ const JobPortal = () => {
       );
       setAnnouncements(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
-      console.error("❌ Error fetching announcements:", error);
+      console.error("Error fetching announcements:", error);
       setAnnouncements([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Handle job application (Store Name & Email)
   const handleApply = async (companyName, jobRole) => {
     if (!studentName || !studentEmail) {
-      alert("⚠️ Please log in to apply for jobs.");
+      alert("Please log in to apply for jobs.");
       return;
     }
     try {
@@ -40,18 +38,17 @@ const JobPortal = () => {
         {
           companyName,
           studentName,
-          studentEmail, // ✅ Now sending email along with name
+          studentEmail,
           jobRole,
         }
       );
       alert(response.data.message);
-      // Record performance event
       recordPerformanceEvent(studentEmail, "jobApplied", {
         companyName,
         jobRole,
       });
     } catch (error) {
-      console.error("❌ Application failed:", error.response?.data?.message);
+      console.error("Application failed:", error.response?.data?.message);
       alert(
         error.response?.data?.message || "Application failed. Please try again."
       );
@@ -61,23 +58,23 @@ const JobPortal = () => {
         const res = await axios.get(
           `http://localhost:8080/api/student-profile/check/${email}`
         );
-        return res.data.exists; // Boolean indicating existence
+        return res.data.exists;
       } catch (error) {
-        console.error("❌ Error checking profile existence:", error);
+        console.error("Error checking profile existence:", error);
         return false;
       }
     };
 
     const profileExists = await checkProfileExists(studentEmail);
     if (!profileExists) {
-      alert("⚠️ You must complete your profile before applying.");
+      alert("You must complete your profile before applying.");
       return;
     }
   };
 
   return (
     <div className="main-content">
-      <h1>💼 Explore Placement Announcements</h1>
+      <h1>Explore Placement Announcements</h1>
 
       {loading ? (
         <p>Loading jobs...</p>
@@ -92,23 +89,23 @@ const JobPortal = () => {
               </h2>
               {ann.venue && (
                 <p>
-                  <strong>📍 Venue:</strong> {ann.venue}
+                  <strong>Venue:</strong> {ann.venue}
                 </p>
               )}
               <p>
-                <strong>� Drive Date:</strong>{" "}
+                <strong>Drive Date:</strong>{" "}
                 {new Date(ann.dateTime).toLocaleString()}
               </p>
               {ann.prePlacementTalkVenue && ann.prePlacementTalkTime && (
                 <p>
-                  <strong>�️ Pre-placement Talk:</strong>{" "}
+                  <strong>Pre-placement Talk:</strong>{" "}
                   {ann.prePlacementTalkVenue} at{" "}
                   {new Date(ann.prePlacementTalkTime).toLocaleString()}
                 </p>
               )}
               {ann.requiredItems && (
                 <p>
-                  <strong>� Required Items:</strong> {ann.requiredItems}
+                  <strong>Required Items:</strong> {ann.requiredItems}
                 </p>
               )}
               <button
