@@ -43,6 +43,7 @@ const EVENT_LABELS = {
   interviewRequested: "Mock interview requested",
   offerAccepted: "Offer accepted",
   offerDeclined: "Offer declined",
+  offerReleased: "Offer released",
 };
 
 const formatTimestamp = (value) => {
@@ -91,6 +92,7 @@ const describeMeta = (event) => {
       return meta.track ? `${meta.track} mock interview` : "Mock interview";
     case "offerAccepted":
     case "offerDeclined":
+    case "offerReleased":
       if (meta.companyName || meta.roleTitle) {
         return [meta.companyName, meta.roleTitle].filter(Boolean).join(" • ");
       }
@@ -101,7 +103,7 @@ const describeMeta = (event) => {
   return "";
 };
 
-const PerformanceTracker = () => {
+const PerformanceTracker = ({ email: emailProp }) => {
   const [perf, setPerf] = useState(null);
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -109,10 +111,13 @@ const PerformanceTracker = () => {
   const [lastUpdated, setLastUpdated] = useState(null);
 
   const email = (
+    emailProp ||
     localStorage.getItem("studentEmail") ||
     localStorage.getItem("email") ||
     ""
-  ).toLowerCase();
+  )
+    .toString()
+    .toLowerCase();
 
   async function load() {
     try {
@@ -172,6 +177,11 @@ const PerformanceTracker = () => {
   };
   const codingSolved = perf?.codingChallengesSolved || 0;
   const offersAccepted = perf?.offersAccepted || 0;
+  // Derive offers received from events (offerReleased occurrences)
+  const offersReceived = useMemo(() => {
+    if (!Array.isArray(perf?.events)) return 0;
+    return perf.events.filter((e) => e.type === "offerReleased").length;
+  }, [perf]);
   const interviewScore = perf?.interviewScores ?? null;
   const lastEvent = recentEvents?.[0];
 
@@ -190,6 +200,7 @@ const PerformanceTracker = () => {
     totals.announcements = totals.announcementsViewed || 0;
     totals.resumeUpdates = totals.resumeCreated || 0;
     totals.offersAccepted = totals.offerAccepted || 0;
+    totals.offersReceived = totals.offerReleased || 0;
     return totals;
   }, [summary]);
 
@@ -218,6 +229,11 @@ const PerformanceTracker = () => {
       {
         label: "Offers Accepted",
         value: summaryTotals.offersAccepted || 0,
+        caption: "Past 6 months",
+      },
+      {
+        label: "Offers Received",
+        value: summaryTotals.offersReceived || offersReceived || 0,
         caption: "Past 6 months",
       },
       {

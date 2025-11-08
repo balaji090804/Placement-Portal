@@ -1,0 +1,116 @@
+.perf-admin-container {
+  padding: 24px;
+  max-width: 1240px;
+  margin: 0 24px 32px calc(var(--sidebar-width, 220px) + 24px);
+}
+.perf-search {
+  padding: 20px;
+  border-radius: 12px;
+  background: #0e1320;
+  color: #e9edf5;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  border: 1px solid #1f2433;
+}
+.perf-search .title {
+  margin: 0 0 6px 0;
+  font-size: 20px;
+}
+.perf-search .muted {
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
+.perf-search .row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.perf-search input {
+  flex: 1;
+  min-width: 280px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2a3042;
+  background: #131a2a;
+  color: #e9edf5;
+}
+.perf-search .btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #1c3faa;
+  color: white;
+  cursor: pointer;
+}
+.perf-search .btn:hover {
+  background: #1740c2;
+}
+.perf-tracker-wrapper {
+  padding: 16px;
+  border-radius: 12px;
+  background: #0b101b;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid #1f2433;
+}
+.card {
+  border-radius: 12px;
+}
+.muted {
+  color: #aeb4c4;
+}
+.error {
+  margin-top: 8px;
+}
+
+/* Responsive: collapse sidebar offset on small screens */
+@media (max-width: 900px) {
+  .perf-admin-container {
+    margin: 0 16px 24px 16px;
+    padding: 20px;
+  }
+}
+@media (max-width: 600px) {
+  .perf-admin-container {
+    padding: 16px;
+    margin: 0 12px 20px 12px;
+  }
+}
+
+/* Metric badges */
+.perf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+.perf-badge.accent {
+  background: #dbeafe;
+  color: #1e3a8a;
+  border-color: #bfdbfe;
+}
+
+/* Loader */
+.perf-skeleton {
+  height: 14px;
+  width: 140px;
+  background: linear-gradient(90deg, #f3f4f6, #e5e7eb, #f3f4f6);
+  background-size: 200% 100%;
+  animation: perfSk 1.1s infinite;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+@keyframes perfSk {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

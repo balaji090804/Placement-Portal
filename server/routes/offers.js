@@ -63,6 +63,18 @@ router.post("/", auth, loadActor, async (req, res) => {
           createdBy: req.actor.email,
         });
       } catch {}
+      try {
+        await recordPerformanceEvent(
+          req.app,
+          offer.studentEmail,
+          "offerReleased",
+          {
+            offerId: String(offer._id),
+            companyName: offer.companyName,
+            roleTitle: offer.roleTitle,
+          }
+        );
+      } catch {}
     }
     res.status(201).json(offer);
   } catch (e) {
@@ -102,6 +114,18 @@ router.put("/:id", auth, loadActor, async (req, res) => {
           link: "/StudentDashboard/Offers",
           createdBy: req.actor.email,
         });
+      } catch {}
+      try {
+        await recordPerformanceEvent(
+          req.app,
+          offer.studentEmail,
+          "offerReleased",
+          {
+            offerId: String(offer._id),
+            companyName: offer.companyName,
+            roleTitle: offer.roleTitle,
+          }
+        );
       } catch {}
     }
     res.json(offer);
@@ -178,18 +202,7 @@ router.post("/:id/decline", auth, loadActor, async (req, res) => {
         createdBy: req.actor.email,
       });
     } catch {}
-    // Record performance event for real-time tracker and counters
-    try {
-      await recordPerformanceEvent(
-        req.app,
-        offer.studentEmail,
-        "offerAccepted",
-        {
-          companyName: offer.companyName,
-          roleTitle: offer.roleTitle,
-        }
-      );
-    } catch {}
+    // Record performance events (declined only)
     await offer.save();
     await recordPerformanceEvent(req.app, offer.studentEmail, "offerDeclined", {
       offerId: String(offer._id),

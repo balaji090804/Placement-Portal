@@ -7,7 +7,6 @@ import {
   FaCode,
   FaBookOpen,
   FaTasks,
-  FaClipboardCheck,
   FaBriefcase,
   FaChartLine,
   FaFileAlt,
@@ -114,10 +113,7 @@ const Sidebar = () => {
           <FaTasks />
           <span>Daily Tasks</span>
         </SidebarItem>
-        <SidebarItem to="/StudentDashboard/InterviewPreparation">
-          <FaClipboardCheck />
-          <span>Interview Prep</span>
-        </SidebarItem>
+        {/* Interview Prep removed per request */}
         <SidebarItem to="/StudentDashboard/JobPortal">
           <FaBriefcase />
           <span>Job Portal</span>

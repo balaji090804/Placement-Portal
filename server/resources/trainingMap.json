@@ -1,0 +1,166 @@
+{
+  "sde": {
+    "skills": ["data structures", "algorithms", "system design"],
+    "resources": [
+      {
+        "title": "LeetCode",
+        "url": "https://leetcode.com",
+        "type": "Practice"
+      },
+      {
+        "title": "GeeksforGeeks DSA",
+        "url": "https://www.geeksforgeeks.org/data-structures/",
+        "type": "Tutorial"
+      },
+      {
+        "title": "System Design Primer",
+        "url": "https://github.com/donnemartin/system-design-primer",
+        "type": "Guide"
+      },
+      { "title": "Cracking the Coding Interview", "url": "", "type": "Book" },
+      { "title": "NeetCode", "url": "https://neetcode.io", "type": "Practice" }
+    ]
+  },
+  "data engineer": {
+    "skills": ["sql", "python", "spark", "etl"],
+    "resources": [
+      {
+        "title": "SQL Practice (HackerRank)",
+        "url": "https://www.hackerrank.com/domains/sql",
+        "type": "Practice"
+      },
+      {
+        "title": "Apache Spark Documentation",
+        "url": "https://spark.apache.org/docs/latest/",
+        "type": "Documentation"
+      },
+      {
+        "title": "Python for Data Engineering",
+        "url": "https://realpython.com",
+        "type": "Tutorial"
+      },
+      {
+        "title": "Data Engineering Zoomcamp",
+        "url": "https://github.com/DataTalksClub/data-engineering-zoomcamp",
+        "type": "Course"
+      }
+    ]
+  },
+  "backend": {
+    "skills": ["rest api", "database", "microservices"],
+    "resources": [
+      {
+        "title": "Node.js Best Practices",
+        "url": "https://github.com/goldbergyoni/nodebestpractices",
+        "type": "Guide"
+      },
+      {
+        "title": "Microservices.io",
+        "url": "https://microservices.io",
+        "type": "Tutorial"
+      },
+      {
+        "title": "PostgreSQL Tutorial",
+        "url": "https://www.postgresqltutorial.com",
+        "type": "Tutorial"
+      },
+      {
+        "title": "REST API Design",
+        "url": "https://restfulapi.net",
+        "type": "Guide"
+      }
+    ]
+  },
+  "frontend": {
+    "skills": ["react", "javascript", "css", "html"],
+    "resources": [
+      {
+        "title": "React Official Docs",
+        "url": "https://react.dev",
+        "type": "Documentation"
+      },
+      {
+        "title": "Frontend Mentor",
+        "url": "https://www.frontendmentor.io",
+        "type": "Practice"
+      },
+      {
+        "title": "JavaScript.info",
+        "url": "https://javascript.info",
+        "type": "Tutorial"
+      },
+      {
+        "title": "CSS Tricks",
+        "url": "https://css-tricks.com",
+        "type": "Guide"
+      }
+    ]
+  },
+  "devops": {
+    "skills": ["docker", "kubernetes", "ci/cd", "aws"],
+    "resources": [
+      {
+        "title": "Docker Documentation",
+        "url": "https://docs.docker.com",
+        "type": "Documentation"
+      },
+      {
+        "title": "Kubernetes Basics",
+        "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/",
+        "type": "Tutorial"
+      },
+      {
+        "title": "AWS Training",
+        "url": "https://aws.amazon.com/training/",
+        "type": "Course"
+      },
+      { "title": "The DevOps Handbook", "url": "", "type": "Book" }
+    ]
+  },
+  "analyst": {
+    "skills": ["excel", "sql", "python", "tableau"],
+    "resources": [
+      {
+        "title": "Excel Tutorial",
+        "url": "https://www.excel-easy.com",
+        "type": "Tutorial"
+      },
+      {
+        "title": "Mode SQL Tutorial",
+        "url": "https://mode.com/sql-tutorial/",
+        "type": "Tutorial"
+      },
+      {
+        "title": "Tableau Public",
+        "url": "https://public.tableau.com",
+        "type": "Practice"
+      },
+      { "title": "Python for Data Analysis", "url": "", "type": "Book" }
+    ]
+  },
+  "general": {
+    "skills": ["problem solving", "communication", "teamwork"],
+    "resources": [
+      {
+        "title": "LeetCode",
+        "url": "https://leetcode.com",
+        "type": "Practice"
+      },
+      {
+        "title": "HackerRank",
+        "url": "https://www.hackerrank.com",
+        "type": "Practice"
+      },
+      {
+        "title": "Interview Bit",
+        "url": "https://www.interviewbit.com",
+        "type": "Practice"
+      },
+      {
+        "title": "STAR Method Guide",
+        "url": "https://www.indeed.com/career-advice/interviewing/how-to-use-the-star-interview-response-technique",
+        "type": "Guide"
+      }
+    ]
+  }
+}

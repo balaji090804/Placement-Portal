@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/JobMonitoring.css";
+import { onEvent } from "../../lib/socket";
 
 const JobMonitoring = () => {
   const [jobs, setJobs] = useState([]);
@@ -11,6 +12,15 @@ const JobMonitoring = () => {
 
   useEffect(() => {
     fetchJobs();
+    // listen to global dashboard updates and job events
+    const off1 = onEvent("dashboard:update", (p) => {
+      if (!p || p.scope === "global") fetchJobs();
+    });
+    const off2 = onEvent("jobs:new", () => fetchJobs());
+    return () => {
+      if (typeof off1 === "function") off1();
+      if (typeof off2 === "function") off2();
+    };
   }, []);
 
   // 1) Load job data from /api/recruiters & merge with /api/companyroles/all

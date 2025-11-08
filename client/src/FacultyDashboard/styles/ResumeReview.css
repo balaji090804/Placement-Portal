@@ -1,35 +1,162 @@
-/* Faculty Resume Review */
+/* Faculty Resume Review - Professional Styling */
 .faculty-resume-review {
-    margin-left: 220px;
-    padding: 2rem;
-    max-width: calc(100% - 220px);
+  padding: 24px;
+  margin-left: calc(var(--sidebar-width, 220px) + 20px);
+  max-width: 1200px;
+}
+@media (max-width: 900px) {
+  .faculty-resume-review {
+    margin-left: 16px;
+    padding: 20px;
   }
-  
-  .faculty-resume-review h1 {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
-    color: white;
-    background: var(--dark-blue);
-    padding: 1.2rem;
-    border-radius: 8px;
+}
+
+.resume-search-card,
+.resume-viewer-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 28px;
+}
+.resume-search-card label {
+  font-size: 12px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.resume-search-card .row {
+  display: flex;
+  gap: 12px;
+}
+.resume-search-card input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  color: var(--text-color);
+  font-size: 14px;
+}
+.resume-search-card input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+.resume-search-card button {
+  padding: 12px 20px;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+.resume-search-card button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.resume-search-card button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.error-msg {
+  color: #dc2626;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.resume-viewer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.resume-meta h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.badge.verified {
+  background: #e6fcef;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+.badge.pending {
+  background: #fef9c3;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+.verified-details {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+.verify-btn {
+  padding: 10px 18px;
+  background: #15803d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+.verify-btn:hover {
+  background: #166534;
+}
+
+.resume-frame-wrapper {
+  width: 100%;
+  min-height: 640px;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.resume-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 640px;
+  border: 0;
+}
+.open-resume-link {
+  display: inline-block;
+  padding: 12px 18px;
+  background: var(--primary-color);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.open-resume-link:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 1024px) {
+  .resume-frame-wrapper,
+  .resume-iframe {
+    min-height: 520px;
   }
-  
-  .resume-list li {
-    background: var(--card-bg);
-    padding: 1rem;
-    border-radius: 6px;
-    margin-top: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+}
+@media (max-width: 640px) {
+  .resume-frame-wrapper,
+  .resume-iframe {
+    min-height: 420px;
   }
-  
-  .resume-list button {
-    background: var(--dark-blue);
-    color: white;
-    padding: 0.6rem;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
+}

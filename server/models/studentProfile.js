@@ -11,6 +11,9 @@ const studentProfileSchema = new mongoose.Schema({
   branch: String,
   location: String,
   resume: String,
+  resumeVerified: { type: Boolean, default: false },
+  resumeVerifiedAt: { type: Date },
+  resumeVerifiedBy: { type: String }, // verifier email or id
   tenthPercentage: Number,
   twelfthPercentage: Number,
   cgpa: Number,

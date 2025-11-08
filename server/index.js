@@ -1,4 +1,11 @@
 require("dotenv").config();
+// Workaround for DNS resolution quirks on some Windows/Node setups when connecting to Atlas
+try {
+  const dns = require("dns");
+  if (typeof dns.setDefaultResultOrder === "function") {
+    dns.setDefaultResultOrder("ipv4first");
+  }
+} catch (_) {}
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -37,6 +44,7 @@ const recruiterPortalRoutes = require("./routes/recruiterPortal");
 const trackingRoutes = require("./routes/tracking");
 const adminToolsRoutes = require("./routes/adminTools");
 const classesRoutes = require("./routes/classes");
+const lecturesRoutes = require("./routes/lectures");
 const http = require("http");
 const { Server } = require("socket.io");
 const app = express();
@@ -103,6 +111,7 @@ app.use("/api/recruiter", recruiterPortalRoutes);
 app.use("/api/tracking", trackingRoutes);
 app.use("/api/admin-tools", adminToolsRoutes);
 app.use("/api/classes", classesRoutes);
+app.use("/api/lectures", lecturesRoutes);
 // Start HTTP server and attach Socket.IO
 const PORT = process.env.PORT || 8080;
 const server = http.createServer(app);

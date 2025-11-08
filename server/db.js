@@ -59,6 +59,12 @@ module.exports = async () => {
         `❌ Database connection failed (attempt ${attempt}/${MAX_RETRIES}): ${error.message}`
       );
 
+      if (/ENOTFOUND|EAI_AGAIN/i.test(error.message)) {
+        console.error(
+          "Hint: DNS could not resolve your MongoDB Atlas host.\n- Check that your connection string uses the SRV form (mongodb+srv://...).\n- Verify your internet/DNS works (try switching to a public DNS like 8.8.8.8).\n- Confirm the cluster hostname is correct (copy from Atlas) and your IP is allowed in Atlas Network Access."
+        );
+      }
+
       // Common guidance for Atlas SRV DNS timeouts
       if (/querySrv ETIMEOUT/i.test(error.message)) {
         console.error(

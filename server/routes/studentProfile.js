@@ -145,6 +145,78 @@ router.put("/", authMiddleware, async (req, res) => {
   }
 });
 
+// GET /api/student-profile/resume/:email -> { url, verified, name, collegeEmail }
+router.get("/resume/:email", authMiddleware, async (req, res) => {
+  try {
+    const requesterRole = req.user?.role;
+    if (!requesterRole || !["faculty", "admin"].includes(requesterRole)) {
+      return res.status(403).json({ message: "Forbidden: faculty/admin only" });
+    }
+    const email = (req.params.email || "").toLowerCase();
+    if (!email) return res.status(400).json({ message: "Missing email" });
+    const student = await StudentProfile.findOne({ collegeEmail: email });
+    if (!student)
+      return res.status(404).json({ message: "Student profile not found" });
+    if (!student.resume)
+      return res.status(404).json({ message: "No resume on file" });
+
+    // If resume path is relative, prefix with server origin hint (client should prefix with host when rendering)
+    const url = student.resume; // stored as public path or external URL
+    return res.json({
+      url,
+      verified: Boolean(student.resumeVerified),
+      name: student.name || "",
+      collegeEmail: student.collegeEmail,
+      verifiedAt: student.resumeVerifiedAt || null,
+      verifiedBy: student.resumeVerifiedBy || null,
+    });
+  } catch (err) {
+    console.error("Error fetching resume for review:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+// POST /api/student-profile/resume/:email/verify -> mark resume as verified
+router.post("/resume/:email/verify", authMiddleware, async (req, res) => {
+  try {
+    const requesterRole = req.user?.role;
+    if (!requesterRole || !["faculty", "admin"].includes(requesterRole)) {
+      return res.status(403).json({ message: "Forbidden: faculty/admin only" });
+    }
+    const email = (req.params.email || "").toLowerCase();
+    if (!email) return res.status(400).json({ message: "Missing email" });
+
+    const student = await StudentProfile.findOne({ collegeEmail: email });
+    if (!student)
+      return res.status(404).json({ message: "Student profile not found" });
+    if (!student.resume)
+      return res.status(400).json({ message: "No resume on file to verify" });
+
+    // Try to get verifier email for audit
+    let verifierEmail = null;
+    if (req.user?._id) {
+      const verifier = await User.findById(req.user._id).select("email");
+      verifierEmail = verifier?.email || null;
+    }
+
+    student.resumeVerified = true;
+    student.resumeVerifiedAt = new Date();
+    student.resumeVerifiedBy =
+      verifierEmail || `user:${req.user?._id || "unknown"}`;
+    await student.save();
+
+    return res.json({
+      message: "Resume verified",
+      verified: true,
+      verifiedAt: student.resumeVerifiedAt,
+      verifiedBy: student.resumeVerifiedBy,
+    });
+  } catch (err) {
+    console.error("Error verifying resume:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
 // GET /api/student-profile/check/:email -> { exists: boolean }
 router.get("/check/:email", authMiddleware, async (req, res) => {
   try {

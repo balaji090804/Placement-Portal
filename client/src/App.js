@@ -56,6 +56,7 @@ import FacultyAddOS from "./FacultyDashboard/pages/FacultyAddOS.jsx";
 import FacultyAddTechnical from "./FacultyDashboard/pages/FacultyAddTechnical.jsx";
 import AddQuestion from "./FacultyDashboard/pages/AddQuestion.jsx";
 import ManageQuestions from "./FacultyDashboard/pages/ManageQuestions.jsx";
+import ScheduleLecture from "./FacultyDashboard/pages/ScheduleLecture.jsx";
 
 // Student
 import StudentDashboard from "./StudentDashboard/App.js";
@@ -65,7 +66,6 @@ import JobPortal from "./StudentDashboard/pages/JobPortal.jsx";
 import Practice from "./StudentDashboard/pages/Practice.jsx";
 import DailyCoding from "./StudentDashboard/pages/DailyCoding";
 import ResumeBuilder from "./StudentDashboard/pages/ResumeBuilder";
-import InterviewPreparation from "./StudentDashboard/pages/InterviewPreparation.jsx";
 import InterviewSlots from "./StudentDashboard/pages/InterviewSlots.jsx";
 import Aptitude from "./StudentDashboard/pages/AptitudeTest.jsx";
 import PerformanceAnalytics from "./StudentDashboard/pages/PerformanceAnalytics.jsx";
@@ -137,10 +137,7 @@ function App() {
                 <Route path="DailyCoding" element={<DailyCoding />} />
                 <Route path="ResumeBuilder" element={<ResumeBuilder />} />
                 <Route path="Aptitude" element={<Aptitude />} />
-                <Route
-                  path="InterviewPreparation"
-                  element={<InterviewPreparation />}
-                />
+                {/* InterviewPreparation route removed per request */}
                 <Route path="InterviewSlots" element={<InterviewSlots />} />
                 <Route
                   path="PerformanceAnalytics"
@@ -228,6 +225,7 @@ function App() {
                 <Route path="Dashboard" element={<Dashboard />} />
                 <Route path="JobMonitoring" element={<JobMonitoring />} />
                 <Route path="ResumeReview" element={<ResumeReview />} />
+                <Route path="ScheduleLecture" element={<ScheduleLecture />} />
                 <Route path="Announcements" element={<Announcements />} />
                 <Route
                   path="FacultyPlacementUpdate"
@@ -275,7 +273,6 @@ function App() {
                 />
               </Route>
             )}
-
           </>
         )}
 

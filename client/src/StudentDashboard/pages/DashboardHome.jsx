@@ -106,12 +106,7 @@ const StudentHome = () => {
           >
             Daily Coding
           </button>
-          <button
-            onClick={() => navigate("/StudentDashboard/InterviewPreparation")}
-            className="btn"
-          >
-            Interview Prep
-          </button>
+          {/* Interview Prep button removed per request */}
         </div>
       </header>
 
@@ -264,12 +259,7 @@ const StudentHome = () => {
             >
               Faculty Aptitude
             </button>
-            <button
-              className="chip"
-              onClick={() => navigate("/StudentDashboard/InterviewPreparation")}
-            >
-              Interview Prep
-            </button>
+            {/* Interview Prep quick-link removed per request */}
             <button
               className="chip"
               onClick={() => navigate("/StudentDashboard/ResumeBuilder")}

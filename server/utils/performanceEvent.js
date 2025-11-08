@@ -91,6 +91,10 @@ async function recordPerformanceEvent(appOrIo, email, type, meta = {}) {
         doc.offersAccepted = (doc.offersAccepted || 0) + 1;
         doc.interviewScores = clampScore(doc.interviewScores, 5);
         break;
+      case "offerReleased":
+        // Received an offer; small positive nudge to interview score
+        doc.interviewScores = clampScore(doc.interviewScores, 2);
+        break;
       case "offerDeclined":
         doc.interviewScores = clampScore(doc.interviewScores, -2);
         break;

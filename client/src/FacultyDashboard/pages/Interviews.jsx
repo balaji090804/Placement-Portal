@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/Interviews.css";
+import { onEvent } from "../../lib/socket";
 
 const Interviews = () => {
   const [requests, setRequests] = useState([]);
@@ -15,12 +16,26 @@ const Interviews = () => {
   useEffect(() => {
     fetchInterviewRequests();
     fetchScheduledInterviews();
+    const off1 = onEvent("interviews:update", () => {
+      fetchInterviewRequests();
+      fetchScheduledInterviews();
+    });
+    const off2 = onEvent("dashboard:update", () => {
+      fetchInterviewRequests();
+      fetchScheduledInterviews();
+    });
+    return () => {
+      if (typeof off1 === "function") off1();
+      if (typeof off2 === "function") off2();
+    };
   }, []);
 
   // ✅ Fetch interview requests from students
   const fetchInterviewRequests = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/interviews/requests");
+      const response = await axios.get(
+        "http://localhost:8080/api/interviews/requests"
+      );
       setRequests(response.data);
     } catch (error) {
       console.error("Error fetching interview requests:", error);
@@ -30,7 +45,9 @@ const Interviews = () => {
   // ✅ Fetch scheduled interviews
   const fetchScheduledInterviews = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/interviews/scheduled");
+      const response = await axios.get(
+        "http://localhost:8080/api/interviews/scheduled"
+      );
       setScheduledInterviews(response.data);
     } catch (error) {
       console.error("Error fetching scheduled interviews:", error);
@@ -48,12 +65,15 @@ const Interviews = () => {
     setSuccessMessage("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/interviews/schedule", {
-        requestId,
-        meetingLink,
-        date,
-        time,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/interviews/schedule",
+        {
+          requestId,
+          meetingLink,
+          date,
+          time,
+        }
+      );
 
       setSuccessMessage(response.data.message);
       fetchInterviewRequests(); // Refresh pending requests
@@ -84,7 +104,9 @@ const Interviews = () => {
                 <h3>{req.studentName}</h3>
                 <p>Email: {req.studentEmail}</p>
                 <p>Status: {req.status}</p>
-                <button onClick={() => setSelectedRequest(req)}>Schedule</button>
+                <button onClick={() => setSelectedRequest(req)}>
+                  Schedule
+                </button>
               </li>
             ))}
           </ul>
@@ -100,9 +122,20 @@ const Interviews = () => {
             value={meetingLink}
             onChange={(e) => setMeetingLink(e.target.value)}
           />
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-          <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-          <button onClick={() => scheduleInterview(selectedRequest._id)} disabled={loading}>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+          />
+          <button
+            onClick={() => scheduleInterview(selectedRequest._id)}
+            disabled={loading}
+          >
             {loading ? "Scheduling..." : "Confirm & Send Mail"}
           </button>
         </section>
@@ -120,9 +153,18 @@ const Interviews = () => {
               <li key={int._id}>
                 <h3>{int.studentName}</h3>
                 <p>Email: {int.studentEmail}</p>
-                <p>📅 {int.date} | ⏰ {int.time}</p>
                 <p>
-                  🔗 <a href={int.meetingLink} target="_blank" rel="noopener noreferrer">Join Google Meet</a>
+                  📅 {int.date} | ⏰ {int.time}
+                </p>
+                <p>
+                  🔗{" "}
+                  <a
+                    href={int.meetingLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Join Google Meet
+                  </a>
                 </p>
                 <p>Status: {int.status}</p>
               </li>

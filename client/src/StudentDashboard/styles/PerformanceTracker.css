@@ -72,6 +72,7 @@
   flex-direction: column;
   gap: 6px;
   padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
 }
 .insight-card .metric {
   font-size: 28px;
@@ -89,6 +90,11 @@
   letter-spacing: 0.04em;
 }
 
+.insight-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
 /* Heatmap */
 .heatmap {
   padding: 16px;
@@ -103,6 +109,8 @@
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 10px;
+  border-left: 3px solid var(--primary-color);
+  padding-left: 10px;
 }
 .heatmap-grid {
   display: flex;
@@ -120,16 +128,16 @@
   background: #e5e7eb;
 }
 .cell.level-1 {
-  background: #c7d2fe;
+  background: #dbeafe;
 }
 .cell.level-2 {
-  background: #93c5fd;
+  background: #bfdbfe;
 }
 .cell.level-3 {
-  background: #60a5fa;
+  background: #93c5fd;
 }
 .cell.level-4 {
-  background: #2563eb;
+  background: #1d4ed8;
 }
 
 /* Weekly */
@@ -157,6 +165,11 @@
   padding: 10px 12px;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-card);
+  background: linear-gradient(
+    180deg,
+    rgba(37, 99, 235, 0.03),
+    rgba(255, 255, 255, 0)
+  );
 }
 .stat .label {
   font-size: 12px;

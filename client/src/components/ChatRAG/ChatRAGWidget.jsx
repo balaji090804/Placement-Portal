@@ -10,6 +10,9 @@ const ChatRAGWidget = () => {
   const [uploadBusy, setUploadBusy] = useState(false);
   const fileRef = useRef();
   const [docBadge, setDocBadge] = useState(false);
+  const [showSources, setShowSources] = useState(false);
+  const [lastSources, setLastSources] = useState([]);
+  const [lastType, setLastType] = useState("");
 
   useEffect(() => {
     const load = async () => {
@@ -29,6 +32,7 @@ const ChatRAGWidget = () => {
   }, []);
 
   const send = async (prefill) => {
+    if (busy) return; // guard against double-submit
     const text = (prefill ?? input).trim();
     if (!text) return;
     setInput("");
@@ -47,8 +51,11 @@ const ChatRAGWidget = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Chat failed");
       const answer = data.answer || "";
+      setLastSources(Array.isArray(data.sources) ? data.sources : []);
+      setLastType(data.type || "");
       // Mark if answer came from college docs (server returns topScore when RAG docs used)
-      const usedDocs = typeof data.topScore === "number" && data.topScore >= 0.15;
+      const usedDocs =
+        typeof data.topScore === "number" && data.topScore >= 0.15;
       setDocBadge(!!usedDocs);
       // Show only the assistant's answer; do not render citations or source names
       setMessages((m) => [
@@ -56,6 +63,10 @@ const ChatRAGWidget = () => {
         {
           role: "assistant",
           content: answer,
+          type: data.type,
+          resumeData: data.resumeData,
+          event: data.event,
+          escalated: data.escalated,
         },
       ]);
     } catch (e) {
@@ -101,6 +112,70 @@ const ChatRAGWidget = () => {
     }
   };
 
+  const escalate = async () => {
+    const lastUserMsg = messages.filter((m) => m.role === "user").pop();
+    if (!lastUserMsg) return;
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:8080/api/rag/escalate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ query: lastUserMsg.content }),
+      });
+      const data = await res.json();
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content: data.message || "Escalation successful.",
+        },
+      ]);
+    } catch (e) {
+      setMessages((m) => [
+        ...m,
+        { role: "assistant", content: "Failed to escalate. Please try again." },
+      ]);
+    }
+  };
+
+  const handleCalendarDownload = (event) => {
+    if (!event) return;
+    const { title, start, end } = event;
+    const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${title || "Interview"}
+DTSTART:${
+      new Date(start)
+        .toISOString()
+        .replace(/[-:]/g, "")
+        .split(".")[0]
+    }Z
+DTEND:${
+      new Date(end)
+        .toISOString()
+        .replace(/[-:]/g, "")
+        .split(".")[0]
+    }Z
+END:VEVENT
+END:VCALENDAR`;
+    const blob = new Blob([ics], { type: "text/calendar" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "interview.ics";
+    a.click();
+  };
+
+  const openResumeBuilder = (resumeData) => {
+    if (!resumeData) return;
+    localStorage.setItem("resumeDraft", JSON.stringify(resumeData));
+    window.location.href = "/StudentDashboard/ResumeBuilder";
+  };
+
   return (
     <div className={styles.wrapper}>
       {open && (
@@ -120,17 +195,42 @@ const ChatRAGWidget = () => {
           <div className={styles.body}>
             {messages.length === 0 ? (
               <div className={styles.placeholder}>
-                Ask about placements, upcoming drives, placement statistics, company feedback, prep tips, policies, or resources.
+                Ask about placements, upcoming drives, placement statistics,
+                company feedback, prep tips, policies, or resources.
               </div>
             ) : (
               messages.map((m, idx) => (
-                <div
-                  key={idx}
-                  className={
-                    m.role === "user" ? styles.itemUser : styles.itemAssistant
-                  }
-                >
-                  {m.content}
+                <div key={idx}>
+                  <div
+                    className={
+                      m.role === "user" ? styles.itemUser : styles.itemAssistant
+                    }
+                  >
+                    {m.content}
+                  </div>
+                  {m.type === "next_interview" && m.event && (
+                    <button
+                      type="button"
+                      className={styles.actionBtn}
+                      onClick={() => handleCalendarDownload(m.event)}
+                    >
+                      📅 Add to Calendar
+                    </button>
+                  )}
+                  {m.type === "resume_builder" && m.resumeData && (
+                    <button
+                      type="button"
+                      className={styles.actionBtn}
+                      onClick={() => openResumeBuilder(m.resumeData)}
+                    >
+                      📄 Open Resume Builder
+                    </button>
+                  )}
+                  {m.escalated && (
+                    <div className={styles.escalatedBadge}>
+                      ⚠️ Escalated to placement officer
+                    </div>
+                  )}
                 </div>
               ))
             )}
@@ -139,6 +239,38 @@ const ChatRAGWidget = () => {
                 Answered using uploaded college documents
               </div>
             )}
+            {lastSources && lastSources.length > 0 && (
+              <div className={styles.sourcesToggleRow}>
+                <button
+                  type="button"
+                  className={styles.quickChip}
+                  onClick={() => setShowSources((v) => !v)}
+                >
+                  {showSources ? "Hide Sources" : "Show Sources"}
+                </button>
+                {lastType && (
+                  <span className={styles.hint}>Type: {lastType}</span>
+                )}
+              </div>
+            )}
+            {showSources && lastSources && lastSources.length > 0 && (
+              <div className={styles.sourcesPanel}>
+                {lastSources.map((s, i) => (
+                  <div key={i} className={styles.sourceItem}>
+                    <div className={styles.sourceTitle}>
+                      {s.filename || "Document"}{" "}
+                      {typeof s.score === "number"
+                        ? `(score: ${s.score.toFixed(2)})`
+                        : ""}
+                    </div>
+                    {s.preview && (
+                      <div className={styles.sourcePreview}>{s.preview}</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+            {/* Escalation UI removed as requested */}
           </div>
           <div className={styles.footer}>
             {isAdmin && (
@@ -154,51 +286,25 @@ const ChatRAGWidget = () => {
                 {uploadBusy && <span className={styles.hint}>Embedding…</span>}
               </div>
             )}
-            {/* Quick intents */}
-            <div className={styles.quickRow}>
-              <button
-                type="button"
-                className={styles.quickChip}
-                onClick={() => send("What are the upcoming drives?")}
-                disabled={busy}
-              >
-                Upcoming Drives
-              </button>
-              <button
-                type="button"
-                className={styles.quickChip}
-                onClick={() => send("What is the placement percentage?")}
-                disabled={busy}
-              >
-                Placement %
-              </button>
-              <button
-                type="button"
-                className={styles.quickChip}
-                onClick={() => send("Show company feedback and prep tips for Amazon")}
-                disabled={busy}
-              >
-                Company Tips
-              </button>
-              <button
-                type="button"
-                className={styles.quickChip}
-                onClick={() => send("College policy: internship attendance and eligibility")}
-                disabled={busy}
-              >
-                Policy
-              </button>
-            </div>
+            {/* Quick intent chips removed as requested */}
             <div className={styles.inputRow}>
               <input
                 className={styles.input}
-                placeholder={busy ? "Waiting for response…" : "Ask about placements, drives, stats, prep tips..."}
+                placeholder={
+                  busy
+                    ? "Waiting for response…"
+                    : "Ask about placements, drives, stats, prep tips..."
+                }
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => (e.key === "Enter" ? send() : null)}
                 disabled={busy}
               />
-              <button className={styles.sendBtn} onClick={() => send()} disabled={busy}>
+              <button
+                className={styles.sendBtn}
+                onClick={() => send()}
+                disabled={busy}
+              >
                 Send
               </button>
             </div>

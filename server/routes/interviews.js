@@ -19,6 +19,16 @@ router.post("/request", async (req, res) => {
     });
 
     await newRequest.save();
+
+    // Realtime notify faculty dashboards
+    try {
+      const io = req.app.get("io");
+      if (io) {
+        io.emit("interviews:update", { type: "request", id: newRequest._id });
+        io.emit("dashboard:update", { scope: "global" });
+      }
+    } catch (_) {}
+
     res.status(201).json({ message: "Interview request sent successfully!" });
   } catch (error) {
     console.error("Error processing interview request:", error);
@@ -70,6 +80,19 @@ router.post("/schedule", async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
+
+    // Realtime notify dashboards and interested parties
+    try {
+      const io = req.app.get("io");
+      if (io) {
+        io.emit("interviews:update", {
+          type: "scheduled",
+          id: interviewRequest._id,
+        });
+        io.emit("dashboard:update", { scope: "global" });
+      }
+    } catch (_) {}
+
     res
       .status(200)
       .json({ message: "Interview scheduled & student notified via email!" });
